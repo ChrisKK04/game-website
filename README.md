@@ -37,4 +37,4 @@ You can run the website/app with:
 $ flask run
 ```
 
-You can then view the website/app in the browser by inputting the given IP-adress.
+You can then view the website/app in the browser by inputting the given IP-address.
