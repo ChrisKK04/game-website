@@ -1,14 +1,14 @@
-# A game reccomendation and review website
+# A website for posting games and reviews
 
 ## Functions
 
 * The user can create an account and login
-* The user can add game reccomendations or reviews
+* The user can add a post describing their game
 * The user can add photos to their posts
 * The user can see and search the posts of other users
 * The website has account pages which list a given accounts posts and certain statistics about the account
-* The user can select categories for their posts (reccomendation or review and the type of game e.q. action, racing, simulator)
-* Users can comment on each other's posts
+* The user can select categories for their posted games (action, racing, simulator, etc.)
+* Users can leave written reviews on games posted by other users alongside giving the game a score
 
 ## Downloading the website/app
 
