@@ -1,1 +1,1 @@
-# Features creating an accont and checking a login
+# Features creating an account and checking a login
