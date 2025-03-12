@@ -1,0 +1,1 @@
+# A module for making handling queries easier
