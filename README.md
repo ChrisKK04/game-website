@@ -8,20 +8,20 @@
 * Account pages which list a given accounts posts and certain statistics about the account
 * Leaving reviews on games alongside a score
 
-## Downloading the website/app
+## Downloading the website/app (Linux)
 
 Download the `flask`-library:
 ```
 $ pip install flask
 ```
 
-Create tables and initial data:
+Create tables and insert categories, etc:
 ```
 $ sqlite3 database.db < schema.sql
 $ sqlite3 database.db < init.sql
 ```
 
-You can also optionally add pre-made data for testing
+You can also optionally add pre-made data for testing:
 ```
 $ sqlite3 database.db < pre_data.sql
 ```
