@@ -1,0 +1,1 @@
+-- Includes the database layout for the website
