@@ -2,15 +2,36 @@
 <html>
 
 <head>
-  <title>[website-name]</title>
-  <link rel="icon" href="/static/favicon.ico">
+  <title>Logging in</title>
 </head>
 
 <body>
-  <h1>Homepage</h1>
+  {% if session.username %}
   <p>
-    Welcome to [website-name]
+    You are logged in as {{ session.username }}
   </p>
+  <p>
+    <a href="/logout">Logout</a>
+  </p>
+  {% else %}
+  <p>
+    <a href="/register">Create an account</a>
+  </p>
+  <p>
+    Or login
+  </p>
+  <form action="/login" method="post">
+    <p>
+      Username: <br />
+      <input type="text" name="username" />
+    </p>
+    <p>
+      Password: <br />
+      <input type="password" name="password" />
+    </p>
+    <input type="submit" value="Login" />
+  </form>
+  {% endif %}
 </body>
 
 </html>
