@@ -2,18 +2,19 @@
 <html>
 
 <head>
-  <title>Logging in</title>
+  <title>Homepage</title>
 </head>
 
 <body>
-  {% if session.username %}
+  <h1>Games</h1>
+
+  {% if session.username %} <!-- Logged in -->
   <p>
-    You are logged in as {{ session.username }}
-  </p>
-  <p>
+    You are logged in as {{ session.username }} |
     <a href="/logout">Logout</a>
   </p>
-  {% else %}
+
+  {% else %} <!-- Not logged in -->
   <p>
     <a href="/register">Create an account</a>
   </p>
@@ -30,6 +31,32 @@
       <input type="password" name="password" />
     </p>
     <input type="submit" value="Login" />
+  </form>
+  {% endif %}
+
+  <hr />
+
+  {% for game in games %} <!-- displays the games and some info -->
+  <p>
+    <a href="/game/{{ game.id }}">{{ game.title }}</a>
+    <br />
+    {{ game.total }} reviews, uploaded by {{ game.username }} at: {{ game.uploaded_at }}
+  </p>
+  <hr />
+  {% endfor %}
+
+  {% if session.user_id %} <!-- adding a new game -->
+  <h2>New game</h2>
+  <form action="/new_game" method="post">
+    <p>
+      Name of the game: <br />
+      <input type="text" name="title" />
+    </p>
+    <p>
+      Description: <br />
+      <textarea name="description" rows="10" cols="80"></textarea>
+    </p>
+    <input type="submit" value="send" />
   </form>
   {% endif %}
 </body>

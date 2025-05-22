@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{{ game.id }}</title>
+</head>
+
+<body>
+  <h1>{{ game.title }}</h1> <!-- game info-->
+  <h4>Uploaded by {{ game.username}} at {{ game.uploaded_at }}</h4>
+  <p>
+    {{ game.description }}
+  </p>
+  <hr />
+  
+  <h3>Reviews</h3>
+  {% for review in reviews %} <!-- reviews -->
+  <p>
+    {{ review.username }} ({{ review.sent_at }}):
+  </p>
+  <p>
+    {{ review.content}}
+  </p>
+  {% if review.user_id == session.user_id %}
+  <p>
+    <a href="/edit/{{ review.id }}">Edit</a> |
+    <a href="/remove/{{ review.id }}">Delete</a>
+  </p>
+  {% endif %}
+  <hr />
+  {% endfor %}
+
+  {% if session.user_id %}
+  <h2>New review</h2>
+
+  <form action="/new_review" method="post">
+    <p>
+      Review: <br />
+      <textarea name="content" rows="10" cols="80"></textarea>
+    </p>
+    <input type="hidden" name="game_id" value="{{ game.id }}" />
+    <input type="submit" value="Send" />
+  </form>
+  <hr />
+  {% endif %}
+
+  <a href="/">Homepage</a>
+</body>
+
+</html>
