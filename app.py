@@ -99,3 +99,15 @@ def edit_review(review_id):
         content = request.form["content"]
         forum.update_review(review["id"], content)
         return redirect("/game/" + str(review["game_id"]))
+
+@app.route("/delete/<int:review_id>", methods=["GET", "POST"])
+def delete_review(review_id):
+    review = forum.get_review(review_id)
+
+    if request.method == "GET":
+        return render_template("delete_review.html", review=review)
+    
+    if request.method == "POST":
+        if "delete" in request.form:
+            forum.remove_review(review["id"])
+        return redirect("/game/" + str(review["game_id"]))
