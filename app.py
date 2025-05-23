@@ -87,3 +87,15 @@ def new_review():
 
     forum.new_review(content, user_id, game_id)
     return redirect("/game/" + str(game_id))
+
+@app.route("/edit/<int:review_id>", methods=["GET", "POST"])
+def edit_review(review_id):
+    review = forum.get_review(review_id)
+
+    if request.method == "GET":
+        return render_template("edit_review.html", review=review)
+
+    if request.method == "POST":
+        content = request.form["content"]
+        forum.update_review(review["id"], content)
+        return redirect("/game/" + str(review["game_id"]))

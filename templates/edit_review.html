@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Editing review</title>
+</head>
+
+<body>
+  <h2>Editing review</h2>
+
+  <form action="/edit/{{ review.id }}" method="post">
+    <p>
+      Viesti:<br />
+      <textarea name="content", rows="10", cols="80">{{ review.content }}</textarea>
+    </p>
+    <input type="submit" value="Send"/>
+  </form>
+</body>
+
+</html>

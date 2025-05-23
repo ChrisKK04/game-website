@@ -31,3 +31,11 @@ def new_review(content, user_id, game_id): # adds a new review for a game
     sql = """INSERT INTO Reviews (content, sent_at, user_id, game_id)
             VALUES (?, datetime('now'), ?, ?)"""
     db.execute(sql, [content, user_id, game_id])
+
+def get_review(review_id): # returns a review's id and contents with it's id
+    sql = "SELECT id, game_id, content FROM Reviews WHERE id = ?"
+    return db.query(sql, [review_id])[0]
+
+def update_review(review_id, content):
+    sql = "UPDATE Reviews SET content = ? WHERE id = ?"
+    db.execute(sql, [content, review_id])
