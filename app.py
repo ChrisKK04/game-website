@@ -88,7 +88,7 @@ def new_review():
     forum.new_review(content, user_id, game_id)
     return redirect("/game/" + str(game_id))
 
-@app.route("/edit/<int:review_id>", methods=["GET", "POST"])
+@app.route("/edit_review/<int:review_id>", methods=["GET", "POST"])
 def edit_review(review_id):
     review = forum.get_review(review_id)
 
@@ -100,7 +100,7 @@ def edit_review(review_id):
         forum.update_review(review["id"], content)
         return redirect("/game/" + str(review["game_id"]))
 
-@app.route("/delete/<int:review_id>", methods=["GET", "POST"])
+@app.route("/delete_review/<int:review_id>", methods=["GET", "POST"])
 def delete_review(review_id):
     review = forum.get_review(review_id)
 
