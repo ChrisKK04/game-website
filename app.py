@@ -97,7 +97,7 @@ def edit_review(review_id):
 
     if request.method == "POST":
         content = request.form["content"]
-        forum.update_review(review["id"], content)
+        forum.edit_review(review["id"], content)
         return redirect("/game/" + str(review["game_id"]))
 
 @app.route("/delete_review/<int:review_id>", methods=["GET", "POST"])
@@ -109,5 +109,30 @@ def delete_review(review_id):
     
     if request.method == "POST":
         if "delete" in request.form:
-            forum.remove_review(review["id"])
+            forum.delete_review(review["id"])
         return redirect("/game/" + str(review["game_id"]))
+
+@app.route("/edit_game/<int:game_id>", methods=["GET", "POST"])
+def edit_game(game_id):
+    game = forum.get_game(game_id)
+
+    if request.method == "GET":
+        return render_template("edit_game.html", game=game)
+    
+    if request.method == "POST":
+        title = request.form["title"]
+        description = request.form["description"]
+        forum.edit_game(game["id"], title, description)
+        return redirect("/game/" + str(game["id"]))
+
+@app.route("/delete_game/<int:game_id>", methods=["GET", "POST"])
+def delete_game(game_id):
+    game = forum.get_game(game_id)
+
+    if request.method == "GET":
+        return render_template("delete_game.html", game=game)
+    
+    if request.method == "POST":
+        if "delete" in request.form:
+            forum.delete_game(game["id"])
+        return redirect("/")

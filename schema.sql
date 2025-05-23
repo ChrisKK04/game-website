@@ -22,5 +22,5 @@ CREATE TABLE Reviews (
     content TEXT,
     sent_at TEXT,
     user_id INTEGER REFERENCES Users(id),
-    game_id INTEGER REFERENCES Games(id)
+    game_id INTEGER REFERENCES Games(id) ON DELETE CASCADE
 );

@@ -2,15 +2,15 @@
 <html>
 
 <head>
-  <title>Deleting review</title>
+  <title>Deleting game</title>
 </head>
 
 <body>
-  <h2>Deleting review</h2>
+  <h2>Deleting game</h2>
 
-  <form action="/delete_review/{{ review.id }}" method="post">
+  <form action="/delete_game/{{ game.id }}" method="post">
     <p>
-      Are you sure you want to delete the review?
+      Are you sure you want to delete the game?
     </p>
     <input type="submit" name="delete" value="Delete" />
     <input type="submit" name="cancel" value="Cancel" />

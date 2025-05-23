@@ -36,10 +36,18 @@ def get_review(review_id): # returns a review's id and contents with it's id
     sql = "SELECT id, game_id, content FROM Reviews WHERE id = ?"
     return db.query(sql, [review_id])[0]
 
-def update_review(review_id, content): # updates a review with new content
+def edit_review(review_id, content): # updates a review
     sql = "UPDATE Reviews SET content = ? WHERE id = ?"
     db.execute(sql, [content, review_id])
 
-def remove_review(review_id):
+def delete_review(review_id): # deletes a review
     sql = "DELETE FROM Reviews WHERE id = ?"
     db.execute(sql, [review_id])
+
+def edit_game(game_id, title, description): # updates a game
+    sql = "UPDATE Games SET title = ?, description = ? WHERE id = ?"
+    db.execute(sql, [title, description, game_id])
+
+def delete_game(game_id): # deletes a game
+    sql = "DELETE FROM Games WHERE id = ?"
+    db.execute(sql, [game_id])

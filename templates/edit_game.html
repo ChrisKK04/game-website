@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Editing game</title>
+</head>
+
+<body>
+  <h2>Editing game</h2>
+
+  <form action="/edit_game/{{ game.id }}" method="post">
+    <p>
+      Title: <br />
+      <textarea name="title", rows="1", cols="30">{{ game.title }}</textarea>
+    </p>
+    <p>
+      Description:<br />
+      <textarea name="description", rows="10", cols="80">{{ game.description }}</textarea>
+    </p>
+    <input type="submit" value="Send"/>
+  </form>
+</body>
+
+</html>
