@@ -11,6 +11,13 @@
   <p>
     {{ game.description }}
   </p>
+
+  {% if game.user_id == session.user_id %}
+  <p>
+    <a href="/edit_game/{{ game.id }}">Edit</a> |
+    <a href="/delete_game/{{ game.id }}">Delete</a>
+  </p>
+  {% endif %}
   <hr />
   
   <h3>Reviews</h3>

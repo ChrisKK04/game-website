@@ -2,7 +2,7 @@
 import db
 
 def get_games(): # fetches all of the games and their info
-    sql = """SELECT G.id, G.title, G.description, COUNT(R.id) total, G.uploaded_at, U.username
+    sql = """SELECT G.id, G.title, G.description, COUNT(R.id) total, G.uploaded_at, G.user_id, U.username
             FROM Games G LEFT JOIN Reviews R ON G.id = R.game_id, Users U
             WHERE G.user_id = U.id
             GROUP BY G.id
@@ -10,7 +10,7 @@ def get_games(): # fetches all of the games and their info
     return db.query(sql)
 
 def get_game(game_id): # fetches an id-specified game
-    sql = """SELECT G.id, G.title, G.description, G.uploaded_at, U.username
+    sql = """SELECT G.id, G.title, G.description, G.uploaded_at, G.user_id, U.username
             FROM Games G, Users U
             WHERE G.id = ? AND G.user_id = U.id"""
     return db.query(sql, [game_id])[0]
