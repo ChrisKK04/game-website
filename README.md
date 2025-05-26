@@ -4,6 +4,7 @@
 
 * Creating an account and logging in
 * Adding posts describing games with photos and categories (action, racing, simulator, etc.)
+* Editing and deleting reviews and games
 * Seeing and searching the posts of other users
 * Account pages which list a given accounts posts and certain statistics about the account
 * Leaving reviews on games alongside a score
