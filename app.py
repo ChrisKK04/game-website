@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, abort, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db, forum
@@ -8,16 +8,16 @@ import db, forum
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
-@app.route("/")
+@app.route("/") # homepage
 def index():
     games = forum.get_games()
     return render_template("index.html", games=games)
 
-@app.route("/register")
+@app.route("/register") # register page
 def register():
     return render_template("register.html")
 
-@app.route("/create", methods=["POST"])
+@app.route("/create", methods=["POST"]) # register page handler
 def create():
     username = request.form["username"]
     password1 = request.form["password1"]
@@ -39,7 +39,7 @@ def create():
     
     return redirect("/")
 
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["POST"]) # login handler
 def login():
     username = request.form["username"]
     password = request.form["password"]
@@ -56,7 +56,7 @@ def login():
     else:
         return "ERROR: Wrong password or username"
     
-@app.route("/logout")
+@app.route("/logout") # logout handler
 def logout():
     del session["username"]
     del session["user_id"]
@@ -73,13 +73,13 @@ def new_game():
     thread_id = forum.add_game(title, description, user_id)
     return redirect("/game/" + str(thread_id))
 
-@app.route("/game/<int:game_id>")
+@app.route("/game/<int:game_id>") # game page
 def show_game(game_id):
     game = forum.get_game(game_id)
     reviews = forum.get_reviews(game_id)
     return render_template("game.html", game=game, reviews=reviews)
 
-@app.route("/new_review", methods=["POST"])
+@app.route("/new_review", methods=["POST"]) # new review handler
 def new_review():
     content = request.form["content"]
     user_id = session["user_id"]
@@ -88,9 +88,11 @@ def new_review():
     forum.new_review(content, user_id, game_id)
     return redirect("/game/" + str(game_id))
 
-@app.route("/edit_review/<int:review_id>", methods=["GET", "POST"])
+@app.route("/edit_review/<int:review_id>", methods=["GET", "POST"]) # edit review
 def edit_review(review_id):
     review = forum.get_review(review_id)
+    if review["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("edit_review.html", review=review)
@@ -100,9 +102,11 @@ def edit_review(review_id):
         forum.edit_review(review["id"], content)
         return redirect("/game/" + str(review["game_id"]))
 
-@app.route("/delete_review/<int:review_id>", methods=["GET", "POST"])
+@app.route("/delete_review/<int:review_id>", methods=["GET", "POST"]) # delete review
 def delete_review(review_id):
     review = forum.get_review(review_id)
+    if review["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("delete_review.html", review=review)
@@ -112,9 +116,11 @@ def delete_review(review_id):
             forum.delete_review(review["id"])
         return redirect("/game/" + str(review["game_id"]))
 
-@app.route("/edit_game/<int:game_id>", methods=["GET", "POST"])
+@app.route("/edit_game/<int:game_id>", methods=["GET", "POST"]) # edit game
 def edit_game(game_id):
     game = forum.get_game(game_id)
+    if game["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("edit_game.html", game=game)
@@ -125,9 +131,11 @@ def edit_game(game_id):
         forum.edit_game(game["id"], title, description)
         return redirect("/game/" + str(game["id"]))
 
-@app.route("/delete_game/<int:game_id>", methods=["GET", "POST"])
+@app.route("/delete_game/<int:game_id>", methods=["GET", "POST"]) # delete game
 def delete_game(game_id):
     game = forum.get_game(game_id)
+    if game["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("delete_game.html", game=game)

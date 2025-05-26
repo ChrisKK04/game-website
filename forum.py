@@ -33,7 +33,7 @@ def new_review(content, user_id, game_id): # adds a new review for a game
     db.execute(sql, [content, user_id, game_id])
 
 def get_review(review_id): # returns a review's id and contents with it's id
-    sql = "SELECT id, game_id, content FROM Reviews WHERE id = ?"
+    sql = "SELECT id, game_id, content, user_id FROM Reviews WHERE id = ?"
     return db.query(sql, [review_id])[0]
 
 def edit_review(review_id, content): # updates a review
