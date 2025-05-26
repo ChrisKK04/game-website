@@ -8,6 +8,10 @@ import db, forum
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+def require_login(): # checks login
+    if "user_id" not in session:
+        abort(403)
+
 @app.route("/") # homepage
 def index():
     games = forum.get_games()
@@ -64,6 +68,8 @@ def logout():
 
 @app.route("/new_game", methods=["POST"])
 def new_game():
+    require_login()
+
     title = request.form["title"]
     description = request.form["description"]
     user_id = session["user_id"]
@@ -83,6 +89,8 @@ def show_game(game_id):
 
 @app.route("/new_review", methods=["POST"]) # new review handler
 def new_review():
+    require_login()
+
     content = request.form["content"]
     user_id = session["user_id"]
     game_id = request.form["game_id"]
@@ -96,6 +104,8 @@ def new_review():
 
 @app.route("/edit_review/<int:review_id>", methods=["GET", "POST"]) # edit review
 def edit_review(review_id):
+    require_login()
+
     review = forum.get_review(review_id)
     if not review:
         abort(404)
@@ -113,6 +123,8 @@ def edit_review(review_id):
 
 @app.route("/delete_review/<int:review_id>", methods=["GET", "POST"]) # delete review
 def delete_review(review_id):
+    require_login()
+
     review = forum.get_review(review_id)
     if not review:
         abort(404)
@@ -130,6 +142,8 @@ def delete_review(review_id):
 
 @app.route("/edit_game/<int:game_id>", methods=["GET", "POST"]) # edit game
 def edit_game(game_id):
+    require_login()
+
     game = forum.get_game(game_id)
     if not game:
         abort(404)
@@ -148,6 +162,8 @@ def edit_game(game_id):
 
 @app.route("/delete_game/<int:game_id>", methods=["GET", "POST"]) # delete game
 def delete_game(game_id):
+    require_login()
+    
     game = forum.get_game(game_id)
     if not game:
         abort(404)
