@@ -11,7 +11,7 @@
   <form action="/edit_review/{{ review.id }}" method="post">
     <p>
       Review:<br />
-      <textarea name="content" rows="10" cols="80">{{ review.content }}</textarea>
+      <textarea name="content" rows="10" cols="80" maxlength="5000" required>{{ review.content }}</textarea>
     </p>
     <input type="submit" value="Send"/>
   </form>
