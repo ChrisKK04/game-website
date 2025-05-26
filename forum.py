@@ -13,7 +13,8 @@ def get_game(game_id): # fetches an id-specified game
     sql = """SELECT G.id, G.title, G.description, G.uploaded_at, G.user_id, U.username
             FROM Games G, Users U
             WHERE G.id = ? AND G.user_id = U.id"""
-    return db.query(sql, [game_id])[0]
+    result = db.query(sql, [game_id])
+    return result[0] if result else None # none if no matches
 
 def add_game(title, description, user_id): # adds a game
     sql = """INSERT INTO Games (title, description, uploaded_at, user_id)
@@ -34,7 +35,8 @@ def new_review(content, user_id, game_id): # adds a new review for a game
 
 def get_review(review_id): # returns a review's id and contents with it's id
     sql = "SELECT id, game_id, content, user_id FROM Reviews WHERE id = ?"
-    return db.query(sql, [review_id])[0]
+    result = db.query(sql, [review_id])
+    return result[0] if result else None # none if no matches
 
 def edit_review(review_id, content): # updates a review
     sql = "UPDATE Reviews SET content = ? WHERE id = ?"

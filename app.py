@@ -76,6 +76,8 @@ def new_game():
 @app.route("/game/<int:game_id>") # game page
 def show_game(game_id):
     game = forum.get_game(game_id)
+    if not game:
+        abort(404)
     reviews = forum.get_reviews(game_id)
     return render_template("game.html", game=game, reviews=reviews)
 
@@ -91,6 +93,9 @@ def new_review():
 @app.route("/edit_review/<int:review_id>", methods=["GET", "POST"]) # edit review
 def edit_review(review_id):
     review = forum.get_review(review_id)
+    if not review:
+        abort(404)
+
     if review["user_id"] != session["user_id"]:
         abort(403)
 
@@ -105,6 +110,9 @@ def edit_review(review_id):
 @app.route("/delete_review/<int:review_id>", methods=["GET", "POST"]) # delete review
 def delete_review(review_id):
     review = forum.get_review(review_id)
+    if not review:
+        abort(404)
+
     if review["user_id"] != session["user_id"]:
         abort(403)
 
@@ -119,6 +127,9 @@ def delete_review(review_id):
 @app.route("/edit_game/<int:game_id>", methods=["GET", "POST"]) # edit game
 def edit_game(game_id):
     game = forum.get_game(game_id)
+    if not game:
+        abort(404)
+
     if game["user_id"] != session["user_id"]:
         abort(403)
 
@@ -134,6 +145,9 @@ def edit_game(game_id):
 @app.route("/delete_game/<int:game_id>", methods=["GET", "POST"]) # delete game
 def delete_game(game_id):
     game = forum.get_game(game_id)
+    if not game:
+        abort(404)
+
     if game["user_id"] != session["user_id"]:
         abort(403)
 
