@@ -87,7 +87,11 @@ def new_review():
     user_id = session["user_id"]
     game_id = request.form["game_id"]
 
-    forum.new_review(content, user_id, game_id)
+    try:
+        forum.new_review(content, user_id, game_id)
+    except sqlite3.IntegrityError:
+        abort(403)
+        
     return redirect("/game/" + str(game_id))
 
 @app.route("/edit_review/<int:review_id>", methods=["GET", "POST"]) # edit review
