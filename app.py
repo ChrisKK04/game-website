@@ -51,7 +51,7 @@ def create():
         return "ERROR: The username is taken"
     
     session["username"] = username # The user will be logged in automatically when an account is made
-    session["developer"] = developer # stores whether or not the user is a developer
+    session["developer"] = int(developer) # stores whether or not the user is a developer
     session["user_id"] = db.last_insert_id() # fetch the id
     
     return redirect("/")
@@ -78,6 +78,7 @@ def login():
 @app.route("/logout") # logout handler
 def logout():
     del session["username"]
+    del session["developer"]
     del session["user_id"]
     return redirect("/")
 
