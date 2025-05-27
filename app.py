@@ -12,11 +12,11 @@ def require_login(): # checks login
     if "user_id" not in session:
         abort(403)
 
-def maxlength_game(title, description): # checks game title and description size requirements
+def valid_game(title, description): # checks game title and description size requirements
     if not title or not description or len(title) > 100 or len(description) > 5000:
         return True
     
-def maxlength_review(content, score): # checks review content size requirements
+def valid_review(content, score): # checks review content size requirements
     if not content or len(content) > 5000 or score not in ["1", "2", "3", "4", "5"]:
         return True
 
@@ -88,7 +88,7 @@ def new_game():
 
     title = request.form["title"]
     description = request.form["description"]
-    if maxlength_game(title, description):
+    if valid_game(title, description):
         abort(403)
 
     user_id = session["user_id"]
@@ -111,7 +111,7 @@ def new_review():
     content = request.form["content"]
     score = request.form["score"]
     user_id = session["user_id"]
-    if maxlength_review(content, score):
+    if valid_review(content, score):
         abort(403)
 
     game_id = request.form["game_id"]
@@ -140,7 +140,7 @@ def edit_review(review_id):
     if request.method == "POST":
         content = request.form["content"]
         score = request.form["score"]
-        if maxlength_review(content, score):
+        if valid_review(content, score):
             abort(403)
 
         forum.edit_review(review["id"], content, score)
@@ -182,7 +182,7 @@ def edit_game(game_id):
     if request.method == "POST":
         title = request.form["title"]
         description = request.form["description"]
-        if maxlength_game(title, description):
+        if valid_game(title, description):
             abort(403)
 
         forum.edit_game(game["id"], title, description)
