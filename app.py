@@ -16,8 +16,8 @@ def maxlength_game(title, description): # checks game title and description size
     if not title or not description or len(title) > 100 or len(description) > 5000:
         return True
     
-def maxlength_review(content): # checks review content size requirements
-    if not content or len(content) > 5000:
+def maxlength_review(content, score): # checks review content size requirements
+    if not content or len(content) > 5000 or score not in ["1", "2", "3", "4", "5"]:
         return True
 
 @app.route("/") # homepage
@@ -109,14 +109,15 @@ def new_review():
     require_login()
 
     content = request.form["content"]
+    score = request.form["score"]
     user_id = session["user_id"]
-    if maxlength_review(content):
+    if maxlength_review(content, score):
         abort(403)
 
     game_id = request.form["game_id"]
 
     try:
-        forum.new_review(content, user_id, game_id)
+        forum.new_review(content, user_id, game_id, score)
     except sqlite3.IntegrityError:
         abort(403)
         

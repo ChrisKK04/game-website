@@ -23,15 +23,15 @@ def add_game(title, description, user_id): # adds a game
     return db.last_insert_id()
 
 def get_reviews(game_id): # fetches all reviews for an id-specified game
-    sql = """SELECT R.id, R.content, R.sent_at, R.user_id, U.username
+    sql = """SELECT R.id, R.content, R.sent_at, R.user_id, U.username, R.score
             FROM Reviews R, Users U
             WHERE R.user_id = U.id AND R.game_id = ?"""
     return db.query(sql, [game_id])
 
-def new_review(content, user_id, game_id): # adds a new review for a game
-    sql = """INSERT INTO Reviews (content, sent_at, user_id, game_id)
-            VALUES (?, datetime('now'), ?, ?)"""
-    db.execute(sql, [content, user_id, game_id])
+def new_review(content, user_id, game_id, score): # adds a new review for a game
+    sql = """INSERT INTO Reviews (content, sent_at, user_id, game_id, score)
+            VALUES (?, datetime('now'), ?, ?, ?)"""
+    db.execute(sql, [content, user_id, game_id, score])
 
 def get_review(review_id): # returns a review's id and contents with it's id
     sql = "SELECT id, game_id, content, user_id FROM Reviews WHERE id = ?"
