@@ -9,17 +9,21 @@
   <form action="/create" method="post">
     <p>
       Username: <br />
-      <input type="text" name="username"/>
+      <input type="text" name="username" maxlength="50" required/>
     </p>
     <p>
       Password: <br />
-      <input type="password" name="password1">
+      <input type="password" name="password1" maxlength="50" required/>
     </p>
     <p>
       Password again: <br />
-      <input type="password" name="password2">
+      <input type="password" name="password2" maxlength="50" required/>
     </p>
-    <input type="submit" value="Create account">
+    <p>
+      <input type="radio" name="developer" value="0" required/> User (post reviews)
+      <input type="radio" name="developer" value="1" required/> Developer (post games)
+    </p>
+    <input type="submit" value="Create account" />
   </form>
 
   <hr />

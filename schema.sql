@@ -4,7 +4,8 @@
 CREATE TABLE Users (
     id INTEGER PRIMARY KEY,
     username TEXT UNIQUE,
-    password_hash TEXT
+    password_hash TEXT,
+    developer INTEGER
 );
 
 -- Table for the games

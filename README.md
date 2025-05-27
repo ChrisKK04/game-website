@@ -8,6 +8,7 @@
 * Seeing and searching the posts of other users
 * Account pages which list a given accounts posts and certain statistics about the account
 * Leaving reviews on games alongside a score
+* Only developers can post games and only users can post reviews
 
 ## Downloading the website/app (Linux)
 

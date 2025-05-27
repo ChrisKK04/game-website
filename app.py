@@ -34,6 +34,10 @@ def create():
     username = request.form["username"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
+    developer = request.form["developer"]
+
+    if not username or not password1 or not developer or len(username) > 50 or len(password1) > 50:
+        abort(403)
 
     if password1 != password2:
         return "ERROR: The passwords do not match"
@@ -41,12 +45,13 @@ def create():
     password_hash = generate_password_hash(password1)
 
     try:
-        sql = "INSERT INTO Users (username, password_hash) VALUES (?, ?)"
-        db.execute(sql, [username, password_hash])
+        sql = "INSERT INTO Users (username, password_hash, developer) VALUES (?, ?, ?)"
+        db.execute(sql, [username, password_hash, developer])
     except sqlite3.IntegrityError:
         return "ERROR: The username is taken"
     
     session["username"] = username # The user will be logged in automatically when an account is made
+    session["developer"] = developer # stores whether or not the user is a developer
     session["user_id"] = db.last_insert_id() # fetch the id
     
     return redirect("/")
@@ -56,13 +61,15 @@ def login():
     username = request.form["username"]
     password = request.form["password"]
 
-    sql = "SELECT password_hash, id FROM Users WHERE username = ?"
+    sql = "SELECT password_hash, id, developer FROM Users WHERE username = ?"
     query = db.query(sql, [username])
     password_hash = query[0][0]
     user_id = query[0][1]
+    developer = query[0][2]
 
     if check_password_hash(password_hash, password):
         session["username"] = username
+        session["developer"] = developer
         session["user_id"] = user_id
         return redirect("/")
     else:

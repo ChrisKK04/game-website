@@ -51,7 +51,7 @@
   <hr />
   {% endfor %}
 
-  {% if session.user_id %} <!-- adding a new game -->
+  {% if session.user_id and session.developer == 1 %} <!-- adding a new game (only for developers) -->
   <h2>New game</h2>
   <form action="/new_game" method="post">
     <p>

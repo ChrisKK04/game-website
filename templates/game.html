@@ -37,7 +37,7 @@
   <hr />
   {% endfor %}
 
-  {% if session.user_id %}
+  {% if session.user_id and session.developer == 0 %} <!-- adding a new review (only for users) -->
   <h2>New review</h2>
 
   <form action="/new_review" method="post">
