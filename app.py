@@ -101,8 +101,9 @@ def show_game(game_id):
     game = forum.get_game(game_id)
     if not game:
         abort(404)
+    average = forum.get_average_score(game_id)
     reviews = forum.get_reviews(game_id)
-    return render_template("game.html", game=game, reviews=reviews)
+    return render_template("game.html", game=game, average=average, reviews=reviews)
 
 @app.route("/new_review", methods=["POST"]) # new review handler
 def new_review():

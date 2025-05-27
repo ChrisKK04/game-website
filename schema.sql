@@ -5,7 +5,7 @@ CREATE TABLE Users (
     id INTEGER PRIMARY KEY,
     username TEXT UNIQUE,
     password_hash TEXT,
-    developer INTEGER
+    developer INTEGER -- 0 = user 1 = developer
 );
 
 -- Table for the games

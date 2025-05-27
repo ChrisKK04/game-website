@@ -11,6 +11,9 @@
   <p>
     {{ game.description }}
   </p>
+  <p>
+    Average score: {{ average.average }}
+  </p>
 
   {% if game.user_id == session.user_id %}
   <p>

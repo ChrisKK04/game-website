@@ -16,6 +16,13 @@ def get_game(game_id): # fetches an id-specified game
     result = db.query(sql, [game_id])
     return result[0] if result else None # none if no matches
 
+def get_average_score(game_id): # fetches an id-specified games average user-score
+    sql = """SELECT ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) AS average
+            FROM Games G, Reviews R
+            WHERE G.id = ? AND R.game_id = G.id"""
+    result = db.query(sql, [game_id])
+    return result[0] if result else None # none if no matches
+
 def add_game(title, description, user_id): # adds a game
     sql = """INSERT INTO Games (title, description, uploaded_at, user_id)
             VALUES (?, ?, datetime('now'), ?)"""
