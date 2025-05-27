@@ -34,13 +34,13 @@ def new_review(content, user_id, game_id, score): # adds a new review for a game
     db.execute(sql, [content, user_id, game_id, score])
 
 def get_review(review_id): # returns a review's id and contents with it's id
-    sql = "SELECT id, game_id, content, user_id FROM Reviews WHERE id = ?"
+    sql = "SELECT id, game_id, content, user_id, score FROM Reviews WHERE id = ?"
     result = db.query(sql, [review_id])
     return result[0] if result else None # none if no matches
 
-def edit_review(review_id, content): # updates a review
-    sql = "UPDATE Reviews SET content = ? WHERE id = ?"
-    db.execute(sql, [content, review_id])
+def edit_review(review_id, content, score): # updates a review
+    sql = "UPDATE Reviews SET content = ?, score = ? WHERE id = ?"
+    db.execute(sql, [content, score, review_id])
 
 def delete_review(review_id): # deletes a review
     sql = "DELETE FROM Reviews WHERE id = ?"

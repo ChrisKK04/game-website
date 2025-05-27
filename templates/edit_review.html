@@ -13,6 +13,19 @@
       Review:<br />
       <textarea name="content" rows="10" cols="80" maxlength="5000" required>{{ review.content }}</textarea>
     </p>
+    <p>
+      Previous score: {{ review.score }}
+    </p>
+    <p>
+      New score:
+      <select name="score" required>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </p>
     <input type="submit" value="Send"/>
   </form>
 </body>

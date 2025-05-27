@@ -139,10 +139,11 @@ def edit_review(review_id):
 
     if request.method == "POST":
         content = request.form["content"]
-        if maxlength_review(content):
+        score = request.form["score"]
+        if maxlength_review(content, score):
             abort(403)
 
-        forum.edit_review(review["id"], content)
+        forum.edit_review(review["id"], content, score)
         return redirect("/game/" + str(review["game_id"]))
 
 @app.route("/delete_review/<int:review_id>", methods=["GET", "POST"]) # delete review
