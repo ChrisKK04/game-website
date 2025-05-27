@@ -40,7 +40,9 @@
   <p>
     <a href="/game/{{ game.id }}">{{ game.title }}</a>
     <br />
-    {{ game.total }} reviews, uploaded by {{ game.username }} at: {{ game.uploaded_at }}
+    uploaded by {{ game.username }} at: {{ game.uploaded_at }}
+    <br />
+    {{ game.total }} reviews with an average score of {{ game.average }}
   </p>
   {% if game.user_id == session.user_id %}
   <p>
