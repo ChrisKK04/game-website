@@ -25,26 +25,6 @@
   <a href="/">Homepage</a>
   <hr />
   
-  <h3>Reviews</h3>
-  {% for review in reviews %} <!-- reviews -->
-  <p>
-    <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }}):
-  </p>
-  <p>
-    {{ review.content}}
-  </p>
-  <p>
-    score: {{ review.score }}
-  </p>
-  {% if review.user_id == session.user_id %}
-  <p>
-    <a href="/edit_review/{{ review.id }}">Edit</a> |
-    <a href="/delete_review/{{ review.id }}">Delete</a>
-  </p>
-  {% endif %}
-  <hr />
-  {% endfor %}
-
   {% if session.user_id and session.developer == 0 %} <!-- adding a new review (only for users) -->
   <h2>New review</h2>
 
@@ -68,6 +48,26 @@
   </form>
   <hr />
   {% endif %}
+
+  <h3>Reviews</h3>
+  {% for review in reviews %} <!-- reviews -->
+  <p>
+    <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }}):
+  </p>
+  <p>
+    {{ review.content}}
+  </p>
+  <p>
+    score: {{ review.score }}
+  </p>
+  {% if review.user_id == session.user_id %}
+  <p>
+    <a href="/edit_review/{{ review.id }}">Edit</a> |
+    <a href="/delete_review/{{ review.id }}">Delete</a>
+  </p>
+  {% endif %}
+  <hr />
+  {% endfor %}
 </body>
 
 </html>

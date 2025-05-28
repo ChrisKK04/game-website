@@ -36,6 +36,21 @@
 
   <hr />
 
+  {% if session.user_id and session.developer == 1 %} <!-- adding a new game (only for developers) -->
+  <h2>New game</h2>
+  <form action="/new_game" method="post">
+    <p>
+      Name of the game: <br />
+      <input type="text" name="title" maxlength="100" required/>
+    </p>
+    <p>
+      Description: <br />
+      <textarea name="description" rows="10" cols="80" maxlength="5000" required></textarea>
+    </p>
+    <input type="submit" value="send" />
+  </form>
+  {% endif %}
+
   {% for game in games %} <!-- displays the games and some info -->
   <p>
     <a href="/game/{{ game.id }}">{{ game.title }}</a>
@@ -52,21 +67,6 @@
   {% endif %}
   <hr />
   {% endfor %}
-
-  {% if session.user_id and session.developer == 1 %} <!-- adding a new game (only for developers) -->
-  <h2>New game</h2>
-  <form action="/new_game" method="post">
-    <p>
-      Name of the game: <br />
-      <input type="text" name="title" maxlength="100" required/>
-    </p>
-    <p>
-      Description: <br />
-      <textarea name="description" rows="10" cols="80" maxlength="5000" required></textarea>
-    </p>
-    <input type="submit" value="send" />
-  </form>
-  {% endif %}
 </body>
 
 </html>
