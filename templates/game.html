@@ -12,7 +12,7 @@
     {{ game.description }}
   </p>
   <p>
-    Average score: {{ average.average }}
+    <b>{{ reviews | count }} reviews with an average score of {{ average.average }}</b>
   </p>
 
   {% if game.user_id == session.user_id %}
@@ -58,7 +58,7 @@
     {{ review.content}}
   </p>
   <p>
-    score: {{ review.score }}
+    <b>score: {{ review.score }}</b>
   </p>
   {% if review.user_id == session.user_id %}
   <p>
