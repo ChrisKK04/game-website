@@ -47,6 +47,8 @@
       ({{ review.sent_at }})
       <br />
       {{ review.content }}
+      <br />
+      <b>Score: {{ review.score }}</b>
     </li>
   {% endfor %}
   </ul>
@@ -101,6 +103,8 @@
       ({{ game.uploaded_at }})
       <br />
       {{ game.description }}
+      <br />
+      <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
     </li>
   {% endfor %}
   </ul>
