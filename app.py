@@ -3,7 +3,7 @@ from flask import Flask
 from flask import redirect, render_template, abort, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
-import db, forum
+import db, forum, users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -207,3 +207,15 @@ def delete_game(game_id):
         if "delete" in request.form:
             forum.delete_game(game["id"])
         return redirect("/")
+    
+@app.route("/user/<int:user_id>") # user page
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        abort(403)
+    if user["developer"] == 0: # user
+        reviews = users.get_reviews(user_id)
+        return render_template("user.html", user=user, reviews=reviews)
+    if user["developer"] == 1: # developer
+        games = users.get_games(user_id)
+        return render_template("user.html", user=user, games=games)

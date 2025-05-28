@@ -40,7 +40,7 @@
   <p>
     <a href="/game/{{ game.id }}">{{ game.title }}</a>
     <br />
-    uploaded by {{ game.username }} at: {{ game.uploaded_at }}
+    Published by <a href="/user/{{ game.user_id }}">{{ game.username }}</a> at: {{ game.uploaded_at }}
     <br />
     {{ game.total }} reviews with an average score of {{ game.average }}
   </p>
