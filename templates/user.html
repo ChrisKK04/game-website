@@ -9,6 +9,16 @@
 <body>
   <h1>User {{ user.username }}</h1>
 
+  {% if user.has_image %}
+  <img src="/profile_picture/{{ user.id }}" />
+  {% endif %}
+
+  <br />
+
+  {% if user.id == session.user_id %}
+  <a href="/update_profile_picture">Update profile picture</a>
+  {% endif %}
+
   <p>
     {{ user.username }} has given {{ reviews | count }} reviews
   </p>
@@ -55,6 +65,16 @@
 <body>
   <h1>Developer {{ user.username }}</h1>
 
+  {% if user.has_image %}
+  <img src="/profile_picture/{{ user.id }}" />
+  {% endif %}
+
+  <br />
+
+  {% if user.id == session.user_id %}
+  <a href="/update_profile_picture">Update profile picture</a>
+  {% endif %}
+
   <p>
     {{ user.username }} has published {{ games | count }} games
   </p>
@@ -76,9 +96,7 @@
   <ul>
   {% for game in games %}
     <li>
-      <a href="/game/{{ game.id }}">
-        {{ game.title }}
-      </a>
+      <a href="/game/{{ game.id }}">{{ game.title }}</a>
       <br />
       ({{ game.uploaded_at }})
       <br />

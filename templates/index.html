@@ -10,7 +10,7 @@
 
   {% if session.username %} <!-- Logged in -->
   <p>
-    You are logged in as {{ session.username }} |
+    Logged in as <a href="/user/{{ session.user_id }}">{{ session.username }}</a> |
     <a href="/logout">Logout</a>
   </p>
 

@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, abort, request, session
+from flask import redirect, render_template, abort, make_response, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db, forum, users
@@ -219,3 +219,33 @@ def show_user(user_id):
     if user["developer"] == 1: # developer
         games = users.get_games(user_id)
         return render_template("user.html", user=user, games=games)
+    
+@app.route("/update_profile_picture", methods=["GET", "POST"]) # profile picture updating
+def add_profile_picture():
+    require_login()
+
+    if request.method == "GET":
+        return render_template("update_profile_picture.html")
+    
+    if request.method == "POST":
+        file = request.files["image"]
+        if not file.filename.endswith(".jpg"):
+            return "ERROR: wrong filetype"
+        
+        image = file.read()
+        if len(image) > 100 * 1024:
+            return "ERROR: the image is too big"
+        
+        user_id = session["user_id"]
+        users.update_profile_picture(user_id, image)
+        return redirect("/user/" + str(user_id))
+    
+@app.route("/profile_picture/<int:user_id>") # view a profile picture
+def show_profile_picture(user_id):
+    image = users.get_profile_picture(user_id)
+    if not image:
+        abort(404)
+
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response
