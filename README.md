@@ -1,15 +1,5 @@
 # A website for posting games and reviews
 
-## Goal
-
-* Creating an account and logging in
-* Adding posts describing games with photos and categories (action, racing, simulator, etc.)
-* Editing and deleting reviews and games
-* Seeing and searching the posts of other users
-* Account pages which list a given accounts posts and certain statistics about the account
-* Leaving reviews on games alongside a score
-* Only developers can post games and only users can post reviews
-
 ## Current features
 
 * Creating an account and logging in
