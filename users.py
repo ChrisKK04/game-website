@@ -1,6 +1,8 @@
 # module for fetching and editing data
 import db
 
+# all database queries relating to users
+
 def get_user(user_id): # users username and developer status
     sql = """SELECT id, username, developer, image IS NOT NULL has_image
             FROM Users

@@ -3,7 +3,7 @@ from flask import Flask
 from flask import redirect, render_template, abort, make_response, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
-import db, forum, users
+import db, forum, users, searching
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -249,3 +249,18 @@ def show_profile_picture(user_id):
     response = make_response(bytes(image))
     response.headers.set("Content-Type", "image/jpeg")
     return response
+
+@app.route("/search") # search page:
+def search():
+    parameter = request.args.get("parameter") # get the search parameter
+
+    # different parameters will render different results
+    if parameter == "title":
+        title_value = request.args.get("title_value") # parameter value
+        title_results = searching.title(title_value)
+        return render_template("search.html", title_results=title_results, title_value=title_value)
+    
+    if parameter == "description": # etc...
+        pass
+    
+    return render_template("search.html") # if no parameters are given

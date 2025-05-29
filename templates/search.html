@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- Search page -->
+<html>
+
+<head>
+  <title>Search</title>
+</head>
+
+<body>
+  <h1>Search</h1> <!-- The user can pick one search parameter -->
+
+  <p>
+    Choose one of the search parameters below:
+  </p>
+  <form action="/search" method="get">
+    <p>
+      <input type="radio" name="parameter" value="title" /> Title:
+      {% if title_value %}
+      <input type="text" name="title_value" value="{{ title_value }}" />
+      {% else %}
+      <input type="text" name="title_value" />
+      {% endif %}
+      <br />
+
+      <input type="radio" name="parameter" value="description" /> Description: (coming) <!-- todo -->
+      <br />
+
+      <input type="radio" name="parameter" value="tags" /> Tags: (coming)<!-- todo -->
+      <br />
+
+      <input type="radio" name="parameter" value="developer" /> Developer: (coming)<!-- todo -->
+    </p>
+    <input type="submit" value="Search" />
+  </form>
+  <a href="/">Homepage</a>
+  <hr />
+
+  <h2>Results</h2> <!-- The results will different based on the parameter and it's value -->
+
+  {% if title_results %} <!-- Title -->
+  <ul>
+  {% for title in title_results %}
+    <li>
+      <a href="/game/{{ title.id }}">{{ title.title }}</a>
+      by
+      <a href="/user/{{ title.user_id }}">{{ title.username }}</a>
+      ({{ title.uploaded_at }})
+    </li>
+  {% endfor %}
+  </ul>
+  {% endif %}
+</body>
+
+</html>
