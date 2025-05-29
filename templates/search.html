@@ -4,6 +4,7 @@
 
 <head>
   <title>Search</title>
+  <link rel="icon" href="/static/favicon.ico">
 </head>
 
 <body>
@@ -49,6 +50,11 @@
   {% endfor %}
   </ul>
   {% endif %}
+
+  {% if nothing %} <!-- No parameter was given-->
+  <p><b>No parameter was given</b></p>
+  {% endif %}
+
 </body>
 
 </html>

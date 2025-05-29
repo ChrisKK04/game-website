@@ -263,4 +263,4 @@ def search():
     if parameter == "description": # etc...
         pass
     
-    return render_template("search.html") # if no parameters are given
+    return render_template("search.html", nothing=1) # if no parameters are given

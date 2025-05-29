@@ -53,7 +53,7 @@
 
   <h3>Reviews</h3>
   {% for review in reviews %} <!-- reviews -->
-  <p>
+  <p id="{{ review.id }}">
     <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }}):
   </p>
   <p>
