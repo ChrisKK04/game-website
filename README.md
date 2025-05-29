@@ -10,20 +10,17 @@
 * Leaving reviews on games alongside a score
 * Only developers can post games and only users can post reviews
 
-## Downloading the website/app (Linux)
+## Using the website (Linux)
 
-Download the `flask`-library:
+Start by downloading the `flask`-library:
 ```
 $ pip install flask
 ```
 
-Create tables and insert categories, etc:
-```
-$ sqlite3 database.db < schema.sql
-$ sqlite3 database.db < init.sql
-```
+The files include a database file with pre-made data for testing.
 
-You can also optionally add pre-made data for testing:
+You can also use an empty database by renaming or deleting database.db and entering the following commands into the terminal whilst being in the root of the website:
 ```
-$ sqlite3 database.db < pre_data.sql
+$ sqlite3 database.db < schema.sql # add tables
+$ sqlite3 database.db < init.sql # insert categories
 ```
