@@ -14,7 +14,8 @@
 
 * Game photos and categories
 * More search parameters (game description, average score, tags, developers, etc.)
-* A seed.py file for testing with large quantities of data
+* Support for usage with large amounts of data
+* A seed.py file for testing with large amounts of data
 * Better accessibility
 * CSS for styling
 * QOL-updates
