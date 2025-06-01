@@ -31,7 +31,7 @@ $ source venv/bin/activate               # activates the virtual environment
 $ pip install flask                      # downloads and installs flask
 ```
 
-The files include a database file with pre-made data for testing.
+The files include a database.db file with pre-made data for testing.
 
 Login to accounts:
 ```
@@ -42,7 +42,7 @@ Password: jason, rampagegames            # all lowercase
 You can also use an empty database by renaming or deleting database.db and entering the following commands into the terminal whilst being in the website's folder:
 ```
 $ sqlite3 database.db < schema.sql       # create database.db and add tables
-$ sqlite3 database.db < init.sql         # insert categories
+$ sqlite3 database.db < init.sql         # insert categories  (future feature)
 ```
 
 You can now use the website in the terminal with:
