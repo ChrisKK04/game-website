@@ -4,10 +4,10 @@
 
 * Creating an account and logging in
 * Adding posts describing games
+* Leaving reviews on games alongside a score
 * Editing and deleting reviews and games
 * Seeing and searching (game title or review content) the posts of other users
 * Account pages which list a given accounts posts and certain statistics about the account
-* Leaving reviews on games alongside a score
 * Only developers can post games and only users can post reviews
 
 ## Upcoming features
@@ -17,6 +17,7 @@
 * A seed.py file for testing with large quantities of data
 * Better accessibility
 * CSS for styling
+* QOL-updates
 * An actual name for the website
 
 ## Using the website (Linux)
