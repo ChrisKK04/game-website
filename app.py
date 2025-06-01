@@ -63,6 +63,11 @@ def login():
 
     sql = "SELECT password_hash, id, developer FROM Users WHERE username = ?"
     query = db.query(sql, [username])
+    query = query if query else None
+    
+    if query == None:
+        return "ERROR: Wrong password or username"
+
     password_hash = query[0][0]
     user_id = query[0][1]
     developer = query[0][2]

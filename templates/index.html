@@ -62,7 +62,11 @@
     <br />
     Published by <a href="/user/{{ game.user_id }}">{{ game.username }}</a> at: {{ game.uploaded_at }}
     <br />
+    {% if game.total != 0 %}
     <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
+    {% else %}
+    <b>No reviews</b>
+    {% endif %}
   </p>
   {% if game.user_id == session.user_id %}
   <p>
