@@ -16,6 +16,7 @@
   <form action="/search" method="get">
     <p>
       <input type="radio" name="parameter" value="title" /> Title:
+      <br />
       {% if title_value %}
       <input type="text" name="title_value" value="{{ title_value }}" />
       {% else %}
@@ -23,7 +24,13 @@
       {% endif %}
       <br />
 
-      <input type="radio" name="parameter" value="description" /> Description: (coming) <!-- todo -->
+      <input type="radio" name="parameter" value="review_content" /> Review content:
+      <br />
+      {% if review_content_value %}
+      <textarea name="review_content_value" rows="5" cols="40" maxlength="5000">{{ review_content_value}} </textarea>
+      {% else %}
+      <textarea name="review_content_value" rows="5" cols="40" maxlength="5000"></textarea>
+      {% endif %}
       <br />
 
       <input type="radio" name="parameter" value="tags" /> Tags: (coming)<!-- todo -->
@@ -51,10 +58,27 @@
   </ul>
   {% endif %}
 
+  {% if review_content_results %}
+  <ul>
+  {% for review in review_content_results %}
+    <li>
+      <a href="/game/{{ review.game_id }}#{{ review. id }}">
+        {{ review.game_title }}
+      </a>
+      <br />
+      ({{ review.sent_at }})
+      <br />
+      {{ review.content }}
+      <br />
+      <b>Score: {{ review.score }}</b>
+    </li>
+  {% endfor %}
+  </ul>
+  {% endif %}
+
   {% if nothing %} <!-- No parameter was given-->
   <p><b>No parameter was given</b></p>
   {% endif %}
-
 </body>
 
 </html>

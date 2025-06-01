@@ -258,9 +258,11 @@ def search():
     if parameter == "title":
         title_value = request.args.get("title_value") # parameter value
         title_results = searching.title(title_value)
-        return render_template("search.html", title_results=title_results, title_value=title_value)
+        return render_template("search.html", title_value=title_value, title_results=title_results)
     
-    if parameter == "description": # etc...
-        pass
+    if parameter == "review_content":
+        review_content_value = request.args.get("review_content_value")
+        review_content_results = searching.review_content(review_content_value)
+        return render_template("search.html", review_content_value=review_content_value, review_content_results=review_content_results)
     
     return render_template("search.html", nothing=1) # if no parameters are given

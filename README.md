@@ -5,7 +5,7 @@
 * Creating an account and logging in
 * Adding posts describing games
 * Editing and deleting reviews and games
-* Seeing and searching the posts of other users
+* Seeing and searching (game title or review content) the posts of other users
 * Account pages which list a given accounts posts and certain statistics about the account
 * Leaving reviews on games alongside a score
 * Only developers can post games and only users can post reviews
@@ -13,10 +13,11 @@
 ## Upcoming features
 
 * Game photos and categories
-* More search parameters (game description, average score, reviews, tags, developers, etc.)
+* More search parameters (game description, average score, tags, developers, etc.)
 * A seed.py file for testing with large quantities of data
 * Better accessibility
 * CSS for styling
+* An actual name for the website
 
 ## Using the website (Linux)
 
@@ -39,6 +40,6 @@ $ sqlite3 database.db < init.sql       # insert categories
 
 You can now use the website in the terminal with:
 ```
-flask run                              # runs the website
-ctrl + c                               # closes the website
+$ flask run                              # runs the website
+$ ctrl + c                               # closes the website
 ```
