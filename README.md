@@ -9,13 +9,12 @@
 * Seeing and searching (game title or review content) the posts of other users
 * Account pages which list a given accounts posts and certain statistics about the account
 * Only developers can post games and only users can post reviews
+* A seed.py script for testing the website with large quantities of data
 
 ## Upcoming features
 
 * Game photos and categories
 * More search parameters (game description, average score, tags, developers, etc.)
-* Support for usage with large amounts of data
-* A seed.py file for testing with large amounts of data
 * Better accessibility
 * CSS for styling
 * QOL-updates
@@ -50,4 +49,11 @@ You can now use the website in the terminal with:
 ```
 $ flask run                              # runs the website
 $ ctrl + c                               # closes the website
+```
+
+You can also test the website with large quantities of data by using the Python script in seed.py. The script can be edited to include more or less data.
+
+Before running the script, database.db has to be in the directory of the website and include the tables from schema.sql (see above).
+```
+$ python3 seed.py                        # runs the script
 ```
