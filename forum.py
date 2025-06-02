@@ -6,8 +6,7 @@ import db
 def get_games(page, page_size): # fetches all of the games and their info
     sql = """SELECT G.id, G.title, G.description, COUNT(R.id) total, G.uploaded_at, G.user_id, U.username,
             ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) AS average
-            FROM Games G LEFT JOIN Reviews R ON G.id = R.game_id, Users U
-            WHERE G.user_id = U.id
+            FROM Games G LEFT JOIN Reviews R ON G.id = R.game_id LEFT JOIN Users U on G.user_id = U.id
             GROUP BY G.id
             ORDER BY G.id DESC
             LIMIT ? OFFSET ?"""

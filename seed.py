@@ -2,6 +2,9 @@ import random
 import sqlite3
 
 # the script doesn't include images for users or games
+# database.db and the tables in it have to exist before running the script
+    # if database.db doesn't exist:
+        # $ database.db < schema.sql 
 
 db = sqlite3.connect("database.db")
 
