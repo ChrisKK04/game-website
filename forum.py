@@ -3,14 +3,17 @@ import db
 
 # all database queries relating to the forum
 
-def get_games(): # fetches all of the games and their info
+def get_games(page, page_size): # fetches all of the games and their info
     sql = """SELECT G.id, G.title, G.description, COUNT(R.id) total, G.uploaded_at, G.user_id, U.username,
             ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) AS average
             FROM Games G LEFT JOIN Reviews R ON G.id = R.game_id, Users U
             WHERE G.user_id = U.id
             GROUP BY G.id
-            ORDER BY G.id DESC"""
-    return db.query(sql)
+            ORDER BY G.id DESC
+            LIMIT ? OFFSET ?"""
+    limit = page_size
+    offset = page_size * (page - 1)
+    return db.query(sql, [limit, offset])
 
 def get_game(game_id): # fetches an id-specified game
     sql = """SELECT G.id, G.title, G.description, G.uploaded_at, G.user_id, U.username
@@ -64,3 +67,7 @@ def edit_game(game_id, title, description): # updates a game
 def delete_game(game_id): # deletes a game
     sql = "DELETE FROM Games WHERE id = ?"
     db.execute(sql, [game_id])
+
+def game_count(): # amount of games in the database
+    sql = "SELECT COUNT(id) FROM Games"
+    return db.query(sql)[0][0]

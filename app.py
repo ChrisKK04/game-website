@@ -1,4 +1,5 @@
 import sqlite3
+import math
 from flask import Flask
 from flask import redirect, render_template, abort, make_response, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -21,9 +22,20 @@ def valid_review(content, score): # checks review content size requirements
         return True
 
 @app.route("/") # homepage
-def index():
-    games = forum.get_games()
-    return render_template("index.html", games=games)
+@app.route("/<int:page>")
+def index(page=1):
+    page_size = 10 # amount of games per page
+    game_count = forum.game_count()
+    page_count = math.ceil(game_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/1")
+    if page > page_count:
+        return redirect("/" + str(page_count))
+    
+    games = forum.get_games(page, page_size)
+    return render_template("index.html", page=page, page_count=page_count, games=games)
 
 @app.route("/register") # register page
 def register():

@@ -13,12 +13,12 @@
 
   {% if user.has_image %}
   <img src="/profile_picture/{{ user.id }}" />
-  {% endif %}
-
   <br />
+  {% endif %}
 
   {% if user.id == session.user_id %}
   <a href="/update_profile_picture">Update profile picture</a>
+  <br />
   {% endif %}
 
   <p>
