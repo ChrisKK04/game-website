@@ -5,6 +5,8 @@ from flask import redirect, render_template, abort, make_response, request, sess
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db, forum, users, searching
+import time
+from flask import g
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -20,6 +22,16 @@ def valid_game(title, description): # checks game title and description size req
 def valid_review(content, score): # checks review content size requirements
     if not content or len(content) > 5000 or score not in ["1", "2", "3", "4", "5"]:
         return True
+    
+@app.before_request # time tester (begin)
+def before_request():
+    g.start_time = time.time()
+
+@app.after_request # time tester (end)
+def after_request(response):
+    elapsed_time = round(time.time() - g.start_time, 2)
+    print("elapsed time:", elapsed_time, "s")
+    return response
 
 @app.route("/") # homepage
 @app.route("/<int:page>")
