@@ -59,39 +59,35 @@ def index(page=1):
     games = forum.get_games(page, page_size)
     return render_template("index.html", page=page, page_count=page_count, games=games)
 
-@app.route("/register") # register page
+@app.route("/register", methods=["GET", "POST"]) # register page
 def register():
-    return render_template("register.html")
-
-@app.route("/create", methods=["POST"]) # register page handler
-def create():
-    username = request.form["username"]
-    password1 = request.form["password1"]
-    password2 = request.form["password2"]
-    developer = request.form["developer"]
-
-    if not username or not password1 or not developer or len(username) > 50 or len(password1) > 50:
-        abort(403)
-
-    if password1 != password2:
-        flash("ERROR: The passwords do not match")
-        return redirect("/register")
+    if request.method == "GET":
+        return render_template("register.html", filled={})
     
-    password_hash = generate_password_hash(password1)
+    if request.method == "POST":
+        username = request.form["username"]
+        password1 = request.form["password1"]
+        password2 = request.form["password2"]
+        developer = request.form["developer"]
 
-    try:
-        sql = "INSERT INTO Users (username, password_hash, developer) VALUES (?, ?, ?)"
-        db.execute(sql, [username, password_hash, developer])
-    except sqlite3.IntegrityError:
-        flash("ERROR: The username is taken")
-        return redirect("/register")
-    
-    session["username"] = username # The user will be logged in automatically when an account is made
-    session["developer"] = int(developer) # stores whether or not the user is a developer
-    session["user_id"] = db.last_insert_id() # fetch the id
-    session["csrf_token"] = secrets.token_hex(16) # generates a hidden csrf-session-token
-    
-    return redirect("/")
+        if not username or not password1 or not developer or len(username) > 50 or len(password1) > 50:
+            abort(403)
+
+        if password1 != password2:
+            flash("ERROR: The passwords do not match")
+            filled = {"username": username}
+            return render_template("register.html", filled=filled)
+        
+        if users.create_user(username, password1, developer):
+            session["username"] = username # The user will be logged in automatically when an account is made
+            session["developer"] = int(developer) # stores whether or not the user is a developer
+            session["user_id"] = db.last_insert_id() # fetch the id
+            session["csrf_token"] = secrets.token_hex(16) # generates a hidden csrf-session-token
+            return redirect("/")
+        else:
+            flash("ERROR: The username is taken")
+            filled = {"username": username}
+            return render_template("register.html", filled=filled)
 
 @app.route("/login", methods=["POST"]) # login handler
 def login():

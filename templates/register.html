@@ -14,10 +14,10 @@
   </p>
   {% endfor %}
   
-  <form action="/create" method="post">
+  <form action="/register" method="post">
     <p>
       Username: <br />
-      <input type="text" name="username" maxlength="50" required/>
+      <input type="text" name="username" value="{{ filled.username }}" maxlength="50" required />
     </p>
     <p>
       Password: <br />

@@ -1,7 +1,18 @@
 # module for fetching and editing data
+import sqlite3
 import db
+from werkzeug.security import generate_password_hash
 
 # all database queries relating to users
+
+def create_user(username, password, developer): # Adding a user to the database
+    password_hash = generate_password_hash(password)
+    try:
+        sql = "INSERT INTO Users (username, password_hash, developer) VALUES (?, ?, ?)"
+        db.execute(sql, [username, password_hash, developer])
+        return True
+    except sqlite3.IntegrityError:
+        return False
 
 def get_user(user_id): # users username and developer status
     sql = """SELECT id, username, developer, image IS NOT NULL has_image
