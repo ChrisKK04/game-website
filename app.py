@@ -1,11 +1,10 @@
 import sqlite3
-import math
+import math, time, secrets
 from flask import Flask
 from flask import redirect, render_template, abort, make_response, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db, forum, users, searching
-import time
 from flask import g
 
 app = Flask(__name__)
@@ -13,6 +12,10 @@ app.secret_key = config.secret_key
 
 def require_login(): # checks login
     if "user_id" not in session:
+        abort(403)
+
+def check_csrf():
+    if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
 
 def valid_game(title, description): # checks game title and description size requirements
@@ -77,6 +80,7 @@ def create():
     session["username"] = username # The user will be logged in automatically when an account is made
     session["developer"] = int(developer) # stores whether or not the user is a developer
     session["user_id"] = db.last_insert_id() # fetch the id
+    session["csrf_token"] = secrets.token_hex(16) # generates a hidden csrf-session-token
     
     return redirect("/")
 
@@ -100,6 +104,7 @@ def login():
         session["username"] = username
         session["developer"] = developer
         session["user_id"] = user_id
+        session["csrf_token"] = secrets.token_hex(16)
         return redirect("/")
     else:
         return "ERROR: Wrong password or username"
@@ -109,11 +114,13 @@ def logout():
     del session["username"]
     del session["developer"]
     del session["user_id"]
+    del session["csrf_token"]
     return redirect("/")
 
 @app.route("/new_game", methods=["POST"])
 def new_game():
     require_login()
+    check_csrf()
 
     title = request.form["title"]
     description = request.form["description"]
@@ -137,6 +144,7 @@ def show_game(game_id):
 @app.route("/new_review", methods=["POST"]) # new review handler
 def new_review():
     require_login()
+    check_csrf()
 
     content = request.form["content"]
     score = request.form["score"]
@@ -156,6 +164,7 @@ def new_review():
 @app.route("/edit_review/<int:review_id>", methods=["GET", "POST"]) # edit review
 def edit_review(review_id):
     require_login()
+    check_csrf()
 
     review = forum.get_review(review_id)
     if not review:
@@ -179,6 +188,7 @@ def edit_review(review_id):
 @app.route("/delete_review/<int:review_id>", methods=["GET", "POST"]) # delete review
 def delete_review(review_id):
     require_login()
+    check_csrf()
 
     review = forum.get_review(review_id)
     if not review:
@@ -198,6 +208,7 @@ def delete_review(review_id):
 @app.route("/edit_game/<int:game_id>", methods=["GET", "POST"]) # edit game
 def edit_game(game_id):
     require_login()
+    check_csrf()
 
     game = forum.get_game(game_id)
     if not game:
@@ -221,6 +232,7 @@ def edit_game(game_id):
 @app.route("/delete_game/<int:game_id>", methods=["GET", "POST"]) # delete game
 def delete_game(game_id):
     require_login()
+    check_csrf()
     
     game = forum.get_game(game_id)
     if not game:
@@ -252,6 +264,7 @@ def show_user(user_id):
 @app.route("/update_profile_picture", methods=["GET", "POST"]) # profile picture updating
 def add_profile_picture():
     require_login()
+    check_csrf()
 
     if request.method == "GET":
         return render_template("update_profile_picture.html")

@@ -50,6 +50,7 @@
       </select>
     </p>
     <input type="hidden" name="game_id" value="{{ game.id }}" />
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
     <input type="submit" value="Send" />
   </form>
   <hr />
