@@ -97,6 +97,7 @@ def create():
 def login():
     username = request.form["username"]
     password = request.form["password"]
+    page = request.form["page"]
 
     sql = "SELECT password_hash, id, developer FROM Users WHERE username = ?"
     query = db.query(sql, [username])
@@ -104,7 +105,7 @@ def login():
     
     if query == None:
         flash("ERROR: Wrong password or username")
-        return redirect("/")
+        return redirect(f"/{ page }")
 
     password_hash = query[0][0]
     user_id = query[0][1]
@@ -118,7 +119,7 @@ def login():
         return redirect("/")
     else:
         flash("ERROR: Wrong password or username")
-        return redirect("/")
+        return redirect(f"/{ page }")
     
 @app.route("/logout") # logout handler
 def logout():
