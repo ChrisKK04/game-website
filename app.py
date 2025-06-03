@@ -164,7 +164,6 @@ def new_review():
 @app.route("/edit_review/<int:review_id>", methods=["GET", "POST"]) # edit review
 def edit_review(review_id):
     require_login()
-    check_csrf()
 
     review = forum.get_review(review_id)
     if not review:
@@ -177,6 +176,7 @@ def edit_review(review_id):
         return render_template("edit_review.html", review=review)
 
     if request.method == "POST":
+        check_csrf()
         content = request.form["content"]
         score = request.form["score"]
         if valid_review(content, score):
@@ -188,7 +188,6 @@ def edit_review(review_id):
 @app.route("/delete_review/<int:review_id>", methods=["GET", "POST"]) # delete review
 def delete_review(review_id):
     require_login()
-    check_csrf()
 
     review = forum.get_review(review_id)
     if not review:
@@ -201,6 +200,7 @@ def delete_review(review_id):
         return render_template("delete_review.html", review=review)
     
     if request.method == "POST":
+        check_csrf()
         if "delete" in request.form:
             forum.delete_review(review["id"])
         return redirect("/game/" + str(review["game_id"]))
@@ -208,7 +208,6 @@ def delete_review(review_id):
 @app.route("/edit_game/<int:game_id>", methods=["GET", "POST"]) # edit game
 def edit_game(game_id):
     require_login()
-    check_csrf()
 
     game = forum.get_game(game_id)
     if not game:
@@ -221,6 +220,7 @@ def edit_game(game_id):
         return render_template("edit_game.html", game=game)
     
     if request.method == "POST":
+        check_csrf()
         title = request.form["title"]
         description = request.form["description"]
         if valid_game(title, description):
@@ -232,7 +232,6 @@ def edit_game(game_id):
 @app.route("/delete_game/<int:game_id>", methods=["GET", "POST"]) # delete game
 def delete_game(game_id):
     require_login()
-    check_csrf()
     
     game = forum.get_game(game_id)
     if not game:
@@ -245,6 +244,7 @@ def delete_game(game_id):
         return render_template("delete_game.html", game=game)
     
     if request.method == "POST":
+        check_csrf()
         if "delete" in request.form:
             forum.delete_game(game["id"])
         return redirect("/")
