@@ -11,7 +11,7 @@
   <h1>{{ game.title }}</h1> <!-- game info-->
   <h4>Published by <a href="/user/{{ game.user_id }}">{{ game.username }}</a> at {{ game.uploaded_at }}</h4>
   <p>
-    {{ game.description }}
+    {{ game.description | show_lines }}
   </p>
   <p>
     {% if reviews | count != 0 %}
@@ -62,7 +62,7 @@
     <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }}):
   </p>
   <p>
-    {{ review.content}}
+    {{ review.content | show_lines }}
   </p>
   <p>
     <b>score: {{ review.score }}</b>

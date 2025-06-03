@@ -68,7 +68,7 @@
       <br />
       ({{ review.sent_at }})
       <br />
-      {{ review.content }}
+      {{ review.content | show_lines }}
       <br />
       <b>Score: {{ review.score }}</b>
     </li>

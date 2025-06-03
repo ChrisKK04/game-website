@@ -5,6 +5,7 @@ from flask import redirect, render_template, abort, make_response, request, sess
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db, forum, users, searching
+import markupsafe
 from flask import g
 
 app = Flask(__name__)
@@ -35,6 +36,12 @@ def after_request(response):
     elapsed_time = round(time.time() - g.start_time, 2)
     print("elapsed time:", elapsed_time, "s")
     return response
+
+@app.template_filter() # a template filter to show line breaks
+def show_lines(content):
+    content = str(markupsafe.escape(content))
+    content = content.replace("\n", "<br />")
+    return markupsafe.Markup(content)
 
 @app.route("/") # homepage
 @app.route("/<int:page>")
