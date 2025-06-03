@@ -46,6 +46,8 @@ $ sqlite3 database.db < init.sql         # insert categories  (future feature)
 ```
 
 You can now use the website in the terminal with:
+
+(A fetch-to-load time measurement is also shown in the terminal).
 ```
 $ flask run                              # runs the website
 $ ctrl + c                               # closes the website

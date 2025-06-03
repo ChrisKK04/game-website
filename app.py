@@ -1,7 +1,7 @@
 import sqlite3
 import math, time, secrets
 from flask import Flask
-from flask import redirect, render_template, abort, make_response, request, session
+from flask import redirect, render_template, abort, flash, make_response, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db, forum, users, searching
@@ -74,7 +74,8 @@ def create():
         abort(403)
 
     if password1 != password2:
-        return "ERROR: The passwords do not match"
+        flash("ERROR: The passwords do not match")
+        return redirect("/register")
     
     password_hash = generate_password_hash(password1)
 
@@ -82,7 +83,8 @@ def create():
         sql = "INSERT INTO Users (username, password_hash, developer) VALUES (?, ?, ?)"
         db.execute(sql, [username, password_hash, developer])
     except sqlite3.IntegrityError:
-        return "ERROR: The username is taken"
+        flash("ERROR: The username is taken")
+        return redirect("/register")
     
     session["username"] = username # The user will be logged in automatically when an account is made
     session["developer"] = int(developer) # stores whether or not the user is a developer
@@ -101,7 +103,8 @@ def login():
     query = query if query else None
     
     if query == None:
-        return "ERROR: Wrong password or username"
+        flash("ERROR: Wrong password or username")
+        return redirect("/")
 
     password_hash = query[0][0]
     user_id = query[0][1]
@@ -114,7 +117,8 @@ def login():
         session["csrf_token"] = secrets.token_hex(16)
         return redirect("/")
     else:
-        return "ERROR: Wrong password or username"
+        flash("ERROR: Wrong password or username")
+        return redirect("/")
     
 @app.route("/logout") # logout handler
 def logout():
@@ -269,21 +273,23 @@ def show_user(user_id):
         return render_template("user.html", user=user, games=games)
     
 @app.route("/update_profile_picture", methods=["GET", "POST"]) # profile picture updating
-def add_profile_picture():
+def update_profile_picture():
     require_login()
-    check_csrf()
 
     if request.method == "GET":
         return render_template("update_profile_picture.html")
     
     if request.method == "POST":
+        check_csrf()
         file = request.files["image"]
         if not file.filename.endswith(".jpg"):
-            return "ERROR: wrong filetype"
+            flash("ERROR: The file is not a .jpg-file")
+            return redirect("/update_profile_picture")
         
         image = file.read()
         if len(image) > 100 * 1024:
-            return "ERROR: the image is too big"
+            flash("ERROR: The image is too big")
+            return redirect("/update_profile_picture")
         
         user_id = session["user_id"]
         users.update_profile_picture(user_id, image)

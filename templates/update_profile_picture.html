@@ -13,10 +13,16 @@
   <p>
     Add a .jpg-file, with a maximum size of a 100 kB
   </p>
+  {% for message in get_flashed_messages() %}
+  <p>
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
   <form action="/update_profile_picture" method="post" enctype="multipart/form-data">
     <p>
       Image: <input type="file" name="image" accept=".jpg" />
     </p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
     <input type="submit" value="Send">
   </form>
 

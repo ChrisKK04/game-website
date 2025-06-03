@@ -22,9 +22,17 @@
     <a href="/register">Create an account</a> |
     <a href="/search">Search</a>
   </p>
+  
   <p>
     Or login
   </p>
+
+  {% for message in get_flashed_messages() %}
+  <p>
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
+
   <form action="/login" method="post">
     <p>
       Username: <br />
