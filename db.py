@@ -11,10 +11,15 @@ def get_connection():
 # INSERT, UPDATE, DELETE
 def execute(sql, params=[]):
     con = get_connection() # form a connection
-    result = con.execute(sql, params) # command execution (INSERT, UPDATE, DELETE)
-    con.commit() # commiting the database changes
-    g.last_insert_id = result.lastrowid # storing the id of the last added row
-    con.close() # connection close
+    try: # try to execute
+        result = con.execute(sql, params) # execute
+        con.commit() # commit changes
+        g.last_insert_id = result.lastrowid # get the id of the last added row
+    finally: # do everytime no matter if a command fails
+        con.close() # close the connection
+
+# Without the finally clause, the database will not be closed right away if an error occurs and could
+# thus lead to a crash.
 
 # ID of the last changed row
 def last_insert_id():
