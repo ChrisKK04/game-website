@@ -20,7 +20,7 @@
   {% endfor %}
   <form action="/update_profile_picture" method="post" enctype="multipart/form-data">
     <p>
-      Image: <input type="file" name="image" accept=".jpg" />
+      <label for="image">Image</label>: <input id="image" type="file" name="image" accept=".jpg" />
     </p>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
     <input type="submit" value="Send">

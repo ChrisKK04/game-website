@@ -36,12 +36,12 @@
 
   <form action="/new_review" method="post">
     <p>
-      Review: <br />
-      <textarea name="content" rows="10" cols="80" maxlength="5000" required></textarea>
+      <label for="content">Review</label>: <br />
+      <textarea id="content" name="content" rows="10" cols="80" maxlength="5000" required></textarea>
     </p>
     <p>
-      Score:
-      <select name="score" required>
+      <label for="score">Score</label>:
+      <select id="score" name="score" required>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>

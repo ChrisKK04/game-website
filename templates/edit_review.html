@@ -12,15 +12,15 @@
 
   <form action="/edit_review/{{ review.id }}" method="post">
     <p>
-      Review:<br />
-      <textarea name="content" rows="10" cols="80" maxlength="5000" required>{{ review.content }}</textarea>
+      <label for="content">Review</label>:<br />
+      <textarea id="content" name="content" rows="10" cols="80" maxlength="5000" required>{{ review.content }}</textarea>
     </p>
     <p>
       Previous score: {{ review.score }}
     </p>
     <p>
-      New score:
-      <select name="score" required>
+      <label for="score">New score</label>:
+      <select id="score" name="score" required>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>

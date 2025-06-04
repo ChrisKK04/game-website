@@ -16,12 +16,12 @@
 
   <form action="/login" method="post">
     <p>
-      Username: <br />
-      <input type="text" name="username" value="{{ filled.username }}" />
+      <label for="username">Username</label>: <br />
+      <input id="username" type="text" name="username" value="{{ filled.username }}" />
     </p>
     <p>
-      Password: <br />
-      <input type="password" name="password" />
+      <label for="password">Password</label>: <br />
+      <input id="password" type="password" name="password" />
     </p>
     {% if next_page %}
     <input type="hidden" name="next_page" value="{{ next_page }}" />
@@ -30,6 +30,9 @@
     {% endif %}
     <input type="submit" value="Login" />
   </form>
+
+  <hr />
+  <a href="/">Homepage</a>
 </body>
 
 </html>

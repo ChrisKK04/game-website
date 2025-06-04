@@ -15,7 +15,8 @@
   </p>
   <form action="/search" method="get">
     <p>
-      <input type="radio" name="parameter" value="title" /> Title:
+      <input id="title" type="radio" name="parameter" value="title" />
+      <label for="title">Title</label>:
       <br />
       {% if title_value %}
       <input type="text" name="title_value" value="{{ title_value }}" />
@@ -24,7 +25,8 @@
       {% endif %}
       <br />
 
-      <input type="radio" name="parameter" value="review_content" /> Review content:
+      <input id="review_content" type="radio" name="parameter" value="review_content" />
+      <label for="review_content">Review content</label>:
       <br />
       {% if review_content_value %}
       <textarea name="review_content_value" rows="5" cols="40" maxlength="5000">{{ review_content_value}} </textarea>
@@ -33,10 +35,12 @@
       {% endif %}
       <br />
 
-      <input type="radio" name="parameter" value="tags" /> Tags: (coming)<!-- todo -->
+      <input id="tags" type="radio" name="parameter" value="tags" />
+      <label for="tags">Tags</label>: (coming)<!-- todo -->
       <br />
 
-      <input type="radio" name="parameter" value="developer" /> Developer: (coming)<!-- todo -->
+      <input id="developer" type="radio" name="parameter" value="developer" />
+      <label for="developer">Developer</label>: (coming)<!-- todo -->
     </p>
     <input type="submit" value="Search" />
   </form>
