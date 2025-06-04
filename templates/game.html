@@ -29,9 +29,9 @@
   {% endif %}
 
   <a href="/">Homepage</a>
-  <hr />
   
   {% if session.user_id and session.developer == 0 %} <!-- adding a new review (only for users) -->
+  <hr />
   <h2>New review</h2>
 
   <form action="/new_review" method="post">
@@ -54,6 +54,18 @@
     <input type="submit" value="Send" />
   </form>
   <hr />
+  {% else %}
+  <hr />
+  {% if session.user_id %}
+  <p>
+    (Login as a reviewer to review games)
+  </p>
+  {% else %}
+  <p>
+    (<a href="/login">Login</a> as a reviewer to review games)
+  </p>
+  <hr />
+  {% endif %}
   {% endif %}
 
   <h3>Reviews</h3>

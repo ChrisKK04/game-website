@@ -25,9 +25,8 @@
   </p>
   {% endif %}
 
-  <hr />
-
   {% if session.user_id and session.developer == 1 %} <!-- adding a new game (only for developers) -->
+  <hr />
   <h2>New game</h2>
   <form action="/new_game" method="post">
     <p>
@@ -41,6 +40,12 @@
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
     <input type="submit" value="send" />
   </form>
+  <hr />
+  {% else %}
+  <hr />
+  <p>
+    (Login as a developer to upload games)
+  </p>
   <hr />
   {% endif %}
 
