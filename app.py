@@ -89,33 +89,27 @@ def register():
             filled = {"username": username}
             return render_template("register.html", filled=filled)
 
-@app.route("/login", methods=["POST"]) # login handler
+@app.route("/login", methods=["GET", "POST"]) # login page
 def login():
-    username = request.form["username"]
-    password = request.form["password"]
-    page = request.form["page"]
+    if request.method == "GET":
+        return render_template("login.html", next_page=request.referrer, filled={})
 
-    sql = "SELECT password_hash, id, developer FROM Users WHERE username = ?"
-    query = db.query(sql, [username])
-    query = query if query else None
-    
-    if query == None:
-        flash("ERROR: Wrong password or username")
-        return redirect(f"/{ page }")
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        next_page = request.form["next_page"]
 
-    password_hash = query[0][0]
-    user_id = query[0][1]
-    developer = query[0][2]
-
-    if check_password_hash(password_hash, password):
-        session["username"] = username
-        session["developer"] = developer
-        session["user_id"] = user_id
-        session["csrf_token"] = secrets.token_hex(16)
-        return redirect("/")
-    else:
-        flash("ERROR: Wrong password or username")
-        return redirect(f"/{ page }")
+        info = users.check_login(username, password)
+        if info:
+            session["username"] = username
+            session["developer"] = info["developer"]
+            session["user_id"] = info["user_id"]
+            session["csrf_token"] = secrets.token_hex(16)
+            return redirect(next_page)
+        else:
+            flash("ERROR: Wrong username or password")
+            filled = {"username": username}
+            return render_template("login.html", next_page=next_page, filled=filled)
     
 @app.route("/logout") # logout handler
 def logout():

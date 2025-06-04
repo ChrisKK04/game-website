@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!-- Login page -->
+<html>
+
+<head>
+  <title>Login</title>
+  <link rel="icon" href="/static/favicon.ico">
+</head>
+
+<body>
+  {% for message in get_flashed_messages() %}
+  <p>
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
+
+  <form action="/login" method="post">
+    <p>
+      Username: <br />
+      <input type="text" name="username" value="{{ filled.username }}" />
+    </p>
+    <p>
+      Password: <br />
+      <input type="password" name="password" />
+    </p>
+    {% if next_page %}
+    <input type="hidden" name="next_page" value="{{ next_page }}" />
+    {% else %}
+    <input type="hidden" name="next_page" value="/" />
+    {% endif %}
+    <input type="submit" value="Login" />
+  </form>
+</body>
+
+</html>
