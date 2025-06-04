@@ -113,10 +113,7 @@ def login():
     
 @app.route("/logout") # logout handler
 def logout():
-    del session["username"]
-    del session["developer"]
-    del session["user_id"]
-    del session["csrf_token"]
+    session.clear()
     return redirect("/")
 
 @app.route("/new_game", methods=["POST"])
