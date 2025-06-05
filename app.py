@@ -2,7 +2,6 @@ import sqlite3
 import math, time, secrets
 from flask import Flask
 from flask import redirect, render_template, abort, flash, make_response, request, session
-from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db, forum, users, searching
 import markupsafe

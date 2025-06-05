@@ -1,75 +1,77 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 <!-- Game page -->
-<html>
 
-<head>
-  <title>{{ game.id }}</title>
-  <link rel="icon" href="/static/favicon.ico">
-</head>
+{% block title %}{{ game.id }}{% endblock %}
 
-<body>
-  <h1>{{ game.title }}</h1> <!-- game info-->
-  <h4>Published by <a href="/user/{{ game.user_id }}">{{ game.username }}</a> at {{ game.uploaded_at }}</h4>
-  <p>
-    {{ game.description | show_lines }}
-  </p>
-  <p>
-    {% if reviews | count != 0 %}
-    <b>{{ reviews | count }} reviews with an average score of {{ game.average }}</b>
-    {% else %}
-    <b>No reviews</b>
-    {% endif %}
-  </p>
+{% block content %}
+<h2>{{ game.title }}</h2>
 
-  {% if game.user_id == session.user_id %}
-  <p>
-    <a href="/edit_game/{{ game.id }}">Edit</a> |
-    <a href="/delete_game/{{ game.id }}">Delete</a>
-  </p>
-  {% endif %}
-
-  <a href="/">Homepage</a>
-  
-  {% if session.user_id and session.developer == 0 %} <!-- adding a new review (only for users) -->
-  <hr />
-  <h2>New review</h2>
-
-  <form action="/new_review" method="post">
-    <p>
-      <label for="content">Review</label>: <br />
-      <textarea id="content" name="content" rows="10" cols="80" maxlength="5000" required></textarea>
-    </p>
-    <p>
-      <label for="score">Score</label>:
-      <select id="score" name="score" required>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-    </p>
-    <input type="hidden" name="game_id" value="{{ game.id }}" />
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
-    <input type="submit" value="Send" />
-  </form>
-  <hr />
+<!-- game info-->
+<h4>Published by <a href="/user/{{ game.user_id }}">{{ game.username }}</a> at {{ game.uploaded_at }}</h4>
+<p>
+  {{ game.description | show_lines }}
+</p>
+<p>
+  {% if reviews | count != 0 %}
+  <b>{{ reviews | count }} reviews with an average score of {{ average.average }} </b>
   {% else %}
-  <hr />
-  {% if session.user_id %}
-  <p>
-    (Login as a reviewer to review games)
-  </p>
-  {% else %}
-  <p>
-    (<a href="/login">Login</a> as a reviewer to review games)
-  </p>
-  <hr />
+  <b>No reviews</b>
   {% endif %}
-  {% endif %}
+</p>
 
-  <h3>Reviews</h3>
-  {% for review in reviews %} <!-- reviews -->
+{% if game.user_id == session.user_id %}
+<p>
+  <a href="/edit_game/{{ game.id }}">Edit</a> |
+  <a href="/delete_game/{{ game.id }}">Delete</a>
+</p>
+{% endif %}
+
+{% if session.user_id and session.developer == 0 %} <!-- adding a new review (only for users) -->
+<hr />
+<h3>New review</h3>
+
+<form action="/new_review" method="post">
+  <p>
+    <label for="content">Review</label>: <br />
+    <textarea id="content" name="content" rows="10" cols="80" maxlength="5000" required></textarea>
+  </p>
+  <p>
+    <label for="score">Score</label>:
+    <select id="score" name="score" required>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </p>
+  <input type="hidden" name="game_id" value="{{ game.id }}" />
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
+  <input type="submit" value="Send" />
+</form>
+<hr />
+{% else %}
+<hr />
+{% if session.user_id %}
+<p>
+  (Login as a reviewer to review games)
+</p>
+{% else %}
+<p>
+  (<a href="/login">Login</a> as a reviewer to review games)
+</p>
+<hr />
+{% endif %}
+{% endif %}
+
+{% if reviews != 0 %}
+<h3>Reviews</h3>
+{% else %}
+<h3>No reviews</h3>
+{% endif %}
+
+{% for review in reviews %} <!-- reviews -->
+<div class="review">
   <p id="{{ review.id }}">
     <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }}):
   </p>
@@ -85,8 +87,6 @@
     <a href="/delete_review/{{ review.id }}">Delete</a>
   </p>
   {% endif %}
-  <hr />
-  {% endfor %}
-</body>
-
-</html>
+</div>
+{% endfor %}
+{% endblock %}
