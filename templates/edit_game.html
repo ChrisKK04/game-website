@@ -1,29 +1,20 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 <!-- Game editing page -->
-<html>
+{% block title%}Editing game{% endblock %}
 
-<head>
-  <title>Editing game</title>
-  <link rel="icon" href="/static/favicon.ico">
-</head>
+{% block content %}
+<h2>Editing game</h2>
 
-<body>
-  <h2>Editing game</h2>
-
-  <form action="/edit_game/{{ game.id }}" method="post">
-    <p>
-      <label for="title">Title</label>: <br />
-      <input id="title" type="text" name="title" value="{{ game.title }}" maxlength="100" required />
-    </p>
-    <p>
-      <label for="description">Description</label>:<br />
-      <textarea id="description" name="description" rows="10" cols="80" maxlength="5000" required>{{ game.description }}</textarea>
-    </p>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
-    <input type="submit" value="Send"/>
-  </form>
-  <br />
-  <a href="/">Homepage</a>
-</body>
-
-</html>
+<form action="/edit_game/{{ game.id }}" method="post">
+  <p>
+    <label for="title">Title</label>: <br />
+    <input id="title" type="text" name="title" value="{{ game.title }}" maxlength="100" required />
+  </p>
+  <p>
+    <label for="description">Description</label>:<br />
+    <textarea id="description" name="description" rows="10" cols="80" maxlength="5000" required>{{ game.description }}</textarea>
+  </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
+  <input type="submit" value="Send"/>
+</form>
+{% endblock %}

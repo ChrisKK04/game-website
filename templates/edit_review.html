@@ -1,38 +1,29 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 <!-- Review editing page -->
-<html>
+{% block title%}Editing review{% endblock %}
 
-<head>
-  <title>Editing review</title>
-  <link rel="icon" href="/static/favicon.ico">
-</head>
+{% block content %}
+<h2>Editing review</h2>
 
-<body>
-  <h2>Editing review</h2>
-
-  <form action="/edit_review/{{ review.id }}" method="post">
-    <p>
-      <label for="content">Review</label>:<br />
-      <textarea id="content" name="content" rows="10" cols="80" maxlength="5000" required>{{ review.content }}</textarea>
-    </p>
-    <p>
-      Previous score: {{ review.score }}
-    </p>
-    <p>
-      <label for="score">New score</label>:
-      <select id="score" name="score" required>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-    </p>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
-    <input type="submit" value="Send"/>
-  </form>
-  <br />
-  <a href="/">Homepage</a>
-</body>
-
-</html>
+<form action="/edit_review/{{ review.id }}" method="post">
+  <p>
+    <label for="content">Review</label>:<br />
+    <textarea id="content" name="content" rows="10" cols="80" maxlength="5000" required>{{ review.content }}</textarea>
+  </p>
+  <p>
+    Previous score: {{ review.score }}
+  </p>
+  <p>
+    <label for="score">New score</label>:
+    <select id="score" name="score" required>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
+  <input type="submit" value="Send"/>
+</form>
+{% endblock %}
