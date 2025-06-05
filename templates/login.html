@@ -3,12 +3,6 @@
 {% block title%}Login{% endblock %}
 
 {% block content %}
-{% for message in get_flashed_messages() %}
-<p>
-  <b>{{ message }}</b>
-</p>
-{% endfor %}
-
 <form action="/login" method="post">
   <p>
     <label for="username">Username</label>: <br />
@@ -18,6 +12,11 @@
     <label for="password">Password</label>: <br />
     <input id="password" type="password" name="password" />
   </p>
+  {% for message in get_flashed_messages() %}
+  <p class="info">
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
   {% if next_page %}
   <input type="hidden" name="next_page" value="{{ next_page }}" />
   {% else %}
