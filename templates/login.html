@@ -1,38 +1,28 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 <!-- Login page -->
-<html>
+{% block title%}Login{% endblock %}
 
-<head>
-  <title>Login</title>
-  <link rel="icon" href="/static/favicon.ico">
-</head>
+{% block content %}
+{% for message in get_flashed_messages() %}
+<p>
+  <b>{{ message }}</b>
+</p>
+{% endfor %}
 
-<body>
-  {% for message in get_flashed_messages() %}
+<form action="/login" method="post">
   <p>
-    <b>{{ message }}</b>
+    <label for="username">Username</label>: <br />
+    <input id="username" type="text" name="username" value="{{ filled.username }}" />
   </p>
-  {% endfor %}
-
-  <form action="/login" method="post">
-    <p>
-      <label for="username">Username</label>: <br />
-      <input id="username" type="text" name="username" value="{{ filled.username }}" />
-    </p>
-    <p>
-      <label for="password">Password</label>: <br />
-      <input id="password" type="password" name="password" />
-    </p>
-    {% if next_page %}
-    <input type="hidden" name="next_page" value="{{ next_page }}" />
-    {% else %}
-    <input type="hidden" name="next_page" value="/" />
-    {% endif %}
-    <input type="submit" value="Login" />
-  </form>
-
-  <hr />
-  <a href="/">Homepage</a>
-</body>
-
-</html>
+  <p>
+    <label for="password">Password</label>: <br />
+    <input id="password" type="password" name="password" />
+  </p>
+  {% if next_page %}
+  <input type="hidden" name="next_page" value="{{ next_page }}" />
+  {% else %}
+  <input type="hidden" name="next_page" value="/" />
+  {% endif %}
+  <input type="submit" value="Login" />
+</form>
+{% endblock %}

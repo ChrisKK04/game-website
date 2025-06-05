@@ -1,47 +1,37 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 <!-- Registering page  -->
-<html>
+{% block title%}Register{% endblock %}
 
-<head>
-  <title>Login</title>
-  <link rel="icon" href="/static/favicon.ico">
-</head>
+{% block content %}
+{% for message in get_flashed_messages() %}
+<p>
+  <b>{{ message }}</b>
+</p>
+{% endfor %}
 
-<body>
-  {% for message in get_flashed_messages() %}
+<form action="/register" method="post">
   <p>
-    <b>{{ message }}</b>
+    <label for="username">Username</label>: <br />
+    <input id="username" type="text" name="username" value="{{ filled.username }}" maxlength="50" required />
   </p>
-  {% endfor %}
-  
-  <form action="/register" method="post">
-    <p>
-      <label for="username">Username</label>: <br />
-      <input id="username" type="text" name="username" value="{{ filled.username }}" maxlength="50" required />
-    </p>
-    <p>
-      <label for="password1">Password</label>: <br />
-      <input id="password1" type="password" name="password1" maxlength="50" required/>
-    </p>
-    <p>
-      <label for="password2">Password again</label>: <br />
-      <input id="password2" type="password" name="password2" maxlength="50" required/>
-    </p>
-    <p>
-      Are you a reviewer or a developer?
-    </p>
-    <p>
-      <input id="user" type="radio" name="developer" value="0" required/>
-      <label for="user">User (post reviews)</label>
-      
-      <input id="developer" type="radio" name="developer" value="1" required/>
-      <label for="developer">Developer (post games)</label>
-    </p>
-    <input type="submit" value="Create account" />
-  </form>
-
-  <hr />
-  <a href="/">Homepage</a>
-</body>
-
-</html>
+  <p>
+    <label for="password1">Password</label>: <br />
+    <input id="password1" type="password" name="password1" maxlength="50" required/>
+  </p>
+  <p>
+    <label for="password2">Password again</label>: <br />
+    <input id="password2" type="password" name="password2" maxlength="50" required/>
+  </p>
+  <p>
+    Are you a reviewer or a developer?
+  </p>
+  <p>
+    <input id="user" type="radio" name="developer" value="0" required/>
+    <label for="user">User (post reviews)</label>
+    
+    <input id="developer" type="radio" name="developer" value="1" required/>
+    <label for="developer">Developer (post games)</label>
+  </p>
+  <input type="submit" value="Create account" />
+</form>
+{% endblock %}
