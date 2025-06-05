@@ -1,32 +1,23 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 <!-- Profile picture updating page -->
-<html>
+{% block title%}Profile picture{% endblock %}
 
-<head>
-  <title>Profile picture</title>
-  <link rel="icon" href="/static/favicon.ico">
-</head>
+{% block content %}
+<h1>Profile picture</h1>
 
-<body>
-  <h1>Profile picture</h1>
-
+<p>
+  Add a .jpg-file, with a maximum size of a 100 kB
+</p>
+{% for message in get_flashed_messages() %}
+<p>
+  <b>{{ message }}</b>
+</p>
+{% endfor %}
+<form action="/update_profile_picture" method="post" enctype="multipart/form-data">
   <p>
-    Add a .jpg-file, with a maximum size of a 100 kB
+    <label for="image">Image</label>: <input id="image" type="file" name="image" accept=".jpg" />
   </p>
-  {% for message in get_flashed_messages() %}
-  <p>
-    <b>{{ message }}</b>
-  </p>
-  {% endfor %}
-  <form action="/update_profile_picture" method="post" enctype="multipart/form-data">
-    <p>
-      <label for="image">Image</label>: <input id="image" type="file" name="image" accept=".jpg" />
-    </p>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
-    <input type="submit" value="Send">
-  </form>
-
-  <a href="/">Homepage</a>
-</body>
-
-</html>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
+  <input type="submit" value="Send">
+</form>
+{% endblock %}

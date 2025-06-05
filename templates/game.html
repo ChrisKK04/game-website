@@ -6,6 +6,8 @@
 {% block content %}
 <h2>{{ game.title }}</h2>
 
+<hr />
+
 <!-- game info-->
 <h4>Published by <a href="/user/{{ game.user_id }}">{{ game.username }}</a> at {{ game.uploaded_at }}</h4>
 <p>
@@ -64,11 +66,8 @@
 {% endif %}
 {% endif %}
 
-{% if reviews != 0 %}
+{% if reviews | count != 0 %}
 <h3>Reviews</h3>
-{% else %}
-<h3>No reviews</h3>
-{% endif %}
 
 {% for review in reviews %} <!-- reviews -->
 <div class="review">
@@ -89,4 +88,5 @@
   {% endif %}
 </div>
 {% endfor %}
+{% endif %}
 {% endblock %}
