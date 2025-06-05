@@ -4,7 +4,10 @@ import sqlite3
 # the script doesn't include images for users or games
 # database.db and the tables in it have to exist before running the script
     # if database.db doesn't exist:
-        # $ database.db < schema.sql 
+        # $ database.db < schema.sql
+# logging in to the generated users isn't possible
+    # (because the passwords aren't saved as hashes and the app checks for hashes)
+        # (generating the hashes takes too long for testing)
 
 db = sqlite3.connect("database.db")
 
