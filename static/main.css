@@ -1,0 +1,67 @@
+body { 
+  margin: auto; /* centers the content */
+  max-width: 50em; /* a lines maximum width*/
+  font-family: sans-serif; /* font */
+  background-color: lightslategray; /* color */
+}
+
+.header {
+  background-color: gray;
+  color: black;
+  padding: 1em; /* space inside of the element*/
+  margin: 0.5em 0; /* space outside of the element (vertical horizontal)*/
+}
+
+.nav {
+  background-color: darkgray;
+  color: black;
+  padding: 0.5em 1em;
+  margin: 0.5em 0;
+}
+
+.content {
+  background-color: lightgray;
+  padding: 1em;
+  margin: 0.5em 0;
+}
+
+.game { /* homepage games */
+  border: 3px solid darkgray;
+  margin: 1em;
+  padding: 0 0.5em;
+}
+
+.info { /* flash messages*/
+  border: 3px solid darkgray;
+  margin: 1em;
+  padding: 0.5em;
+  background-color: darkslateblue;
+  color: lightgrey;
+}
+
+nav {
+  text-align: center;
+}
+
+nav ul {
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  display: inline-block;
+  padding: 0 1em;
+  margin: 0;
+}
+
+nav li:not(:last-of-type) {
+  border-right: 1px solid black;
+}
+
+nav li:not(:first-of-type) {
+  margin-left: -0.25em;
+}
+
+h1, h2, h3 { /* remove automatic margins for h1, h2 and h3 */
+  margin: 0;
+}
