@@ -29,9 +29,13 @@ Then run the following commands in the terminal whilst being in the created fold
 $ python3 -m venv venv                   # creates a virtual environment to download packages into
 $ source venv/bin/activate               # activates the virtual environment
 $ pip install flask                      # downloads and installs flask
+$ sqlite3 database.db < schema.sql       # create database.db and add tables
+$ sqlite3 database.db < init.sql         # insert categories  (future feature)
 ```
 
-The files include a database.db file with pre-made data for testing.
+After running the commands, the database will be empty. You can insert some data for testing by running a python script.
+
+pre_data.py: populates the database with some users, games and reviews
 
 Login to accounts:
 ```
@@ -39,11 +43,7 @@ Username: Jason, RampageGames            # uppercase starts
 Password: jason, rampagegames            # all lowercase
 ```
 
-You can also use an empty database by renaming or deleting database.db and entering the following commands into the terminal whilst being in the website's folder:
-```
-$ sqlite3 database.db < schema.sql       # create database.db and add tables
-$ sqlite3 database.db < init.sql         # insert categories  (future feature)
-```
+seed.py: populates the database with large amounts of data for peformance testing
 
 You can now use the website in the terminal with:
 
@@ -53,9 +53,4 @@ $ flask run                              # runs the website
 $ ctrl + c                               # closes the website
 ```
 
-You can also test the website with large quantities of data by using the Python script in seed.py. The script can be edited to include more or less data.
-
-Before running the script, database.db has to be in the directory of the website and include the tables from schema.sql (see above).
-```
-$ python3 seed.py                        # runs the script
-```
+As of 6.6.2025 development is still in progress.
