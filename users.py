@@ -1,7 +1,7 @@
 # module for fetching and editing data
 import sqlite3
-import db
 from werkzeug.security import generate_password_hash, check_password_hash
+import db
 
 # all database queries relating to users
 
@@ -19,8 +19,7 @@ def check_login(username, password): # checks the login a of user and returns th
     result = db.query(sql, [username])
     if result:
         return result[0] if check_password_hash(result[0]["password_hash"], password) else None
-    else:
-        return None
+    return None
 
 
 def get_user(user_id): # users username and developer status

@@ -24,7 +24,7 @@ for i in range(1, user_count + 1): # insert users
     db.execute("""INSERT INTO Users (username, password_hash, developer)
                   VALUES (?, ?, ?)""",
                ["user" + str(i), "user" + str(i), developer])
-    
+
 for i in range(1, game_count + 1): # insert games
     user_id = random.randint(1, user_count // 2)
     db.execute("""INSERT INTO Games (title, description, uploaded_at, user_id)
@@ -38,6 +38,6 @@ for i in range(1, review_count): # insert reviews
     db.execute("""INSERT INTO Reviews (content, sent_at, user_id, game_id, score)
                   VALUES (?, datetime('now'), ?, ?, ?)""",
                   ["message" + str(i), user_id, game_id, score])
-    
+
 db.commit()
 db.close()
