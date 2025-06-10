@@ -28,5 +28,21 @@ CREATE TABLE Reviews (
     score INTEGER
 );
 
+-- Table for the classes
+CREATE TABLE Classes (
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    value TEXT
+);
+
+-- Table for linking classes to games
+CREATE TABLE Game_classes (
+    id INTEGER PRIMARY KEY,
+    game_id INTEGER REFERENCES Games(id),
+    title TEXT,
+    value TEXT
+);
+
+
 CREATE INDEX idx_game_reviews_id ON Reviews (game_id); -- Index for matching reviews to games
 CREATE INDEX idx_user_game ON Games (user_id); -- Index for matching users to games

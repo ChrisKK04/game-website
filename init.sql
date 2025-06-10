@@ -1,0 +1,10 @@
+INSERT INTO Classes (title, value) VALUES ('Category', 'racing');
+INSERT INTO Classes (title, value) VALUES ('Category', 'simulator');
+INSERT INTO Classes (title, value) VALUES ('Category', 'roguelike');
+INSERT INTO Classes (title, value) VALUES ('Category', 'action');
+INSERT INTO Classes (title, value) VALUES ('Category', 'RPG');
+INSERT INTO Classes (title, value) VALUES ('Category', 'survival');
+INSERT INTO Classes (title, value) VALUES ('Category', 'horror');
+INSERT INTO Classes (title, value) VALUES ('Category', 'family');
+INSERT INTO Classes (title, value) VALUES ('Category', 'competitive');
+INSERT INTO Classes (title, value) VALUES ('Category', 'card-game');

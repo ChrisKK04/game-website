@@ -3,14 +3,13 @@ import math
 import time
 import secrets
 from flask import Flask
-from flask import redirect, render_template, abort, flash, make_response, request, session
+from flask import redirect, render_template, abort, flash, make_response, request, session, g
 import config
 import db
 import forum
 import users
 import searching
 import markupsafe
-from flask import g
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
