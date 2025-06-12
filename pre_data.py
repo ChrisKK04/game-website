@@ -42,6 +42,15 @@ reviews = [["I love the new lighting and gun feel!", 4, 3, 5],
            ["wayyyyyyy better than CDMCA 2", 5, 1, 5],
            ["The game has way too many characters.", 5, 2, 2]]
 
+classes = [[1, "Category", "action"],
+           [1, "Category", "competitive"],
+           [2, "Category", "action"],
+           [2, "Category", "competitive"],
+           [3, "Category", "action"],
+           [3, "Category", "competitive"],
+           [4, "Category", "action"],
+           [4, "Category", "competitive"],]
+
 for username, password, developer in users: # inserts the users
     password_hash = generate_password_hash(password)
     db.execute("""INSERT INTO Users (username, password_hash, developer)
@@ -57,6 +66,11 @@ for content, user_id, game_id, score in reviews: # inserts the reviews
     db.execute("""INSERT INTO Reviews (content, sent_at, user_id, game_id, score)
                   VALUES (?, datetime('now'), ?, ?, ?)""",
                   [content, user_id, game_id, score])
+    
+for game_id, title, value in classes: # inserts the categories for games
+    db.execute("""INSERT INTO Game_classes (game_id, title, value)
+                  VALUES (?, ?, ?)""",
+                  [game_id, title, value])
     
 db.commit()
 db.close()
