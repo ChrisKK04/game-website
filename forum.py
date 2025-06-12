@@ -40,11 +40,18 @@ def get_average_score(game_id): # fetches an id-specified games average user-sco
     result = db.query(sql, [game_id])
     return result[0] if result else None # none if no matches
 
-def add_game(title, description, user_id): # adds a game
+def add_game(title, description, user_id, classes): # adds a game
     sql = """INSERT INTO Games (title, description, uploaded_at, user_id)
             VALUES (?, ?, datetime('now'), ?)"""
     db.execute(sql, [title, description, user_id])
-    return db.last_insert_id()
+
+    game_id = db.last_insert_id()
+
+    sql = "INSERT INTO Game_classes (game_id, title, value) VALUES (?, ?, ?)"
+    for class_title, class_value in classes:
+        db.execute(sql, [game_id, class_title, class_value])
+
+    return game_id
 
 def get_reviews(game_id): # fetches all reviews for an id-specified game
     sql = """SELECT R.id, R.content, R.sent_at, R.user_id, U.username, R.score

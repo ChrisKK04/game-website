@@ -132,9 +132,21 @@ def new_game():
     if valid_game(title, description):
         abort(403)
 
+    all_classes = forum.get_all_classes()
+
+    classes = []
+    for entry in request.form.getlist("classes"):
+        if entry:
+            class_title, class_value = entry.split(":")
+            if class_title not in all_classes:
+                abort(403)
+            if class_value not in all_classes[class_title]:
+                abort(403)
+            classes.append((class_title, class_value))
+
     user_id = session["user_id"]
 
-    thread_id = forum.add_game(title, description, user_id)
+    thread_id = forum.add_game(title, description, user_id, classes)
     return redirect("/game/" + str(thread_id))
 
 @app.route("/game/<int:game_id>") # game page
