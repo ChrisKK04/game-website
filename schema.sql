@@ -38,7 +38,7 @@ CREATE TABLE Classes (
 -- Table for linking classes to games
 CREATE TABLE Game_classes (
     id INTEGER PRIMARY KEY,
-    game_id INTEGER REFERENCES Games(id),
+    game_id INTEGER REFERENCES Games(id) ON DELETE CASCADE,
     title TEXT,
     value TEXT
 );
