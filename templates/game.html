@@ -13,6 +13,16 @@
 <p>
   {{ game.description | show_lines }}
 </p>
+
+<p>
+  {% for category in classes['Category'] %}
+    <div class="category">{{ category }}</div>
+    {% if loop.index % 5 == 0 %}
+      <br />
+    {% endif %}
+  {% endfor %}
+</p>
+
 <p>
   {% if reviews | count != 0 %}
   <b>{{ reviews | count }} reviews with an average score of {{ average.average }} </b>

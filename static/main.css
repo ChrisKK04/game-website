@@ -31,12 +31,19 @@ body {
   padding: 0 0.5em;
 }
 
-.info { /* flash messages*/
+.info { /* flash messages */
   border: 3px solid darkgray;
   margin: 1em;
   padding: 0.5em;
   background-color: darkslateblue;
   color: lightgrey;
+}
+
+.category { /* game categories */
+  display: inline-block;
+  border: 2px solid darkgray;
+  margin: 0.1em;
+  padding: 0.1em;
 }
 
 nav {

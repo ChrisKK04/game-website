@@ -4,8 +4,20 @@ import db
 # all database queries relating to the forum
 
 def get_all_classes(): # gets all of the classes from the database into a dictionary
-    sql = "SELECT title, value FROM classes ORDER BY id"
+    sql = "SELECT title, value FROM classes ORDER BY LOWER(value)"
     result = db.query(sql)
+
+    classes = {}
+    for title, value in result:
+        classes[title] = []
+    for title, value in result:
+        classes[title].append(value)
+
+    return classes
+
+def get_classes(game_id): # gets all of an id-specified games classes
+    sql = "SELECT title, value FROM Game_classes WHERE game_id = ? ORDER BY LOWER(value)"
+    result = db.query(sql, [game_id])
 
     classes = {}
     for title, value in result:
