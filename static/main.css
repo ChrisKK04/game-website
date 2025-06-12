@@ -42,8 +42,8 @@ body {
 .category { /* game categories */
   display: inline-block;
   border: 2px solid darkgray;
-  margin: 0.1em;
-  padding: 0.1em;
+  margin: 0.1em 0;
+  padding: 0 0.15em;
 }
 
 nav {

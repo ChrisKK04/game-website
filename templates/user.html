@@ -6,7 +6,7 @@
 {% if user.developer == 0 %} <!-- reviewer -->
 
 <h2>Reviewer {{ user.username }}</h2>
-<br />
+<hr />
 
 {% if user.has_image %}
 <img src="/profile_picture/{{ user.id }}" alt="User {{ user.username }}'s profile picture" />
@@ -52,7 +52,7 @@
 
 {% else %} <!-- developer -->
 <h2>Developer {{ user.username }}</h2>
-<br />
+<hr />
 
 {% if user.has_image %}
 <img src="/profile_picture/{{ user.id }}" alt="Developer {{ user.username }}'s profile picture" />

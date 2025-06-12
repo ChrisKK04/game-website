@@ -4,13 +4,13 @@
 
 {% block content %}
 <h2>Homepage</h2>
+<hr />
 
 {% if session.user_id and session.developer == 1 %} <!-- adding a new game (only for developers) -->
-<hr />
 <h3>New game</h3>
 <form action="/new_game" method="post">
   <p>
-    <label for="title">Name of the game</label>: <br />
+    <label for="title">Title</label>: <br />
     <input id="title" type="text" name="title" maxlength="100" required/>
   </p>
   <p>
@@ -33,7 +33,6 @@
 </form>
 <hr />
 {% else %}
-<hr />
 <p>
   (Login as a developer to upload games)
 </p>

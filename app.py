@@ -230,12 +230,14 @@ def edit_game(game_id):
     game = forum.get_game(game_id)
     if not game:
         abort(404)
+    all_classes = forum.get_all_classes()
 
     if game["user_id"] != session["user_id"]:
         abort(403)
 
     if request.method == "GET":
-        return render_template("edit_game.html", game=game)
+        classes = forum.get_classes(game_id)
+        return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes)
 
     if request.method == "POST":
         check_csrf()
@@ -244,7 +246,17 @@ def edit_game(game_id):
         if valid_game(title, description):
             abort(403)
 
-        forum.edit_game(game["id"], title, description)
+        classes = []
+        for entry in request.form.getlist("classes"):
+            if entry:
+                class_title, class_value = entry.split(":")
+                if class_title not in all_classes:
+                    abort(403)
+                if class_value not in all_classes[class_title]:
+                    abort(403)
+                classes.append((class_title, class_value))
+
+        forum.edit_game(game["id"], title, description, classes)
         return redirect("/game/" + str(game["id"]))
 
 @app.route("/delete_game/<int:game_id>", methods=["GET", "POST"]) # delete game

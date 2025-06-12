@@ -90,9 +90,16 @@ def delete_review(review_id): # deletes a review
     sql = "DELETE FROM Reviews WHERE id = ?"
     db.execute(sql, [review_id])
 
-def edit_game(game_id, title, description): # updates a game
+def edit_game(game_id, title, description, classes): # updates a game
     sql = "UPDATE Games SET title = ?, description = ? WHERE id = ?"
     db.execute(sql, [title, description, game_id])
+
+    sql = "DELETE FROM Game_classes WHERE game_id = ?"
+    db.execute(sql, [game_id])
+
+    sql = "INSERT INTO Game_classes (game_id, title, value) VALUES (?, ?, ?)"
+    for class_title, class_value in classes:
+        db.execute(sql, [game_id, class_title, class_value])
 
 def delete_game(game_id): # deletes a game
     sql = "DELETE FROM Games WHERE id = ?"
