@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 <!-- User page -->
-{% block title%}User {{ user.username }}{% endblock %}
+{% block title%}User{{ user.username }}{% endblock %}
 
 {% block content %}
 {% if user.developer == 0 %} <!-- reviewer -->
@@ -92,6 +92,15 @@
     <br />
     {{ game.description }}
     <br />
+    {% if all_dev_game_classes[game.id] %}
+      {% for category in all_dev_game_classes[game.id]['Category'] if all_dev_game_classes[game.id]['Category'] %}
+        <div class="category">{{ category }}</div>
+        {% if loop.index % 5 == 0 %}
+          <br />
+        {% endif %}
+      {% endfor %}
+      <br />
+    {% endif %}
     {% if game.total != 0 %}
     <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
     {% else %}

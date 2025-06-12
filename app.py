@@ -285,12 +285,14 @@ def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
         abort(403)
+
     if user["developer"] == 0: # user
         reviews = users.get_reviews(user_id)
         return render_template("user.html", user=user, reviews=reviews)
     if user["developer"] == 1: # developer
         games = users.get_games(user_id)
-        return render_template("user.html", user=user, games=games)
+        all_dev_game_classes = users.get_all_dev_game_classes(user_id)
+        return render_template("user.html", user=user, games=games, all_dev_game_classes=all_dev_game_classes)
 
 @app.route("/update_profile_picture", methods=["GET", "POST"]) # profile picture updating
 def update_profile_picture():
