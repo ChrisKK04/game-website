@@ -10,14 +10,14 @@
 * Account pages which list a given accounts posts and certain statistics about the account
 * Only developers can post games and only users can post reviews
 * A seed.py script for testing the website with large quantities of data
+* Games have optional categories
+* CSS styling
 
 ## Upcoming features
 
-* Game photos and categories
+* Game photos
 * More search parameters (game description, average score, tags, developers, etc.)
-* Better accessibility
-* CSS for styling
-* QOL-updates
+* CSS styling for the search page
 * An actual name for the website
 
 ## Using the website (Linux)
@@ -30,12 +30,12 @@ $ python3 -m venv venv                   # creates a virtual environment to down
 $ source venv/bin/activate               # activates the virtual environment
 $ pip install flask                      # downloads and installs flask
 $ sqlite3 database.db < schema.sql       # create database.db and add tables
-$ sqlite3 database.db < init.sql         # insert categories  (future feature)
+$ sqlite3 database.db < init.sql         # insert classes
 ```
 
 After running the commands, the database will be empty. You can insert some data for testing by running a python script.
 
-pre_data.py: populates the database with some users, games and reviews
+pre_data.py: populates the database with some users, games, reviews and classes
 
 Login to accounts:
 ```
@@ -45,12 +45,12 @@ Password: jason, rampagegames            # all lowercase
 
 seed.py: populates the database with large amounts of data for peformance testing
 
-You can now use the website in the terminal with:
+You can use the website in the terminal with:
 
-(A fetch-to-load time measurement is also shown in the terminal).
+(A fetch-to-load time measurement is also displayed in the terminal).
 ```
 $ flask run                              # runs the website
 $ ctrl + c                               # closes the website
 ```
 
-As of 6.6.2025 development is still in progress.
+As of 12.6.2025 development is still in progress.
