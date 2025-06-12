@@ -3,6 +3,18 @@ import db
 
 # all database queries relating to the forum
 
+def get_classes(game_id): # gets all of an id-specified games classes
+    sql = "SELECT title, value FROM Game_classes WHERE game_id = ? ORDER BY LOWER(value)"
+    result = db.query(sql, [game_id])
+
+    classes = {}
+    for title, value in result:
+        classes[title] = []
+    for title, value in result:
+        classes[title].append(value)
+
+    return classes
+
 def get_all_classes(): # gets all of the classes from the database into a dictionary
     sql = "SELECT title, value FROM classes ORDER BY LOWER(value)"
     result = db.query(sql)
@@ -15,17 +27,19 @@ def get_all_classes(): # gets all of the classes from the database into a dictio
 
     return classes
 
-def get_classes(game_id): # gets all of an id-specified games classes
-    sql = "SELECT title, value FROM Game_classes WHERE game_id = ? ORDER BY LOWER(value)"
-    result = db.query(sql, [game_id])
+def get_all_game_classes(): # gets the classes for every game into a dictionary all_game_classes[game_id] = classes
+    sql = "SELECT game_id, title, value FROM Game_classes"
+    result = db.query(sql)
+    
+    all_game_classes = {}
+    for game_id, title, value in result:
+        if game_id not in all_game_classes:
+            all_game_classes[game_id] = {}
+        if title not in all_game_classes[game_id]:
+            all_game_classes[game_id][title] = []
+        all_game_classes[game_id][title].append(value)
 
-    classes = {}
-    for title, value in result:
-        classes[title] = []
-    for title, value in result:
-        classes[title].append(value)
-
-    return classes
+    return all_game_classes
 
 def get_games(page, page_size): # fetches all of the games and their info
     sql = """SELECT G.id, G.title, G.description, COUNT(R.id) total, G.uploaded_at, G.user_id, U.username,

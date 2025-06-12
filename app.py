@@ -62,8 +62,9 @@ def index(page=1):
         return redirect("/" + str(page_count))
     
     classes = forum.get_all_classes()
+    all_game_classes = forum.get_all_game_classes()
     games = forum.get_games(page, page_size)
-    return render_template("index.html", page=page, page_count=page_count, games=games, classes=classes)
+    return render_template("index.html", page=page, page_count=page_count, games=games, classes=classes, all_game_classes=all_game_classes)
 
 @app.route("/register", methods=["GET", "POST"]) # register page
 def register():

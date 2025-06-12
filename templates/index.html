@@ -51,8 +51,16 @@
     <a href="/game/{{ game.id }}">{{ game.title }}</a>
   </p>
   <p>
-    Published by <a href="/user/{{ game.user_id }}">{{ game.username }}</a> at: {{ game.uploaded_at }}
-    <br />
+    Published by <a href="/user/{{ game.user_id }}">{{ game.username }}</a> at: {{ game.uploaded_at }} <br />
+    {% if all_game_classes[game.id] %}
+      {% for category in all_game_classes[game.id]['Category'] if all_game_classes[game.id]['Category'] %}
+        <div class="category">{{ category }}</div>
+        {% if loop.index % 5 == 0 %}
+          <br />
+        {% endif %}
+      {% endfor %}
+      <br />
+    {% endif %}
     {% if game.total != 0 %}
     <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
     {% else %}
