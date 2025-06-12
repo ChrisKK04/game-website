@@ -60,9 +60,10 @@ def index(page=1):
         return redirect("/1")
     if page > page_count:
         return redirect("/" + str(page_count))
-
+    
+    classes = forum.get_all_classes()
     games = forum.get_games(page, page_size)
-    return render_template("index.html", page=page, page_count=page_count, games=games)
+    return render_template("index.html", page=page, page_count=page_count, games=games, classes=classes)
 
 @app.route("/register", methods=["GET", "POST"]) # register page
 def register():

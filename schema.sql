@@ -43,6 +43,5 @@ CREATE TABLE Game_classes (
     value TEXT
 );
 
-
 CREATE INDEX idx_game_reviews_id ON Reviews (game_id); -- Index for matching reviews to games
 CREATE INDEX idx_user_game ON Games (user_id); -- Index for matching users to games

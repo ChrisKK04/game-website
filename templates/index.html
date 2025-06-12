@@ -17,6 +17,17 @@
     <label for="description">Description</label>: <br />
     <textarea id="description" name="description" rows="10" cols="80" maxlength="5000" required></textarea>
   </p>
+  <p>
+    Categories: <br />
+    {% for category in classes['Category'] %}
+      <label>
+        <input type="checkbox" name="categories" value="{{ category }}" /> {{ category }}
+      </label>
+      {% if loop.index % 5 == 0 %} <!-- only allows 5 categories per line -->
+        <br />
+      {% endif %}
+    {% endfor %}
+  </p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
   <input type="submit" value="send" />
 </form>

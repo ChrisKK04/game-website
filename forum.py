@@ -3,6 +3,18 @@ import db
 
 # all database queries relating to the forum
 
+def get_all_classes(): # gets all of the classes from the database into a dictionary
+    sql = "SELECT title, value FROM classes ORDER BY id"
+    result = db.query(sql)
+
+    classes = {}
+    for title, value in result:
+        classes[title] = []
+    for title, value in result:
+        classes[title].append(value)
+
+    return classes
+
 def get_games(page, page_size): # fetches all of the games and their info
     sql = """SELECT G.id, G.title, G.description, COUNT(R.id) total, G.uploaded_at, G.user_id, U.username,
             ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) AS average
