@@ -28,6 +28,7 @@ Then run the following commands in the terminal whilst being in the created fold
 ```
 $ python3 -m venv venv                   # creates a virtual environment to download packages into
 $ source venv/bin/activate               # activates the virtual environment
+$ source venv/Script/activate            # (activating an environment on Windows)
 $ pip install flask                      # downloads and installs flask
 $ sqlite3 database.db < schema.sql       # create database.db and add tables
 $ sqlite3 database.db < init.sql         # insert classes

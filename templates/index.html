@@ -8,7 +8,7 @@
 
 {% if session.user_id and session.developer == 1 %} <!-- adding a new game (only for developers) -->
 <h3>New game</h3>
-<form action="/new_game" method="post">
+<form action="/new_game" method="post" enctype="multipart/form-data">
   <p>
     <label for="title">Title</label>: <br />
     <input id="title" type="text" name="title" maxlength="100" required/>
@@ -27,6 +27,12 @@
         <br />
       {% endif %}
     {% endfor %}
+  </p>
+  <p>
+    <label for="images">Images</label>: <br />
+    <small>(The images have to be .jpg-files and have a maximum size of a 100 kB)</small> <br />
+    <small>(You can select multiple images by holding ctrl)</small> <br />
+    <input id="images" type="file" name="images" accept=".jpg" multiple />
   </p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
   <input type="submit" value="send" />
