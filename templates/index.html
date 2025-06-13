@@ -29,11 +29,16 @@
     {% endfor %}
   </p>
   <p>
-    <label for="images">Images</label>: <br />
+    <label for="images_label">Images</label>: <br />
     <small>(The images have to be .jpg-files and have a maximum size of a 100 kB)</small> <br />
     <small>(You can select multiple images by holding ctrl)</small> <br />
-    <input id="images" type="file" name="images" accept=".jpg" multiple />
+    <input id="images_label" type="file" name="images" accept=".jpg" multiple />
   </p>
+  {% for message in get_flashed_messages() %}
+  <p class="info">
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
   <input type="submit" value="send" />
 </form>
