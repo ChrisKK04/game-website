@@ -66,7 +66,7 @@ def get_average_score(game_id): # fetches an id-specified games average user-sco
     result = db.query(sql, [game_id])
     return result[0] if result else None # none if no matches
 
-def add_game(title, description, user_id, classes): # adds a game
+def add_game(title, description, user_id, classes, images): # adds a game
     sql = """INSERT INTO Games (title, description, uploaded_at, user_id)
             VALUES (?, ?, datetime('now'), ?)"""
     db.execute(sql, [title, description, user_id])
@@ -76,6 +76,10 @@ def add_game(title, description, user_id, classes): # adds a game
     sql = "INSERT INTO Game_classes (game_id, title, value) VALUES (?, ?, ?)"
     for class_title, class_value in classes:
         db.execute(sql, [game_id, class_title, class_value])
+    
+    sql = "INSERT INTO Images (game_id, image) VALUES (?, ?)"
+    for image in images:
+        db.execute(sql, [game_id, image])
 
     return game_id
 

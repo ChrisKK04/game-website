@@ -32,12 +32,12 @@ def valid_review(content, score): # checks review content size requirements
         return True
     return False
 
-@app.before_request # time tester (begin)
-def before_request():
+#@app.before_request # time tester (begin)
+#def before_request():
     g.start_time = time.time()
 
-@app.after_request # time tester (end)
-def after_request(response):
+#@app.after_request # time tester (end)
+#def after_request(response):
     elapsed_time = round(time.time() - g.start_time, 2)
     print("elapsed time:", elapsed_time, "s")
     return response
@@ -134,7 +134,6 @@ def new_game():
         abort(403)
 
     all_classes = forum.get_all_classes()
-
     classes = []
     for entry in request.form.getlist("classes"):
         if entry:
@@ -145,9 +144,20 @@ def new_game():
                 abort(403)
             classes.append((class_title, class_value))
 
+    images = []
+    for file in request.files.getlist("images"):
+        print("moi")
+        if not file.filename.endswith(".jpg"):
+            flash("ERROR: One or more of the files are not .jpg-files")
+            return redirect("/")
+        image = file.read()
+        if len(image) > 100 * 1024:
+            flash("ERROR: One or more of the images are too big")
+            return redirect("/")
+        images.append(image)
+        
     user_id = session["user_id"]
-
-    thread_id = forum.add_game(title, description, user_id, classes)
+    thread_id = forum.add_game(title, description, user_id, classes, images)
     return redirect("/game/" + str(thread_id))
 
 @app.route("/game/<int:game_id>") # game page
