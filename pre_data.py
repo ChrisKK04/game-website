@@ -5,6 +5,10 @@
         # $ sqlite3 database.db < schema.sql
         # $ sqlite3 database.db < init.sql
 
+# this global variable changes the default sql time zone from UTC 0 to UTC +3
+# it can be freely changed
+TIME = '+3 hours'
+
 import sqlite3
 from werkzeug.security import generate_password_hash
 
@@ -53,24 +57,24 @@ classes = [[1, "Category", "action"],
 
 for username, password, developer in users: # inserts the users
     password_hash = generate_password_hash(password)
-    db.execute("""INSERT INTO Users (username, password_hash, developer)
-                  VALUES (?, ?, ?)""",
-                  [username, password_hash, developer])
+    sql = f"""INSERT INTO Users (username, password_hash, developer)
+              VALUES (?, ?, ?)"""
+    db.execute(sql, [username, password_hash, developer])
 
 for title, description, user_id in games: # inserts the games
-    db.execute("""INSERT INTO Games (title, description, uploaded_at, user_id)
-                  VALUES (?, ?, datetime('now'), ?)""",
-                  [title, description, user_id])
+    sql = f"""INSERT INTO Games (title, description, uploaded_at, user_id)
+              VALUES (?, ?, datetime('now', '{TIME}'), ?)"""
+    db.execute(sql, [title, description, user_id])
 
 for content, user_id, game_id, score in reviews: # inserts the reviews
-    db.execute("""INSERT INTO Reviews (content, sent_at, user_id, game_id, score)
-                  VALUES (?, datetime('now'), ?, ?, ?)""",
-                  [content, user_id, game_id, score])
+    sql = f"""INSERT INTO Reviews (content, sent_at, user_id, game_id, score)
+              VALUES (?, datetime('now', '{TIME}'), ?, ?, ?)"""
+    db.execute(sql, [content, user_id, game_id, score])
     
 for game_id, title, value in classes: # inserts the categories for games
-    db.execute("""INSERT INTO Game_classes (game_id, title, value)
-                  VALUES (?, ?, ?)""",
-                  [game_id, title, value])
+    sql = f"""INSERT INTO Game_classes (game_id, title, value)
+               VALUES (?, ?, ?)"""
+    db.execute(sql, [game_id, title, value])
     
 db.commit()
 db.close()

@@ -1,6 +1,10 @@
 # module for fetching and editing data
 import db
 
+# this global variable changes the default sql time zone from UTC+0 to UTC+3
+# it can be freely changed
+TIME = '+3 hours'
+
 # all database queries relating to the forum
 
 def get_classes(game_id): # gets all of an id-specified games classes
@@ -76,8 +80,8 @@ def get_average_score(game_id): # fetches an id-specified games average user-sco
     return result[0] if result else None # none if no matches
 
 def add_game(title, description, user_id, classes, images): # adds a game
-    sql = """INSERT INTO Games (title, description, uploaded_at, user_id)
-            VALUES (?, ?, datetime('now'), ?)"""
+    sql = f"""INSERT INTO Games (title, description, uploaded_at, user_id)
+            VALUES (?, ?, datetime('now', '{TIME}'), ?)"""
     db.execute(sql, [title, description, user_id])
 
     game_id = db.last_insert_id()
@@ -100,8 +104,8 @@ def get_reviews(game_id): # fetches all reviews for an id-specified game
     return db.query(sql, [game_id])
 
 def new_review(content, user_id, game_id, score): # adds a new review for a game
-    sql = """INSERT INTO Reviews (content, sent_at, user_id, game_id, score)
-            VALUES (?, datetime('now'), ?, ?, ?)"""
+    sql = f"""INSERT INTO Reviews (content, sent_at, user_id, game_id, score)
+            VALUES (?, datetime('now', '{TIME}'), ?, ?, ?)"""
     db.execute(sql, [content, user_id, game_id, score])
 
 def get_review(review_id): # returns a review's id and contents with it's id
