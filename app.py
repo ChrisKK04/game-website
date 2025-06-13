@@ -122,7 +122,7 @@ def login():
 @app.route("/logout") # logout handler
 def logout():
     session.clear()
-    return redirect("/")
+    return redirect(request.referrer)
 
 @app.route("/new_game", methods=["POST"])
 def new_game():
