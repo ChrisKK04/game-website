@@ -34,6 +34,11 @@
     <input id="developer" type="radio" name="developer" value="1" required/>
     <label for="developer">Developer (post games)</label>
   </p>
+  {% if next_page %}
+  <input type="hidden" name="next_page" value="{{ next_page }}" />
+  {% else %}
+  <input type="hidden" name="next_page" value="/" />
+  {% endif %}
   <input type="submit" value="Create account" />
 </form>
 {% endblock %}

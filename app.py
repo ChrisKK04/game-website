@@ -69,13 +69,14 @@ def index(page=1):
 @app.route("/register", methods=["GET", "POST"]) # register page
 def register():
     if request.method == "GET":
-        return render_template("register.html", filled={})
+        return render_template("register.html", next_page=request.referrer, filled={})
 
     if request.method == "POST":
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         developer = request.form["developer"]
+        next_page = request.form["next_page"]
 
         if not username or not password1 or not developer or len(username) > 50 or len(password1) > 50:
             abort(403)
@@ -90,11 +91,11 @@ def register():
             session["developer"] = int(developer) # stores whether or not the user is a developer
             session["user_id"] = db.last_insert_id() # fetch the id
             session["csrf_token"] = secrets.token_hex(16) # generates a hidden csrf-session-token
-            return redirect("/")
+            return redirect(next_page)
         else:
             flash("ERROR: The username is taken")
             filled = {"username": username}
-            return render_template("register.html", filled=filled)
+            return render_template("register.html", next_page=next_page, filled=filled)
 
 @app.route("/login", methods=["GET", "POST"]) # login page
 def login():
