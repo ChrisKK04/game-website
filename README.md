@@ -48,6 +48,9 @@ seed.py: populates the database with large amounts of data for peformance testin
 Time zones:
 forum.py and pre_data.py have a global time zone variable called TIME.
 The variable can be edited, but it defaults to UTC+3.
+```
+TIME = '+3 hours'
+```
 
 You can use the website in the terminal with:
 
