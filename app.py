@@ -146,7 +146,6 @@ def new_game():
 
     images = []
     for file in request.files.getlist("images"):
-        print("moi")
         if not file.filename.endswith(".jpg"):
             flash("ERROR: One or more of the files are not .jpg-files")
             return redirect("/")
@@ -259,7 +258,8 @@ def edit_game(game_id):
 
     if request.method == "GET":
         classes = forum.get_classes(game_id)
-        return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes)
+        images = forum.get_images(game_id)
+        return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes, images=images)
 
     if request.method == "POST":
         check_csrf()
@@ -277,8 +277,20 @@ def edit_game(game_id):
                 if class_value not in all_classes[class_title]:
                     abort(403)
                 classes.append((class_title, class_value))
+        
+        delete_images = request.form.getlist("delete_images")
+        new_images = []
+        for file in request.files.getlist("new_images"):
+            if not file.filename.endswith(".jpg"):
+                flash("ERROR: One or more of the files are not .jpg-files")
+                return redirect("/")
+            image = file.read()
+            if len(image) > 100 * 1024:
+                flash("ERROR: One or more of the images are too big")
+                return redirect("/")
+            new_images.append(image)
 
-        forum.edit_game(game["id"], title, description, classes)
+        forum.edit_game(game["id"], title, description, classes, delete_images, new_images)
         return redirect("/game/" + str(game["id"]))
 
 @app.route("/delete_game/<int:game_id>", methods=["GET", "POST"]) # delete game

@@ -6,15 +6,17 @@
 <h2>Editing game</h2>
 <hr />
 
-<form action="/edit_game/{{ game.id }}" method="post">
+<form action="/edit_game/{{ game.id }}" method="post" enctype="multipart/form-data">
   <p>
     <label for="title">Title</label>: <br />
     <input id="title" type="text" name="title" value="{{ game.title }}" maxlength="100" required />
   </p>
+
   <p>
     <label for="description">Description</label>:<br />
     <textarea id="description" name="description" rows="10" cols="80" maxlength="5000" required>{{ game.description }}</textarea>
   </p>
+
   <p>
     Categories: <br />
     {% for category in all_classes['Category'] %}
@@ -35,6 +37,33 @@
       {% endif %}
     {% endfor %}
   </p>
+  
+  {% if images %}
+    <p>
+      Select images for deletion: <br />
+      {% for image in images %}
+        <div class="edit_game_image">
+          <label>
+            <input type="checkbox" name="delete_images" value="{{ image.id }}" />
+            <img src="/image/{{ image.id }}" alt="{{ game.title }}'s image {{ loop.index }}" />
+          </label>
+        </div>
+      {% endfor %}
+    </p>
+  {% endif %}
+
+  <p>
+    <label for="images_label">New images</label>: <br />
+    <small>(The images have to be .jpg-files and have a maximum size of 100 kB)</small> <br />
+    <small>(You can select multiple images by holding ctrl)</small> <br />
+    <input id="images_label" type="file" name="new_images" accept=".jpg" multiple />
+  </p>
+  {% for message in get_flashed_messages() %}
+  <p class="info">
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
+
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
   <input type="submit" value="Send"/>
 </form>

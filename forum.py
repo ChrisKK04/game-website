@@ -117,16 +117,23 @@ def delete_review(review_id): # deletes a review
     sql = "DELETE FROM Reviews WHERE id = ?"
     db.execute(sql, [review_id])
 
-def edit_game(game_id, title, description, classes): # updates a game
+def edit_game(game_id, title, description, classes, delete_images, new_images): # updates a game
     sql = "UPDATE Games SET title = ?, description = ? WHERE id = ?"
     db.execute(sql, [title, description, game_id])
 
     sql = "DELETE FROM Game_classes WHERE game_id = ?"
     db.execute(sql, [game_id])
-
     sql = "INSERT INTO Game_classes (game_id, title, value) VALUES (?, ?, ?)"
     for class_title, class_value in classes:
         db.execute(sql, [game_id, class_title, class_value])
+
+    sql = "DELETE FROM Images WHERE id = ?"
+    for image_id in delete_images:
+        db.execute(sql, [image_id])
+
+    sql = "INSERT INTO Images (game_id, image) VALUES (?, ?)"
+    for image in new_images:
+        db.execute(sql, [game_id, image])
 
 def delete_game(game_id): # deletes a game
     sql = "DELETE FROM Games WHERE id = ?"

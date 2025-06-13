@@ -51,6 +51,11 @@ img {
   padding: 0 0.15em;
 }
 
+.edit_game_image { /* makes game images smaller on the edit page */
+  max-width: 200px;
+  height: auto;
+}
+
 nav {
   text-align: center;
 }
