@@ -10,12 +10,11 @@
 * Account pages which list a given accounts posts and certain statistics about the account
 * Only developers can post games and only users can post reviews
 * A seed.py script for testing the website with large quantities of data
-* Games have optional categories
+* Games have optional categories and photos
 * CSS styling
 
 ## Upcoming features
 
-* Game photos
 * More search parameters (game description, average score, tags, developers, etc.)
 * CSS styling for the search page
 * An actual name for the website
@@ -45,6 +44,10 @@ Password: jason, rampagegames            # all lowercase
 ```
 
 seed.py: populates the database with large amounts of data for peformance testing
+
+Time zones:
+forum.py and pre_data.py have a global time zone variable called TIME.
+The variable can be edited, but it defaults to UTC+3.
 
 You can use the website in the terminal with:
 
