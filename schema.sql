@@ -43,5 +43,12 @@ CREATE TABLE Game_classes (
     value TEXT
 );
 
+-- Table for the game images
+CREATE TABLE Images (
+    id INTEGER PRIMARY KEY,
+    game_id INTEGER REFERENCES Games(id) ON DELETE CASCADE,
+    image BLOB
+)
+
 CREATE INDEX idx_game_reviews_id ON Reviews (game_id); -- Index for matching reviews to games
 CREATE INDEX idx_user_game ON Games (user_id); -- Index for matching users to games
