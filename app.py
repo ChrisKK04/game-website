@@ -146,6 +146,8 @@ def new_game():
 
     images = []
     for file in request.files.getlist("images"):
+        if not file:
+            continue
         if not file.filename.endswith(".jpg"):
             flash("ERROR: One or more of the files are not .jpg-files")
             return redirect("/")
@@ -281,6 +283,8 @@ def edit_game(game_id):
         delete_images = request.form.getlist("delete_images")
         new_images = []
         for file in request.files.getlist("new_images"):
+            if not file:
+                continue
             if not file.filename.endswith(".jpg"):
                 flash("ERROR: One or more of the files are not .jpg-files")
                 return redirect("/")
