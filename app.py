@@ -168,7 +168,18 @@ def show_game(game_id):
     average = forum.get_average_score(game_id)
     reviews = forum.get_reviews(game_id)
     classes = forum.get_classes(game_id)
-    return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes)
+    images = forum.get_images(game_id)
+    return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes, images=images)
+
+@app.route("/image/<int:image_id>") # view a game image
+def show_image(image_id):
+    image = forum.get_image(image_id)
+    if not image:
+        abort(404)
+    
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response
 
 @app.route("/new_review", methods=["POST"]) # new review handler
 def new_review():

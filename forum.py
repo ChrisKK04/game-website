@@ -41,6 +41,15 @@ def get_all_game_classes(): # gets the classes for every game into a dictionary 
 
     return all_game_classes
 
+def get_images(game_id): # gets all of the images for a game
+    sql = "SELECT id from Images WHERE game_id = ?"
+    return db.query(sql, [game_id])
+
+def get_image(image_id): # gets the id-specified image
+    sql = "SELECT image FROM Images WHERE id = ?"
+    result = db.query(sql, [image_id])
+    return result[0][0] if result else None
+
 def get_games(page, page_size): # fetches all of the games and their info
     sql = """SELECT G.id, G.title, G.description, COUNT(R.id) total, G.uploaded_at, G.user_id, U.username,
             ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) AS average

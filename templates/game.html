@@ -23,6 +23,12 @@
 </p>
 
 <p>
+  {% for image in images %}
+    <img src="/image/{{ image.id }}" alt="{{ game.title }}'s image {{ loop.index }}" />
+  {% endfor %}
+</p>
+
+<p>
   {% if reviews | count != 0 %}
   <b>{{ reviews | count }} reviews with an average score of {{ average.average }} </b>
   {% else %}
