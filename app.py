@@ -78,7 +78,7 @@ def index(page=1):
             abort(403)
 
         classes = []
-        classes_save = []
+        classes_save = {}
         for entry in request.form.getlist("classes"):
             if entry:
                 class_title, class_value = entry.split(":")
@@ -86,7 +86,9 @@ def index(page=1):
                     abort(403)
                 if class_value not in all_classes[class_title]:
                     abort(403)
-                classes_save.append(class_value)
+                if class_title not in classes_save:
+                    classes_save[class_title] = []
+                classes_save[class_title].append(class_value)
                 classes.append((class_title, class_value))
 
         images = []
@@ -101,7 +103,6 @@ def index(page=1):
             if len(image) > 100 * 1024:
                 flash("ERROR: One or more of the images are too big")
                 filled = {"title": title, "description": description, "classes": classes_save}
-                print(classes_save)
                 return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled)
             images.append(image)
             
@@ -264,11 +265,11 @@ def edit_game(game_id):
     if game["user_id"] != session["user_id"]:
         abort(403)
 
-    game_classes = forum.get_classes(game_id)
+    classes = forum.get_classes(game_id)
     images = forum.get_images(game_id)
 
     if request.method == "GET":
-        return render_template("edit_game.html", game=game, all_classes=all_classes, game_classes=game_classes, images=images, filled={})
+        return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes, images=images, filled={})
 
     if request.method == "POST":
         check_csrf()
@@ -278,7 +279,7 @@ def edit_game(game_id):
             abort(403)
 
         classes = []
-        classes_save = []
+        classes_save = {}
         for entry in request.form.getlist("classes"):
             if entry:
                 class_title, class_value = entry.split(":")
@@ -286,9 +287,12 @@ def edit_game(game_id):
                     abort(403)
                 if class_value not in all_classes[class_title]:
                     abort(403)
-                classes_save.append(class_value)
+                if class_title not in classes_save:
+                    classes_save[class_title] = []
+                classes_save[class_title].append(class_value)
                 classes.append((class_title, class_value))
-        
+
+
         delete_images = request.form.getlist("delete_images")
         new_images = []
         for file in request.files.getlist("new_images"):
@@ -297,12 +301,12 @@ def edit_game(game_id):
             if not file.filename.endswith(".jpg"):
                 flash("ERROR: One or more of the files are not .jpg-files")
                 filled = {"title": title, "description": description, "classes": classes_save}
-                return render_template("edit_game.html", game=game, all_classes=all_classes, game_classes=game_classes, images=images, filled=filled)
+                return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes, images=images, filled=filled)
             image = file.read()
             if len(image) > 100 * 1024:
                 flash("ERROR: One or more of the images are too big")
                 filled = {"title": title, "description": description, "classes": classes_save}
-                return render_template("edit_game.html", game=game, all_classes=all_classes, game_classes=game_classes, images=images, filled=filled)
+                return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes, images=images, filled=filled)
             new_images.append(image)
 
         forum.edit_game(game["id"], title, description, classes, delete_images, new_images)

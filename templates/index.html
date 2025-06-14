@@ -20,10 +20,16 @@
   <p>
     Categories: <br />
     {% for category in all_classes['Category'] %}
-      {% if category in filled.classes %}
-        <label>
-          <input type="checkbox" name="classes" value="Category:{{ category }}" checked /> {{ category }}
-        </label>
+      {% if filled %}
+        {% if category in filled.classes['Category'] %}
+          <label>
+            <input type="checkbox" name="classes" value="Category:{{ category }}" checked /> {{ category }}
+          </label>
+        {% else %}
+          <label>
+            <input type="checkbox" name="classes" value="Category:{{ category }}" /> {{ category }}
+          </label>
+        {% endif %}
       {% else %}
         <label>
           <input type="checkbox" name="classes" value="Category:{{ category }}" /> {{ category }}
