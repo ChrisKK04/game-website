@@ -17,6 +17,8 @@ db = sqlite3.connect("database.db")
 db.execute("DELETE FROM Users")
 db.execute("DELETE FROM Games")
 db.execute("DELETE FROM Reviews")
+db.execute("DELETE FROM Game_classes")
+db.execute("DELETE FROM Images")
 
 users = [["RampageGames", "rampagegames", 1],
          ["Pipe", "pipe", 1],

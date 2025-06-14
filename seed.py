@@ -16,6 +16,7 @@ db.execute("DELETE FROM Users")
 db.execute("DELETE FROM Games")
 db.execute("DELETE FROM Reviews")
 db.execute("DELETE FROM Game_classes")
+db.execute("DELETE FROM Images")
 
 user_count = 1000 # 1/2 developers 1/2 reviews (1 - 500 developers 501 - 1000 reviewers)
 game_count = 10**5
