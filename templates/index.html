@@ -8,21 +8,27 @@
 
 {% if session.user_id and session.developer == 1 %} <!-- adding a new game (only for developers) -->
 <h3>New game</h3>
-<form action="/new_game" method="post" enctype="multipart/form-data">
+<form action="/{{ page }}" method="post" enctype="multipart/form-data">
   <p>
     <label for="title">Title</label>: <br />
-    <input id="title" type="text" name="title" maxlength="100" required/>
+    <input id="title" type="text" name="title" maxlength="100" value="{{ filled.title }}" required/>
   </p>
   <p>
     <label for="description">Description</label>: <br />
-    <textarea id="description" name="description" rows="10" cols="80" maxlength="5000" required></textarea>
+    <textarea id="description" name="description" rows="10" cols="80" maxlength="5000" required>{{ filled.description }}</textarea>
   </p>
   <p>
     Categories: <br />
-    {% for category in classes['Category'] %}
-      <label>
-        <input type="checkbox" name="classes" value="Category:{{ category }}" /> {{ category }}
-      </label>
+    {% for category in all_classes['Category'] %}
+      {% if category in filled.classes %}
+        <label>
+          <input type="checkbox" name="classes" value="Category:{{ category }}" checked /> {{ category }}
+        </label>
+      {% else %}
+        <label>
+          <input type="checkbox" name="classes" value="Category:{{ category }}" /> {{ category }}
+        </label>
+      {% endif %}
       {% if loop.index % 5 == 0 %} <!-- only allows 5 categories per line -->
         <br />
       {% endif %}

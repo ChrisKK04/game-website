@@ -48,8 +48,8 @@ def show_lines(content):
     content = content.replace("\n", "<br />")
     return markupsafe.Markup(content)
 
-@app.route("/") # homepage
-@app.route("/<int:page>")
+@app.route("/", methods=["GET", "POST"]) # homepage
+@app.route("/<int:page>", methods=["GET", "POST"])
 def index(page=1):
     page_size = 10 # amount of games per page
     game_count = forum.game_count()
@@ -61,10 +61,53 @@ def index(page=1):
     if page > page_count:
         return redirect("/" + str(page_count))
     
-    classes = forum.get_all_classes()
+    all_classes = forum.get_all_classes()
     all_game_classes = forum.get_all_game_classes()
     games = forum.get_games(page, page_size)
-    return render_template("index.html", page=page, page_count=page_count, games=games, classes=classes, all_game_classes=all_game_classes)
+
+    if request.method == "GET":
+        return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled={})
+    
+    if request.method == "POST":
+        require_login()
+        check_csrf()
+
+        title = request.form["title"]
+        description = request.form["description"]
+        if valid_game(title, description):
+            abort(403)
+
+        classes = []
+        classes_save = []
+        for entry in request.form.getlist("classes"):
+            if entry:
+                class_title, class_value = entry.split(":")
+                if class_title not in all_classes:
+                    abort(403)
+                if class_value not in all_classes[class_title]:
+                    abort(403)
+                classes_save.append(class_value)
+                classes.append((class_title, class_value))
+
+        images = []
+        for file in request.files.getlist("images"):
+            if not file:
+                continue
+            if not file.filename.endswith(".jpg"):
+                flash("ERROR: One or more of the files are not .jpg-files")
+                filled = {"title": title, "description": description, "classes": classes_save}
+                return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled)
+            image = file.read()
+            if len(image) > 100 * 1024:
+                flash("ERROR: One or more of the images are too big")
+                filled = {"title": title, "description": description, "classes": classes_save}
+                print(classes_save)
+                return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled)
+            images.append(image)
+            
+        user_id = session["user_id"]
+        thread_id = forum.add_game(title, description, user_id, classes, images)
+        return redirect("/game/" + str(thread_id))
 
 @app.route("/register", methods=["GET", "POST"]) # register page
 def register():
@@ -123,44 +166,6 @@ def login():
 def logout():
     session.clear()
     return redirect(request.referrer)
-
-@app.route("/new_game", methods=["POST"])
-def new_game():
-    require_login()
-    check_csrf()
-
-    title = request.form["title"]
-    description = request.form["description"]
-    if valid_game(title, description):
-        abort(403)
-
-    all_classes = forum.get_all_classes()
-    classes = []
-    for entry in request.form.getlist("classes"):
-        if entry:
-            class_title, class_value = entry.split(":")
-            if class_title not in all_classes:
-                abort(403)
-            if class_value not in all_classes[class_title]:
-                abort(403)
-            classes.append((class_title, class_value))
-
-    images = []
-    for file in request.files.getlist("images"):
-        if not file:
-            continue
-        if not file.filename.endswith(".jpg"):
-            flash("ERROR: One or more of the files are not .jpg-files")
-            return redirect("/")
-        image = file.read()
-        if len(image) > 100 * 1024:
-            flash("ERROR: One or more of the images are too big")
-            return redirect("/")
-        images.append(image)
-        
-    user_id = session["user_id"]
-    thread_id = forum.add_game(title, description, user_id, classes, images)
-    return redirect("/game/" + str(thread_id))
 
 @app.route("/game/<int:game_id>") # game page
 def show_game(game_id):
