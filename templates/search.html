@@ -1,88 +1,82 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 <!-- Search page -->
-<html>
+{% block title%}Search{% endblock %}
 
-<head>
-  <title>Search</title>
-  <link rel="icon" href="/static/favicon.ico">
-</head>
+{% block content %}
+<h1>Search</h1>
+<hr />
 
-<body>
-  <h1>Search</h1> <!-- The user can pick one search parameter -->
-
+<p>
+  Choose one of the search parameters below:
+</p>
+<form action="/search" method="get">
   <p>
-    Choose one of the search parameters below:
+    <input id="title" type="radio" name="parameter" value="title" />
+    <label for="title">Title</label>:
+    <br />
+    {% if title_value %}
+    <input type="text" name="title_value" value="{{ title_value }}" />
+    {% else %}
+    <input type="text" name="title_value" />
+    {% endif %}
+    <br />
+
+    <input id="review_content" type="radio" name="parameter" value="review_content" />
+    <label for="review_content">Review content</label>:
+    <br />
+    {% if review_content_value %}
+    <textarea name="review_content_value" rows="5" cols="40" maxlength="5000">{{ review_content_value}} </textarea>
+    {% else %}
+    <textarea name="review_content_value" rows="5" cols="40" maxlength="5000"></textarea>
+    {% endif %}
+    <br />
+
+    <input id="tags" type="radio" name="parameter" value="tags" />
+    <label for="tags">Tags</label>: (coming)<!-- todo -->
+    <br />
+
+    <input id="developer" type="radio" name="parameter" value="developer" />
+    <label for="developer">Developer</label>: (coming)<!-- todo -->
   </p>
-  <form action="/search" method="get">
-    <p>
-      <input id="title" type="radio" name="parameter" value="title" />
-      <label for="title">Title</label>:
-      <br />
-      {% if title_value %}
-      <input type="text" name="title_value" value="{{ title_value }}" />
-      {% else %}
-      <input type="text" name="title_value" />
-      {% endif %}
-      <br />
+  <input type="submit" value="Search" />
+</form>
+<a href="/">Homepage</a>
+<hr />
 
-      <input id="review_content" type="radio" name="parameter" value="review_content" />
-      <label for="review_content">Review content</label>:
-      <br />
-      {% if review_content_value %}
-      <textarea name="review_content_value" rows="5" cols="40" maxlength="5000">{{ review_content_value}} </textarea>
-      {% else %}
-      <textarea name="review_content_value" rows="5" cols="40" maxlength="5000"></textarea>
-      {% endif %}
-      <br />
+<h2>Results</h2> <!-- The results will different based on the parameter and it's value -->
 
-      <input id="tags" type="radio" name="parameter" value="tags" />
-      <label for="tags">Tags</label>: (coming)<!-- todo -->
-      <br />
+{% if title_results %} <!-- Title -->
+<ul>
+{% for title in title_results %}
+  <li>
+    <a href="/game/{{ title.id }}">{{ title.title }}</a>
+    by
+    <a href="/user/{{ title.user_id }}">{{ title.username }}</a>
+    ({{ title.uploaded_at }})
+  </li>
+{% endfor %}
+</ul>
+{% endif %}
 
-      <input id="developer" type="radio" name="parameter" value="developer" />
-      <label for="developer">Developer</label>: (coming)<!-- todo -->
-    </p>
-    <input type="submit" value="Search" />
-  </form>
-  <a href="/">Homepage</a>
-  <hr />
+{% if review_content_results %}
+<ul>
+{% for review in review_content_results %}
+  <li>
+    <a href="/game/{{ review.game_id }}#{{ review. id }}">
+      {{ review.game_title }}
+    </a>
+    <br />
+    ({{ review.sent_at }})
+    <br />
+    {{ review.content | show_lines }}
+    <br />
+    <b>Score: {{ review.score }}</b>
+  </li>
+{% endfor %}
+</ul>
+{% endif %}
 
-  <h2>Results</h2> <!-- The results will different based on the parameter and it's value -->
-
-  {% if title_results %} <!-- Title -->
-  <ul>
-  {% for title in title_results %}
-    <li>
-      <a href="/game/{{ title.id }}">{{ title.title }}</a>
-      by
-      <a href="/user/{{ title.user_id }}">{{ title.username }}</a>
-      ({{ title.uploaded_at }})
-    </li>
-  {% endfor %}
-  </ul>
-  {% endif %}
-
-  {% if review_content_results %}
-  <ul>
-  {% for review in review_content_results %}
-    <li>
-      <a href="/game/{{ review.game_id }}#{{ review. id }}">
-        {{ review.game_title }}
-      </a>
-      <br />
-      ({{ review.sent_at }})
-      <br />
-      {{ review.content | show_lines }}
-      <br />
-      <b>Score: {{ review.score }}</b>
-    </li>
-  {% endfor %}
-  </ul>
-  {% endif %}
-
-  {% if nothing %} <!-- No parameter was given-->
-  <p><b>No parameter was given</b></p>
-  {% endif %}
-</body>
-
-</html>
+{% if nothing %} <!-- No parameter was given-->
+<p><b>No parameter was given</b></p>
+{% endif %}
+{% endblock %}
