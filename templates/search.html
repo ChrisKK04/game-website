@@ -75,10 +75,21 @@
     </p>
 
     <p>
-      <label for="review_score">Score (0-5)</label>: <br />
-      <input id="review_score" type="number" name="review_score" min="0" max="5" step="0.1" />
+      <label for="review_score">Review score (0-5)</label>: <br />
+      <input id="review_above" type="radio" name="review_score_type" value="0" checked />
+      <label for="review_above">Above</label>
+      <input id="review_below" type="radio" name="review_score_type" value="1" />
+      <label for="review_below">Below</label>
+      <br />
+      <select id="review_score" name="review_score">
+        <option value="0" selected >None</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
     </p>
-
 
     <input type="hidden" name="search_type" value="review_search" />
     <input type="submit" value="Search reviews" />

@@ -1,4 +1,3 @@
-# module for fetching and editing data
 import db
 
 # this global variable changes the default sql time zone from UTC+0 to UTC+3
