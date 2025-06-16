@@ -56,6 +56,12 @@ img {
   height: auto;
 }
 
+.search_form {
+  border: 2px solid darkgray;
+  margin: 1em 0;
+  padding: 0.5em;
+}
+
 nav {
   text-align: center;
 }

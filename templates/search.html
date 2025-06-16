@@ -6,77 +6,110 @@
 <h1>Search</h1>
 <hr />
 
-<p>
-  Choose one of the search parameters below:
-</p>
-<form action="/search" method="get">
-  <p>
-    <input id="title" type="radio" name="parameter" value="title" />
-    <label for="title">Title</label>:
-    <br />
-    {% if title_value %}
-    <input type="text" name="title_value" value="{{ title_value }}" />
-    {% else %}
-    <input type="text" name="title_value" />
-    {% endif %}
-    <br />
+<div class="search_form">
+  <form action="/search" method="get">
+    <b>Game search</b> <br />
 
-    <input id="review_content" type="radio" name="parameter" value="review_content" />
-    <label for="review_content">Review content</label>:
-    <br />
-    {% if review_content_value %}
-    <textarea name="review_content_value" rows="5" cols="40" maxlength="5000">{{ review_content_value}} </textarea>
-    {% else %}
-    <textarea name="review_content_value" rows="5" cols="40" maxlength="5000"></textarea>
-    {% endif %}
-    <br />
+    <p>
+      <label for="title">Title</label>: <br />
+      <input id="title" type="text" name="title" />
+    </p>
 
-    <input id="tags" type="radio" name="parameter" value="tags" />
-    <label for="tags">Tags</label>: (coming)<!-- todo -->
-    <br />
+    <p>
+      <label for="description">Description</label>: <br />
+      <textarea id="description" name="description" rows="5" cols="60"></textarea>
+    </p>
 
-    <input id="developer" type="radio" name="parameter" value="developer" />
-    <label for="developer">Developer</label>: (coming)<!-- todo -->
-  </p>
-  <input type="submit" value="Search" />
-</form>
-<a href="/">Homepage</a>
-<hr />
+    <p>
+      Categories: <br />
+      {% for category in all_classes['Category'] %}
+        {% if filled %}
+          {% if category in filled.classes['Category'] %}
+            <label>
+              <input type="checkbox" name="classes" value="Category:{{ category }}" checked /> {{ category }}
+            </label>
+          {% else %}
+            <label>
+              <input type="checkbox" name="classes" value="Category:{{ category }}" /> {{ category }}
+            </label>
+          {% endif %}
+        {% else %}
+          <label>
+            <input type="checkbox" name="classes" value="Category:{{ category }}" /> {{ category }}
+          </label>
+        {% endif %}
+        {% if loop.index % 5 == 0 %}
+          <br />
+        {% endif %}
+      {% endfor %}
+    </p>
+
+    <p>
+      Average review score (0-5): <br />
+      <input id="above" type="radio" name="game_score_type" value="1" checked />
+      <label for="above">Above</label>
+      <input id="below" type="radio" name="game_score_type" value="0" />
+      <label for="below">Below</label>
+      <br />
+      <input type="number" name="game_score" min="0" max="5" step="0.1" />
+    </p>
+
+    <p>
+      <label for="publisher">Publisher</label>: <br />
+      <input id="publisher" type="text" name="publisher" />
+    </p>
+
+    <input type="hidden" name="search_type" value="game_search" />
+    <input type="submit" value="Search games" />
+    <input type="reset" value="Clear" />
+  </form>
+</div>
+
+<div class="search_form">
+  <form action="/search" method="get">
+    <b>Review search</b> <br />
+    
+    <p>
+      <label for="content">Content</label>: <br />
+      <textarea id="content" name="content" rows="5" cols="60"></textarea>
+    </p>
+
+    <p>
+      <label for="review_score">Score (0-5)</label>: <br />
+      <input id="review_score" type="number" name="review_score" min="0" max="5" step="0.1" />
+    </p>
+
+
+    <input type="hidden" name="search_type" value="review_search" />
+    <input type="submit" value="Search reviews" />
+    <input type="reset" value="Clear" />
+  </form>
+</div>
+
+<div class="search_form">
+  <form action="/search" method="get">
+    <b>User search</b> <br />
+    
+    <p>
+      <label for="username">Username</label>: <br />
+      <input id="username" type="text" name="username" />
+    </p>
+
+    <p>
+      Type: <br />
+      <input id="type_reviewer" type="radio" name="user_type" value="0" />
+      <label for="type_reviewer">Reviewer</label>
+      <input id="type_developer" type="radio" name="user_type" value="1" />
+      <label for="type_developer">Developer</label>
+      <input id="type_both" type="radio" name="user_type" value="2" checked />
+      <label for="type_both">Any</label>
+    </p>
+
+    <input type="hidden" name="search_type" value="user_search" />
+    <input type="submit" value="Search users" />
+    <input type="reset" value="Clear" />
+  </form>
+</div>
 
 <h2>Results</h2> <!-- The results will different based on the parameter and it's value -->
-
-{% if title_results %} <!-- Title -->
-<ul>
-{% for title in title_results %}
-  <li>
-    <a href="/game/{{ title.id }}">{{ title.title }}</a>
-    by
-    <a href="/user/{{ title.user_id }}">{{ title.username }}</a>
-    ({{ title.uploaded_at }})
-  </li>
-{% endfor %}
-</ul>
-{% endif %}
-
-{% if review_content_results %}
-<ul>
-{% for review in review_content_results %}
-  <li>
-    <a href="/game/{{ review.game_id }}#{{ review. id }}">
-      {{ review.game_title }}
-    </a>
-    <br />
-    ({{ review.sent_at }})
-    <br />
-    {{ review.content | show_lines }}
-    <br />
-    <b>Score: {{ review.score }}</b>
-  </li>
-{% endfor %}
-</ul>
-{% endif %}
-
-{% if nothing %} <!-- No parameter was given-->
-<p><b>No parameter was given</b></p>
-{% endif %}
 {% endblock %}

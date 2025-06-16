@@ -381,17 +381,16 @@ def show_profile_picture(user_id):
 
 @app.route("/search") # search page:
 def search():
-    parameter = request.args.get("parameter") # get the search parameter
+    search_type = request.args.get("search_type")
+    all_classes = forum.get_all_classes()
 
-    # different parameters will render different results
-    if parameter == "title":
-        title_value = request.args.get("title_value") # parameter value
-        title_results = searching.title(title_value)
-        return render_template("search.html", title_value=title_value, title_results=title_results)
+    if search_type == "game_search":
+        pass
 
-    if parameter == "review_content":
-        review_content_value = request.args.get("review_content_value")
-        review_content_results = searching.review_content(review_content_value)
-        return render_template("search.html", review_content_value=review_content_value, review_content_results=review_content_results)
+    if search_type == "review_search":
+        pass
+    
+    if search_type == "user_search":
+        pass
 
-    return render_template("search.html", nothing=1) # if no parameters are given
+    return render_template("search.html", all_classes=all_classes)
