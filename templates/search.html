@@ -61,7 +61,6 @@
 
     <input type="hidden" name="search_type" value="game_search" />
     <input type="submit" value="Search games" />
-    <input type="reset" value="Clear" />
   </form>
 </div>
 
@@ -93,7 +92,6 @@
 
     <input type="hidden" name="search_type" value="review_search" />
     <input type="submit" value="Search reviews" />
-    <input type="reset" value="Clear" />
   </form>
 </div>
 
@@ -103,24 +101,75 @@
     
     <p>
       <label for="username">Username</label>: <br />
-      <input id="username" type="text" name="username" />
+      {% if user_filled %}
+        <input id="username" type="text" name="username" value="{{ user_filled.username }}" />
+      {% else %}
+        <input id="username" type="text" name="username" />
+      {% endif %}
     </p>
 
     <p>
-      Type: <br />
-      <input id="type_reviewer" type="radio" name="user_type" value="0" />
-      <label for="type_reviewer">Reviewer</label>
-      <input id="type_developer" type="radio" name="user_type" value="1" />
-      <label for="type_developer">Developer</label>
-      <input id="type_both" type="radio" name="user_type" value="2" checked />
-      <label for="type_both">Any</label>
+      {% if user_filled %}
+        Type: <br />
+        <input id="type_both" type="radio" name="user_type" value="2" checked />
+        <label for="type_both">Any</label>
+
+        {% if "0" in user_filled.user_type %}
+          <input id="type_reviewer" type="radio" name="user_type" value="0" checked />
+        {% else %}
+          <input id="type_reviewer" type="radio" name="user_type" value="0" />
+        {% endif %}
+        <label for="type_reviewer">Reviewer</label>
+        
+        {% if "1" in user_filled.user_type %}
+          <input id="type_developer" type="radio" name="user_type" value="1" checked />
+        {% else %}
+          <input id="type_developer" type="radio" name="user_type" value="1" />
+        {% endif %}
+        <label for="type_developer">Developer</label>
+
+      {% else %}
+        Type: <br />
+        <input id="type_both" type="radio" name="user_type" value="2" checked />
+        <label for="type_both">Any</label>
+        <input id="type_reviewer" type="radio" name="user_type" value="0" />
+        <label for="type_reviewer">Reviewer</label>
+        <input id="type_developer" type="radio" name="user_type" value="1" />
+        <label for="type_developer">Developer</label>
+      {% endif %}
     </p>
 
     <input type="hidden" name="search_type" value="user_search" />
     <input type="submit" value="Search users" />
-    <input type="reset" value="Clear" />
   </form>
 </div>
 
-<h2>Results</h2> <!-- The results will different based on the parameter and it's value -->
+{% if users | count != 0 %} <!-- user display -->
+  <h2>Users</h2>
+  {% for user in users %}
+  <div class="user">
+    <p>
+    {% if user.developer == 0 %}
+      Reviewer <a href="/user/{{ user.id }}">{{ user.username }}</a>
+    {% elif user.developer == 1 %}
+      Developer <a href="/user/{{ user.id }}">{{ user.username }}</a>
+    {% endif %}
+    {% if user.image %}
+      <br />
+      <img src="/profile_picture/{{ user.id }}" alt="User {{ user.username }}'s profile picture" />
+    {% endif %}
+    </p>
+  </div>
+  {% endfor %}
+{% elif users == [] %}
+  <h2>Users</h2>
+  <p>
+    No users match the search
+  </p>
+{% endif %}
+
+{% if nothing %}
+  <h2>No search given</h2>
+{% endif %}
+
 {% endblock %}

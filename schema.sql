@@ -6,7 +6,7 @@ CREATE TABLE Users (
     username TEXT UNIQUE,
     password_hash TEXT,
     image BLOB,
-    developer INTEGER -- 0 = user 1 = developer
+    developer INTEGER -- 0 = reviewer 1 = developer
 );
 
 -- Table for the games

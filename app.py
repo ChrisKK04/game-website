@@ -391,6 +391,13 @@ def search():
         pass
     
     if search_type == "user_search":
-        pass
+        username = request.args.get("username")
+        user_type = int(request.args.get("user_type"))
 
-    return render_template("search.html", all_classes=all_classes)
+        user_filled = {"username": username, "user_type": str(user_type)}
+
+        users = searching.users(username, user_type)
+        return render_template("search.html", all_classes=all_classes, users=users, user_filled=user_filled)
+
+    nothing = True
+    return render_template("search.html", all_classes=all_classes, nothing=nothing)

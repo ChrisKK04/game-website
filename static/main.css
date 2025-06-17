@@ -57,9 +57,21 @@ img {
 }
 
 .search_form {
-  border: 2px solid darkgray;
+  border: 3px solid darkgray;
   margin: 1em 0;
   padding: 0.5em;
+}
+
+.user {
+  border: 2px solid darkgray;
+  margin: 0.5em;
+  padding: 0 1em;
+}
+
+.user img {
+  max-width: 20%;
+  height: auto;
+  margin: 0.5em 0;
 }
 
 nav {
