@@ -24,7 +24,9 @@
 
 <p>
   {% for image in images %}
-    <img src="/image/{{ image.id }}" alt="{{ game.title }}'s image {{ loop.index }}" />
+    <div class="game_image">
+      <img src="/image/{{ image.id }}" alt="{{ game.title }}'s image {{ loop.index }}" />
+    </div>
   {% endfor %}
 </p>
 

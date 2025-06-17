@@ -30,10 +30,16 @@ img {
   margin: 0.5em 0;
 }
 
-.game, .review { /* homepage games */
+.game, .review { /* homepage games and game page reviews */
   border: 3px solid darkgray;
   margin: 1em;
   padding: 0 0.5em;
+}
+
+.game_image {
+  display: inline-block;
+  max-width: 45%;
+  height: auto;
 }
 
 .info { /* flash messages */
@@ -52,7 +58,7 @@ img {
 }
 
 .edit_game_image { /* makes game images smaller on the edit page */
-  max-width: 200px;
+  max-width: 20%;
   height: auto;
 }
 
@@ -70,6 +76,12 @@ img {
 
 .user img {
   max-width: 20%;
+  height: auto;
+  margin: 0.5em 0;
+}
+
+.user_page_img {
+  max-width: 30%;
   height: auto;
   margin: 0.5em 0;
 }

@@ -9,8 +9,10 @@
 <hr />
 
 {% if user.has_image %}
-<img src="/profile_picture/{{ user.id }}" alt="User {{ user.username }}'s profile picture" />
-<br />
+  <div class="user_page_img">
+    <img src="/profile_picture/{{ user.id }}" alt="User {{ user.username }}'s profile picture" />
+  </div>
+  <br />
 {% endif %}
 
 {% if user.id == session.user_id %}
@@ -55,8 +57,10 @@
 <hr />
 
 {% if user.has_image %}
-<img src="/profile_picture/{{ user.id }}" alt="Developer {{ user.username }}'s profile picture" />
-<br />
+  <div class="user_page_img">
+    <img src="/profile_picture/{{ user.id }}" alt="Developer {{ user.username }}'s profile picture" />
+  </div>
+  <br />
 {% endif %}
 
 
