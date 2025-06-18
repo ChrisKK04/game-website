@@ -89,9 +89,11 @@
 {% for review in reviews %} <!-- reviews -->
 <div class="review">
   <p id="{{ review.id }}">
-    <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }}):
+    <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
   </p>
   <p>
+    ({{ review.sent_at }})
+    <br />
     {{ review.content | show_lines }}
   </p>
   <p>
