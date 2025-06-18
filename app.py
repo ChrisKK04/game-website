@@ -388,16 +388,23 @@ def search():
         pass
 
     if search_type == "review_search":
-        pass
+        content = request.args.get("content")
+        review_score_type = int(request.args.get("review_score_type"))
+        review_score = int(request.args.get("review_score"))
     
+        reviews_filled = {"content": content, "review_score_type": str(review_score_type), "review_score": str(review_score)}
+
+        reviews = searching.reviews(content, review_score_type, review_score)
+        return render_template("search.html", all_classes=all_classes, reviews=reviews, reviews_filled=reviews_filled)
+
     if search_type == "user_search":
         username = request.args.get("username")
         user_type = int(request.args.get("user_type"))
 
-        user_filled = {"username": username, "user_type": str(user_type)}
+        users_filled = {"username": username, "user_type": str(user_type)}
 
         users = searching.users(username, user_type)
-        return render_template("search.html", all_classes=all_classes, users=users, user_filled=user_filled)
+        return render_template("search.html", all_classes=all_classes, users=users, users_filled=users_filled)
 
-    nothing = True
-    return render_template("search.html", all_classes=all_classes, nothing=nothing)
+    no_search = True
+    return render_template("search.html", all_classes=all_classes, no_search=no_search)

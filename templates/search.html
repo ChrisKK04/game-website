@@ -70,24 +70,44 @@
     
     <p>
       <label for="content">Content</label>: <br />
-      <textarea id="content" name="content" rows="5" cols="60"></textarea>
+      {% if reviews_filled %}
+        <textarea id="content" name="content" rows="5" cols="60">{{ reviews_filled.content }}</textarea>
+      {% else %}
+        <textarea id="content" name="content" rows="5" cols="60"></textarea>
+      {% endif %}
     </p>
 
     <p>
-      <label for="review_score">Review score (0-5)</label>: <br />
+      <label for="review_score">Review score</label>:
+      <select id="review_score" name="review_score">
+        <option value="0" selected >Any</option>
+        {% if reviews_filled %}
+          {% for score in range(1, 6) %}
+            {% if reviews_filled.review_score == score|string %}
+              <option value="{{ score }}" selected >{{ score }}</option>
+            {% else %}
+              <option value="{{ score }}">{{ score }}</option>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% for score in range(1, 6) %}
+            <option value="{{ score }}">{{ score }}</option>
+          {% endfor %}
+        {% endif %}
+      </select>
+      <br />
+
       <input id="review_above" type="radio" name="review_score_type" value="0" checked />
       <label for="review_above">Above</label>
-      <input id="review_below" type="radio" name="review_score_type" value="1" />
+      {% if reviews_filled %}
+        {% if reviews_filled.review_score_type == "1" %}
+          <input id="review_below" type="radio" name="review_score_type" value="1" checked />
+        {% else %}
+          <input id="review_below" type="radio" name="review_score_type" value="1" />
+        {% endif %}
+      {% endif %}
       <label for="review_below">Below</label>
       <br />
-      <select id="review_score" name="review_score">
-        <option value="0" selected >None</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
     </p>
 
     <input type="hidden" name="search_type" value="review_search" />
@@ -101,27 +121,27 @@
     
     <p>
       <label for="username">Username</label>: <br />
-      {% if user_filled %}
-        <input id="username" type="text" name="username" value="{{ user_filled.username }}" />
+      {% if users_filled %}
+        <input id="username" type="text" name="username" value="{{ users_filled.username }}" />
       {% else %}
         <input id="username" type="text" name="username" />
       {% endif %}
     </p>
 
     <p>
-      {% if user_filled %}
+      {% if users_filled %}
         Type: <br />
         <input id="type_both" type="radio" name="user_type" value="2" checked />
         <label for="type_both">Any</label>
 
-        {% if "0" in user_filled.user_type %}
+        {% if "0" in users_filled.user_type %}
           <input id="type_reviewer" type="radio" name="user_type" value="0" checked />
         {% else %}
           <input id="type_reviewer" type="radio" name="user_type" value="0" />
         {% endif %}
         <label for="type_reviewer">Reviewer</label>
         
-        {% if "1" in user_filled.user_type %}
+        {% if "1" in users_filled.user_type %}
           <input id="type_developer" type="radio" name="user_type" value="1" checked />
         {% else %}
           <input id="type_developer" type="radio" name="user_type" value="1" />
@@ -143,6 +163,29 @@
     <input type="submit" value="Search users" />
   </form>
 </div>
+
+{% if reviews | count != 0 %} <!-- review display -->
+  <h2>Reviews</h2>
+  {% for review in reviews %}
+  <div class="review">
+    <p>
+      <a href="/user/{{ review.user_id }}">{{ review.username }}</a> for <a href="/game/{{ review.game_id}}#{{ review.review_id }}">{{ review.game_title }}</a>
+    </p>
+    <p>
+      ({{ review.sent_at }})
+      <br />
+      {{ review.content }}
+      <br />
+      <b>Score: {{ review.score }}</b>
+    </p>
+  </div>
+  {% endfor %}
+{% elif reviews == [] %}
+  <h2>Reviews</h2>
+  <p>
+    No reviews match the search
+  </p>
+{% endif %}
 
 {% if users | count != 0 %} <!-- user display -->
   <h2>Users</h2>
@@ -168,7 +211,7 @@
   </p>
 {% endif %}
 
-{% if nothing %}
+{% if no_search %}
   <h2>No search given</h2>
 {% endif %}
 
