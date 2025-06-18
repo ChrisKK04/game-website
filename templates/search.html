@@ -6,7 +6,7 @@
 <h1>Search</h1>
 <hr />
 
-<div class="search_form">
+<div class="search_form"> <!-- game search -->
   <form action="/search" method="get">
     <b>Game search</b> <br />
 
@@ -64,7 +64,7 @@
   </form>
 </div>
 
-<div class="search_form">
+<div class="search_form"> <!-- review search -->
   <form action="/search" method="get">
     <b>Review search</b> <br />
     
@@ -80,7 +80,6 @@
     <p>
       <label for="review_score">Review score</label>:
       <select id="review_score" name="review_score">
-        <option value="0" selected >Any</option>
         {% if reviews_filled %}
           {% for score in range(1, 6) %}
             {% if reviews_filled.review_score == score|string %}
@@ -97,16 +96,27 @@
       </select>
       <br />
 
-      <input id="review_above" type="radio" name="review_score_type" value="0" checked />
-      <label for="review_above">Above</label>
+      <input id="review_any" type="radio" name="review_score_type" value="0" checked />
+      <label for="review_any">Any</label>
       {% if reviews_filled %}
         {% if reviews_filled.review_score_type == "1" %}
-          <input id="review_below" type="radio" name="review_score_type" value="1" checked />
+          <input id="review_above" type="radio" name="review_score_type" value="1" checked />
         {% else %}
-          <input id="review_below" type="radio" name="review_score_type" value="1" />
+          <input id="review_above" type="radio" name="review_score_type" value="1" />
         {% endif %}
+        <label for="review_above">Above</label>
+        {% if reviews_filled.review_score_type == "2" %}
+          <input id="review_below" type="radio" name="review_score_type" value="2" checked />
+        {% else %}
+          <input id="review_below" type="radio" name="review_score_type" value="2" />
+        {% endif %}
+        <label for="review_below">Below</label>
+      {% else %}
+        <input id="review_above" type="radio" name="review_score_type" value="1" />
+        <label for="review_above">Above</label>
+        <input id="review_below" type="radio" name="review_score_type" value="2" />
+        <label for="review_below">Below</label>
       {% endif %}
-      <label for="review_below">Below</label>
       <br />
     </p>
 
@@ -115,7 +125,7 @@
   </form>
 </div>
 
-<div class="search_form">
+<div class="search_form"> <!-- user search -->
   <form action="/search" method="get">
     <b>User search</b> <br />
     
