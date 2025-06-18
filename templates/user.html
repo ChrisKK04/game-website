@@ -1,6 +1,12 @@
 {% extends "layout.html" %}
 <!-- User page -->
-{% block title%}User{{ user.username }}{% endblock %}
+{% block title %}
+  {% if user.developer == 0 %}
+    Reviewer {{ user.username }}
+  {% else %}
+    Developer {{ user.username }}
+  {% endif %}
+{% endblock %}
 
 {% block content %}
 {% if user.developer == 0 %} <!-- reviewer -->
