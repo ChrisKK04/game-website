@@ -2,8 +2,26 @@ import db
 
 # all database queries relating to searching
 
-def games():
-    pass
+def games(title, description, game_score_type, game_score, publisher, classes):
+    sql = """SELECT G.id game_id, G.title, G.description, U.id publisher_id, U.username publisher, G.uploaded_at,
+             ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) average
+             FROM Games G
+             LEFT JOIN Users U ON G.user_id = U.id
+             LEFT JOIN Reviews R ON G.id = R.game_id
+             WHERE G.title LIKE ? AND G.description LIKE ? AND U.username LIKE ?
+             GROUP BY G.id"""
+    parameters = ["%" + title + "%", "%" + description + "%", "%" + publisher + "%"]
+    if game_score_type == 1:
+        sql += " HAVING ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) >= ?"
+        parameters.append(game_score)
+    elif game_score_type == 2:
+        sql += " HAVING ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) <= ?"
+        parameters.append(game_score)
+
+    sql += " ORDER BY G.id DESC"
+    result = db.query(sql, parameters)
+
+    return result
 
 def reviews(content, review_score_type, review_score):
     sql = """SELECT U.id user_id, U.username, G.id game_id, G.title game_title, R.id review_id, R.sent_at, R.content, R.score

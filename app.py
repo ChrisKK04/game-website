@@ -385,7 +385,30 @@ def search():
     all_classes = forum.get_all_classes()
 
     if search_type == "game_search":
-        pass
+        title = request.args.get("title")
+        description = request.args.get("description")
+        game_score_type = int(request.args.get("game_score_type"))
+        game_score = float(request.args.get("game_score")) if request.args.get("game_score") else 1
+        publisher = request.args.get("publisher")
+
+        classes = []
+        classes_save = {}
+        for entry in request.args.getlist("classes"):
+            if entry:
+                class_title, class_value = entry.split(":")
+                if class_title not in all_classes:
+                    abort(403)
+                if class_value not in all_classes[class_title]:
+                    abort(403)
+                if class_title not in classes_save:
+                    classes_save[class_title] = []
+                classes_save[class_title].append(class_value)
+                classes.append((class_title, class_value))
+
+        games_filled = {"title": title, "description": description, "game_score_type": str(game_score_type), "game_score": game_score, "publisher": publisher, "classes_save": classes_save}
+        
+        games = searching.games(title, description, game_score_type, game_score, publisher, classes)
+        return render_template("search.html", all_classes=all_classes, games=games, games_filled=games_filled)
 
     if search_type == "review_search":
         content = request.args.get("content")
