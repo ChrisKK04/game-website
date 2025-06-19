@@ -6,36 +6,37 @@
 * Adding posts describing games
 * Leaving reviews on games alongside a score
 * Editing and deleting reviews and games
-* Seeing and searching (game title or review content) the posts of other users
+* Seeing the posts of other users
 * Account pages which list a given accounts posts and certain statistics about the account
 * Only developers can post games and only users can post reviews
-* A seed.py script for testing the website with large quantities of data
+* Two Python scripts for populating the database with data
 * Games have optional categories and photos
+* Game, review and user search
 * CSS styling
 
 ## Upcoming features
 
-* More search parameters (game description, average score, tags, developers, etc.)
-* CSS styling for the search page
 * An actual name for the website
 
-## Using the website (Linux)
+## Using the website (Linux/Windows with Bash)
+
+(The website requires Python https://www.python.org/ and SQLite https://sqlite.org/ to function).
 
 Start by creating a folder for the website.
 
 Then run the following commands in the terminal whilst being in the created folder:
 ```
-$ python3 -m venv venv                   # creates a virtual environment to download packages into
-$ source venv/bin/activate               # activates the virtual environment
-$ source venv/Script/activate            # (activating an environment on Windows)
+$ python3 -m venv venv                   # creates a virtual python environment to download packages into
+$ source venv/bin/activate               # activates the virtual environment (Linux)
+$ source venv/Script/activate            # activates the virtual environment (Windows with Bash)
 $ pip install flask                      # downloads and installs flask
-$ sqlite3 database.db < schema.sql       # create database.db and add tables
-$ sqlite3 database.db < init.sql         # insert classes
+$ sqlite3 database.db < schema.sql       # creates database.db and adds tables
+$ sqlite3 database.db < init.sql         # inserts classes
 ```
 
 After running the commands, the database will be empty. You can insert some data for testing by running a python script.
 
-pre_data.py: populates the database with some users, games, reviews and classes
+pre_data.py: populates the database with some games, users and reviews.
 
 Login to accounts:
 ```
@@ -43,7 +44,7 @@ Username: Jason, RampageGames            # uppercase starts
 Password: jason, rampagegames            # all lowercase
 ```
 
-seed.py: populates the database with large amounts of data for peformance testing
+seed.py: populates the database with large amounts of data for peformance testing.
 
 Time zones:
 forum.py and pre_data.py have a global time zone variable called TIME.
@@ -60,4 +61,4 @@ $ flask run                              # runs the website
 $ ctrl + c                               # closes the website
 ```
 
-As of 12.6.2025 development is still in progress.
+As of 19.6.2025 development is still in progress.
