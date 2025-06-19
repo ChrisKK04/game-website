@@ -3,6 +3,7 @@ body {
   max-width: 50em; /* a lines maximum width*/
   font-family: sans-serif; /* font */
   background-color: lightslategray; /* color */
+  overflow-wrap: break-word; /* automatically breaks long lines of text into smaller pieces */
 }
 
 img {
