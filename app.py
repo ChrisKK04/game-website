@@ -407,8 +407,8 @@ def search():
 
         games_filled = {"title": title, "description": description, "game_score_type": str(game_score_type), "game_score": game_score, "publisher": publisher, "classes_save": classes_save}
         
-        games = searching.games(title, description, game_score_type, game_score, publisher, classes)
-        return render_template("search.html", all_classes=all_classes, games=games, games_filled=games_filled)
+        games, result_classes = searching.games(title, description, game_score_type, game_score, publisher, classes)
+        return render_template("search.html", all_classes=all_classes, games=games, result_classes=result_classes, games_filled=games_filled)
 
     if search_type == "review_search":
         content = request.args.get("content")

@@ -3,7 +3,7 @@ import db
 # all database queries relating to searching
 
 def games(title, description, game_score_type, game_score, publisher, classes):
-    sql = """SELECT G.id game_id, G.title, G.description, U.id publisher_id, U.username publisher, G.uploaded_at,
+    sql = """SELECT G.id game_id, G.title, G.description, U.id publisher_id, U.username publisher, G.uploaded_at, COUNT(R.id) total,
              ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) average
              FROM Games G
              LEFT JOIN Users U ON G.user_id = U.id
@@ -19,9 +19,14 @@ def games(title, description, game_score_type, game_score, publisher, classes):
         parameters.append(game_score)
 
     sql += " ORDER BY G.id DESC"
-    result = db.query(sql, parameters)
+    games = db.query(sql, parameters)
 
-    return result
+    if classes == []: # no class selections
+        result_classes = []
+        return (games, result_classes)
+    else: # class selections
+        result_classes = []
+        return (games, result_classes)
 
 def reviews(content, review_score_type, review_score):
     sql = """SELECT U.id user_id, U.username, G.id game_id, G.title game_title, R.id review_id, R.sent_at, R.content, R.score

@@ -209,6 +209,37 @@
   </form>
 </div>
 
+{% if (result_classes | count == 0) and (games | count != 0) %} <!-- game display -->
+  <h2>Games</h2>
+  {% for game in games %}
+  <div class="game">
+    <p>
+      <a href="/game/{{ game.game_id }}">{{ game.title }}</a>
+    </p>
+    <p>
+      Published by <a href="/user/{{ game.publisher }}">{{ game.publisher }}</a> at: {{ game.uploaded_at }} <br />
+      <br />
+      {% if game.total != 0 %}
+        <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
+      {% else %}
+        <b>No reviews</b>
+      {% endif %}
+    </p>
+    {% if game.publisher_id == session.user_id %}
+    <p>
+      <a href="/edit_game/{{ game.id }}">Edit</a> |
+      <a href="/delete_game/{{ game.id }}">Delete</a>
+    </p>
+    {% endif %}
+  </div>
+  {% endfor %}
+{% elif games == [] %}
+  <h2>Games</h2>
+  <p>
+    No games match the search
+  </p>
+{% endif %}
+
 {% if reviews | count != 0 %} <!-- review display -->
   <h2>Reviews</h2>
   {% for review in reviews %}
