@@ -19,14 +19,33 @@ def games(title, description, game_score_type, game_score, publisher, classes):
         parameters.append(game_score)
 
     sql += " ORDER BY G.id DESC"
-    games = db.query(sql, parameters)
+    games = db.query(sql, parameters) # get the matching games (no classes)
 
-    if classes == []: # no class selections
-        result_classes = []
-        return (games, result_classes)
-    else: # class selections
-        result_classes = []
-        return (games, result_classes)
+    game_ids = [game['game_id'] for game in games] # get the ids of the matching games
+    set_classes = set(classes) # make a set of the classes in the search
+    valid_game_ids = [] # list of game ids for which the games have the classes in the search
+
+    result_classes = {} # classes for games - result_classes[game_id] = [<list of classes>]
+    for game_id in game_ids:
+        set_classes_check = set() # make a set for class comparing
+        sql = "SELECT title, value FROM Game_classes WHERE game_id = ? ORDER BY LOWER(value)"
+        result = db.query(sql, [game_id])
+        for title, value in result:
+            if game_id not in result_classes:
+                result_classes[game_id] = {}
+            if title not in result_classes[game_id]:
+                result_classes[game_id][title] = []
+            if value not in result_classes[game_id][title]:
+                result_classes[game_id][title].append(value)
+            set_classes_check.add((title, value)) # add the classes title and value
+        if game_id not in result_classes: # if the game doesn't have any classes
+            result_classes[game_id] = "no_classes"
+        if set_classes <= set_classes_check: # if the game's classes are a superset of the classes in the search = matches search
+            valid_game_ids.append(game_id)
+
+    # games = games that match the search (no classes), result_classes = the classes for every game in games
+    # valid_game_ids = the ids of games that include the classes of the search
+    return (games, result_classes, valid_game_ids)
 
 def reviews(content, review_score_type, review_score):
     sql = """SELECT U.id user_id, U.username, G.id game_id, G.title game_title, R.id review_id, R.sent_at, R.content, R.score

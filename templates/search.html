@@ -209,29 +209,39 @@
   </form>
 </div>
 
-{% if (result_classes | count == 0) and (games | count != 0) %} <!-- game display -->
+{% if result_classes | count != 0 %} <!-- game display -->
   <h2>Games</h2>
   {% for game in games %}
-  <div class="game">
-    <p>
-      <a href="/game/{{ game.game_id }}">{{ game.title }}</a>
-    </p>
-    <p>
-      Published by <a href="/user/{{ game.publisher }}">{{ game.publisher }}</a> at: {{ game.uploaded_at }} <br />
-      <br />
-      {% if game.total != 0 %}
-        <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
-      {% else %}
-        <b>No reviews</b>
+    {% if game.game_id in valid_game_ids %}
+    <div class="game">
+      <p>
+        <a href="/game/{{ game.game_id }}">{{ game.title }}</a>
+      </p>
+      <p>
+        Published by <a href="/user/{{ game.publisher }}">{{ game.publisher }}</a> at: {{ game.uploaded_at }} <br />
+        {% if result_classes[game.game_id] != "no_classes" %}
+          {% for category in result_classes[game.game_id]['Category'] %}
+            <div class="category">{{ category }}</div>
+            {% if loop.index % 5 == 0 %}
+              <br />
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        <br />
+        {% if game.total != 0 %}
+          <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
+        {% else %}
+          <b>No reviews</b>
+        {% endif %}
+      </p>
+      {% if game.publisher_id == session.user_id %}
+      <p>
+        <a href="/edit_game/{{ game.id }}">Edit</a> |
+        <a href="/delete_game/{{ game.id }}">Delete</a>
+      </p>
       {% endif %}
-    </p>
-    {% if game.publisher_id == session.user_id %}
-    <p>
-      <a href="/edit_game/{{ game.id }}">Edit</a> |
-      <a href="/delete_game/{{ game.id }}">Delete</a>
-    </p>
+    </div>
     {% endif %}
-  </div>
   {% endfor %}
 {% elif games == [] %}
   <h2>Games</h2>
