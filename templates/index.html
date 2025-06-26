@@ -3,7 +3,7 @@
 {% block title%}Homepage{% endblock %}
 
 {% block content %}
-{% if not filled.title %}
+{% if not filled %}
   {% for message in get_flashed_messages() %}
     <p class="success">
       <b>{{ message }}</b>
@@ -53,7 +53,7 @@
     <small>(You can select multiple images by holding ctrl)</small> <br />
     <input id="images_label" type="file" name="images" accept=".jpg" multiple />
   </p>
-  {% if filled.title %}
+  {% if filled %}
     {% for message in get_flashed_messages() %}
     <p class="error">
       <b>{{ message }}</b>

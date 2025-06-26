@@ -53,7 +53,7 @@ def show_lines(content):
     content = content.replace("\n", "<br />")
     return markupsafe.Markup(content)
 
-@app.route("/", methods=["GET", "POST"]) # homepage
+@app.route("/", methods=["GET", "POST"]) # homepage and game upload
 @app.route("/<int:page>", methods=["GET", "POST"])
 def index(page=1):
     page_size = 10 # amount of games per page
@@ -184,16 +184,39 @@ def logout():
     session.clear()
     return redirect(request.referrer)
 
-@app.route("/game/<int:game_id>") # game page
+@app.route("/game/<int:game_id>", methods=["GET", "POST"]) # game page and review upload
 def show_game(game_id):
     game = forum.get_game(game_id)
     if not game:
-        abort(404)
+        abort(404)    
     average = forum.get_average_score(game_id)
     reviews = forum.get_reviews(game_id)
     classes = forum.get_classes(game_id)
     images = forum.get_images(game_id)
-    return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes, images=images)
+
+    if request.method == "GET":
+        return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes, images=images)
+    
+    if request.method == "POST":
+        require_login()
+        check_csrf()
+
+        content = request.form["content"]
+        score = request.form["score"]
+        user_id = session["user_id"]
+        if valid_review(content, score):
+            flash("A review has to include the review (max 5000 characters) and a score (1-5)")
+            filled = {"content": content, "score": str(score)}
+            return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes, images=images, filled=filled)
+
+        game_id = request.form["game_id"]
+
+        try:
+            forum.new_review(content, user_id, game_id, score)
+        except sqlite3.IntegrityError:
+            abort(403)
+
+        return redirect("/game/" + str(game_id))
 
 @app.route("/image/<int:image_id>") # view a game image
 def show_image(image_id):
@@ -204,26 +227,6 @@ def show_image(image_id):
     response = make_response(bytes(image))
     response.headers.set("Content-Type", "image/jpeg")
     return response
-
-@app.route("/new_review", methods=["POST"]) # new review handler
-def new_review():
-    require_login()
-    check_csrf()
-
-    content = request.form["content"]
-    score = request.form["score"]
-    user_id = session["user_id"]
-    if valid_review(content, score):
-        abort(403)
-
-    game_id = request.form["game_id"]
-
-    try:
-        forum.new_review(content, user_id, game_id, score)
-    except sqlite3.IntegrityError:
-        abort(403)
-
-    return redirect("/game/" + str(game_id))
 
 @app.route("/edit_review/<int:review_id>", methods=["GET", "POST"]) # edit review
 def edit_review(review_id):
