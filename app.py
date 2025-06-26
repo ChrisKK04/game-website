@@ -182,6 +182,7 @@ def login():
 @app.route("/logout") # logout handler
 def logout():
     session.clear()
+    flash("Logged out")
     return redirect(request.referrer)
 
 @app.route("/game/<int:game_id>", methods=["GET", "POST"]) # game page and review upload
