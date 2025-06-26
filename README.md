@@ -53,6 +53,12 @@ The variable can be edited, but it defaults to UTC+3.
 TIME = '+3 hours'
 ```
 
+Secret key:
+the secret key (session key) of website can be set in config.py
+```
+secret_key = ...
+```
+
 You can use the website in the terminal with:
 
 (A fetch-to-load time measurement is also displayed in the terminal).
@@ -61,4 +67,32 @@ $ flask run                              # runs the website
 $ ctrl + c                               # closes the website
 ```
 
-As of 19.6.2025 development is still in progress.
+# Website performance with large datasets
+
+A large dataset was generated with the script in seed.py. The script populates the websites database with test data for performance testing.
+
+## Performance without optimizations
+
+**Parameters:**
+* `user_count = 1000`
+* `game_count = 10⁵`
+* `review_count = 10⁶`
+* `game_classes = 10⁵`
+
+**Result:**
+The homepage loading time averaged around **14 s**.
+
+## Optimizations done
+* Added pagination to the homepage
+* Added indexes to the database
+
+## Performance after optimizations
+
+**Parameters:**
+* `user_count = 1000`
+* `game_count = 10⁵`
+* `review_count = 10⁶`
+* `game_classes = 10⁵`
+
+**Result:**
+The homepage's (/1) loading time averaged around **0.5s** and page 10000's (/10000) loading time averaged around **3-4s**. Loading pages with higher indexes takes longer due to pagination being based off using limit/offset in the SQL queries, which with high page values has to skip over lots of rows.
