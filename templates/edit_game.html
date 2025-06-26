@@ -9,20 +9,20 @@
 <form action="/edit_game/{{ game.id }}" method="post" enctype="multipart/form-data">
   <p>
     {% if filled.title %}
-      <label for="title">* Title</label>: <br />
+      <label for="title">* Title (max 100 characters)</label>: <br />
       <input id="title" type="text" name="title" value="{{ filled.title }}" maxlength="100" required />
     {% else %}
-      <label for="title">* Title</label>: <br />
+      <label for="title">* Title (max 100 characters)</label>: <br />
       <input id="title" type="text" name="title" value="{{ game.title }}" maxlength="100" required />
     {% endif %}
   </p>
 
   <p>
     {% if filled.description %}
-      <label for="description">* Description</label>:<br />
+      <label for="description">* Description (max 5000 characters)</label>:<br />
       <textarea id="description" name="description" rows="10" cols="80" maxlength="5000" required>{{ filled.description }}</textarea>
     {% else %}
-      <label for="description">* Description</label>:<br />
+      <label for="description">* Description (max 5000 characters)</label>:<br />
       <textarea id="description" name="description" rows="10" cols="80" maxlength="5000" required>{{ game.description }}</textarea>
     {% endif %}
   </p>

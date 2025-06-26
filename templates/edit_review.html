@@ -8,14 +8,14 @@
 
 <form action="/edit_review/{{ review.id }}" method="post">
   <p>
-    <label for="content">* Review</label>:<br />
+    <label for="content">* Review (max 5000 characters)</label>:<br />
     <textarea id="content" name="content" rows="10" cols="80" maxlength="5000" required>{{ review.content }}</textarea>
   </p>
   <p>
     Previous score: {{ review.score }}
   </p>
   <p>
-    <label for="score">* New score</label>:
+    <label for="score">* New score (1-5)</label>:
     <select id="score" name="score" required>
       <option value="1">1</option>
       <option value="2">2</option>

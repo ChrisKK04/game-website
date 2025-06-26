@@ -22,12 +22,17 @@ def check_csrf():
     if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
 
-def valid_game(title, description): # checks game title and description size requirements
+def valid_user(username, password, developer): # checks user requirements
+    if not username or not password or not developer or len(username) > 50 or len(password) > 100:
+        return True
+    return False
+
+def valid_game(title, description): # checks game requirements
     if not title or not description or len(title) > 100 or len(description) > 5000:
         return True
     return False
 
-def valid_review(content, score): # checks review content size requirements
+def valid_review(content, score): # checks review requirements
     if not content or len(content) > 5000 or score not in ["1", "2", "3", "4", "5"]:
         return True
     return False
@@ -122,7 +127,7 @@ def register():
         developer = request.form["developer"]
         next_page = request.form["next_page"]
 
-        if not username or not password1 or not developer or len(username) > 50 or len(password1) > 50:
+        if valid_user(username, password1, developer):
             abort(403)
 
         if password1 != password2:
