@@ -16,12 +16,24 @@
   </p>
   <p>
     <label for="score">* New score (1-5)</label>:
-    <select id="score" name="score" required>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
+    <select id="score" name="score">
+      {% if filled %}
+        {% for score in range(1, 6) %}
+          {% if filled.score == score|string %}
+            <option value="{{ score }}" selected >{{ score }}</option>
+          {% else %}
+            <option value="{{ score }}">{{ score }}</option>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        {% for score in range(1, 6) %}
+          {% if score == review.score %}
+            <option value="{{ score }}" selected>{{ score }}</option>
+          {% else %}
+            <option value="{{ score }}">{{ score }}</option>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
     </select>
   </p>
 

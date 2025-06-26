@@ -79,8 +79,6 @@ def index(page=1):
 
         title = request.form["title"]
         description = request.form["description"]
-        if valid_game(title, description):
-            abort(403)
 
         classes = []
         classes_save = {}
@@ -95,6 +93,11 @@ def index(page=1):
                     classes_save[class_title] = []
                 classes_save[class_title].append(class_value)
                 classes.append((class_title, class_value))
+
+        if valid_game(title, description):
+            flash("A game has to include a title (max 100 characters) and a description (max 100 characters)")
+            filled = {"title": title, "description": description, "classes": classes_save}
+            return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled)
 
         images = []
         for file in request.files.getlist("images"):
@@ -128,7 +131,9 @@ def register():
         next_page = request.form["next_page"]
 
         if valid_user(username, password1, developer):
-            abort(403)
+            flash("An acccount has to have a username (max 50 characters), a password (max 100 characters) and a user type (reviewer or developer)")
+            filled = {"username": username}
+            return render_template("register.html", filled=filled)
 
         if password1 != password2:
             flash("ERROR: The passwords do not match")
@@ -239,7 +244,9 @@ def edit_review(review_id):
         content = request.form["content"]
         score = request.form["score"]
         if valid_review(content, score):
-            abort(403)
+            flash("A review has to include the review (max 5000 characters) and a score (1-5)")
+            filled = {"content": content, "score": str(score)}
+            return render_template("edit_review.html", review=review, filled=filled)
 
         forum.edit_review(review["id"], content, score)
         return redirect("/game/" + str(review["game_id"]))
@@ -286,8 +293,6 @@ def edit_game(game_id):
         check_csrf()
         title = request.form["title"]
         description = request.form["description"]
-        if valid_game(title, description):
-            abort(403)
 
         classes = []
         classes_save = {}
@@ -302,7 +307,6 @@ def edit_game(game_id):
                     classes_save[class_title] = []
                 classes_save[class_title].append(class_value)
                 classes.append((class_title, class_value))
-
 
         delete_images = request.form.getlist("delete_images")
         new_images = []
@@ -319,6 +323,11 @@ def edit_game(game_id):
                 filled = {"title": title, "description": description, "classes": classes_save}
                 return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes, images=images, filled=filled)
             new_images.append(image)
+
+        if valid_game(title, description):
+            flash("A game has to include a title (max 100 characters) and a description (max 100 characters)")
+            filled = {"title": title, "description": description, "classes": classes_save}
+            return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes, images=images, filled=filled)
 
         forum.edit_game(game["id"], title, description, classes, delete_images, new_images)
         return redirect("/game/" + str(game["id"]))
