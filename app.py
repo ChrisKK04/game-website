@@ -205,12 +205,17 @@ def show_game(game_id):
         content = request.form["content"]
         score = request.form["score"]
         user_id = session["user_id"]
+        game_id = request.form["game_id"]
         if valid_review(content, score):
             flash("A review has to include the review (max 5000 characters) and a score (1-5)")
             filled = {"content": content, "score": str(score)}
             return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes, images=images, filled=filled)
-
-        game_id = request.form["game_id"]
+        
+        previous_review = forum.previous_review(user_id, game_id)
+        if previous_review != None:
+            flash(f"You have a previous review on this game. You can edit or delete the previous <a href='/game/{game_id}#{previous_review['id']}'>review</a>.")
+            filled = {"content": content, "score": str(score)}
+            return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes, images=images, filled=filled)
 
         try:
             forum.new_review(content, user_id, game_id, score)

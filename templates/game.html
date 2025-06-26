@@ -88,7 +88,7 @@
   {% if filled %}
     {% for message in get_flashed_messages() %}
     <p class="error">
-      <b>{{ message }}</b>
+      <b>{{ message | safe }}</b>
     </p>
     {% endfor %}
   {% endif %}
@@ -112,7 +112,6 @@
 {% endif %}
 
 {% if reviews | count != 0 %}
-<hr />
 <h3>Reviews</h3>
 
 {% for review in reviews %} <!-- reviews -->

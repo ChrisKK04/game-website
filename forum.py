@@ -112,6 +112,14 @@ def get_review(review_id): # returns a review's id and contents with it's id
     result = db.query(sql, [review_id])
     return result[0] if result else None # none if no matches
 
+def previous_review(user_id, game_id): # if there is a previous review on the same game, returns the review's id otherwise nothing
+    sql = """SELECT R.id
+             FROM Reviews R
+             LEFT JOIN Games G ON R.game_id = G.id
+             WHERE R.user_id = ? AND G.id = ?"""
+    result = db.query(sql, [user_id, game_id])
+    return result[0] if result else None
+
 def edit_review(review_id, content, score): # updates a review
     sql = "UPDATE Reviews SET content = ?, score = ? WHERE id = ?"
     db.execute(sql, [content, score, review_id])
