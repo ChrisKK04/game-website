@@ -58,19 +58,19 @@
 
 <form action="/game/{{ game.id }}" method="post">
   <p>
-    <label for="content">* Review (max 5000 characters)</label>:<br />
+    <label for="content">* Review (max {{ REVIEW_FORM['MAX_LENGTH'] }} characters)</label>:<br />
     {% if filled %}
-      <textarea id="content" name="content" rows="10" cols="80" maxlength="5000" required>{{ filled.content }}</textarea>
+      <textarea id="content" name="content" rows="10" cols="80" maxlength="{{ REVIEW_FORM['MAX_LENGTH'] }}" required>{{ filled.content }}</textarea>
     {% else %}
-      <textarea id="content" name="content" rows="10" cols="80" maxlength="5000" required></textarea>
+      <textarea id="content" name="content" rows="10" cols="80" maxlength="{{ REVIEW_FORM['MAX_LENGTH'] }}" required></textarea>
     {% endif %}
   </p>
   
   <p>
-    <label for="score">* Score (1-5)</label>:
+    <label for="score">* Score ({{ REVIEW_FORM['MIN_SCORE'] }}-{{ REVIEW_FORM['MAX_SCORE'] }})</label>:
     <select id="score" name="score">
       {% if filled %}
-        {% for score in range(1, 6) %}
+        {% for score in range(REVIEW_FORM['MIN_SCORE'], REVIEW_FORM['MAX_SCORE'] + 1) %}
           {% if filled.score == score|string %}
             <option value="{{ score }}" selected >{{ score }}</option>
           {% else %}
@@ -78,14 +78,22 @@
           {% endif %}
         {% endfor %}
       {% else %}
-        {% for score in range(1, 6) %}
+        {% for score in range(REVIEW_FORM['MIN_SCORE'], REVIEW_FORM['MAX_SCORE'] + 1) %}
           <option value="{{ score }}">{{ score }}</option>
         {% endfor %}
       {% endif %}
     </select>
   </p>
 
-  {% if filled %}
+  {% if filled and not filled.previous %}
+    {% for message in get_flashed_messages() %}
+    <p class="error">
+      <b>{{ message }}</b>
+    </p>
+    {% endfor %}
+  {% endif %}
+
+  {% if filled and filled.previous %}
     {% for message in get_flashed_messages() %}
     <p class="error">
       <b>{{ message | safe }}</b>

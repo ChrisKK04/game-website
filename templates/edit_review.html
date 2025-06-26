@@ -8,21 +8,21 @@
 
 <form action="/edit_review/{{ review.id }}" method="post">
   <p>
-    <label for="content">* Review (max 5000 characters)</label>:<br />
+    <label for="content">* Review (max {{ REVIEW_FORM['MAX_LENGTH'] }} characters)</label>:<br />
     {% if filled %}
-      <textarea id="content" name="content" rows="10" cols="80" maxlength="5000" required>{{ filled.content }}</textarea>
+      <textarea id="content" name="content" rows="10" cols="80" maxlength="{{ REVIEW_FORM['MAX_LENGTH'] }}" required>{{ filled.content }}</textarea>
     {% else %}
-      <textarea id="content" name="content" rows="10" cols="80" maxlength="5000" required>{{ review.content }}</textarea>
+      <textarea id="content" name="content" rows="10" cols="80" maxlength="{{ REVIEW_FORM['MAX_LENGTH'] }}" required>{{ review.content }}</textarea>
     {% endif %}
   </p>
   <p>
     Previous score: {{ review.score }}
   </p>
   <p>
-    <label for="score">* New score (1-5)</label>:
+    <label for="score">* New score ({{ REVIEW_FORM['MIN_SCORE'] }}-{{ REVIEW_FORM['MAX_SCORE'] }})</label>:
     <select id="score" name="score">
       {% if filled %}
-        {% for score in range(1, 6) %}
+        {% for score in range(REVIEW_FORM['MIN_SCORE'], REVIEW_FORM['MAX_SCORE'] + 1) %}
           {% if filled.score == score|string %}
             <option value="{{ score }}" selected >{{ score }}</option>
           {% else %}
@@ -30,7 +30,7 @@
           {% endif %}
         {% endfor %}
       {% else %}
-        {% for score in range(1, 6) %}
+        {% for score in range(REVIEW_FORM['MIN_SCORE'], REVIEW_FORM['MAX_SCORE'] + 1) %}
           {% if score == review.score %}
             <option value="{{ score }}" selected>{{ score }}</option>
           {% else %}
