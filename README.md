@@ -54,7 +54,7 @@ TIME = '+3 hours'
 ```
 
 Secret key:
-the secret key (session key) of website can be set in config.py
+the secret key (session key) of the website can be set in config.py (it has a default value).
 ```
 secret_key = ...
 ```
@@ -69,7 +69,7 @@ $ ctrl + c                               # closes the website
 
 # Website performance with large datasets
 
-A large dataset was generated with the script in seed.py. The script populates the websites database with test data for performance testing.
+A large dataset was generated with the script in seed.py. The script populates the website's database with test data for performance testing.
 
 ## Performance without optimizations
 

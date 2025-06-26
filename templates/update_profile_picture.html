@@ -14,7 +14,7 @@
     <label for="image">Image</label>: <input id="image" type="file" name="image" accept=".jpg" />
   </p>
   {% for message in get_flashed_messages() %}
-  <p class="info">
+  <p class="error">
     <b>{{ message }}</b>
   </p>
   {% endfor %}

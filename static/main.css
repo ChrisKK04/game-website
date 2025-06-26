@@ -43,11 +43,19 @@ img {
   height: auto;
 }
 
-.info { /* flash messages */
+.error { /* error-flash messages */
   border: 3px solid darkgray;
   margin: 1em;
   padding: 0.5em;
-  background-color: darkslateblue;
+  background-color: rgb(120, 0, 0);
+  color: lightgrey;
+}
+
+.success { /* success-flash messages */
+  border: 3px solid darkgray;
+  margin: 1em;
+  padding: 0.5em;
+  background-color: rgb(0, 88, 0);
   color: lightgrey;
 }
 

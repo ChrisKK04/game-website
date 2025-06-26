@@ -9,6 +9,11 @@
 {% endblock %}
 
 {% block content %}
+{% for message in get_flashed_messages() %}
+<p class="success">
+  <b>{{ message }}</b>
+</p>
+{% endfor %}
 {% if user.developer == 0 %} <!-- reviewer -->
 
 <h2>Reviewer {{ user.username }}</h2>

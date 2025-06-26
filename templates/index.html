@@ -3,6 +3,13 @@
 {% block title%}Homepage{% endblock %}
 
 {% block content %}
+{% if not filled.title %}
+  {% for message in get_flashed_messages() %}
+    <p class="success">
+      <b>{{ message }}</b>
+    </p>
+  {% endfor %}
+{% endif %}
 <h2>Homepage</h2>
 <hr />
 
@@ -46,11 +53,13 @@
     <small>(You can select multiple images by holding ctrl)</small> <br />
     <input id="images_label" type="file" name="images" accept=".jpg" multiple />
   </p>
-  {% for message in get_flashed_messages() %}
-  <p class="info">
-    <b>{{ message }}</b>
-  </p>
-  {% endfor %}
+  {% if filled.title %}
+    {% for message in get_flashed_messages() %}
+    <p class="error">
+      <b>{{ message }}</b>
+    </p>
+    {% endfor %}
+  {% endif %}
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
   <input type="submit" value="send" />
 </form>

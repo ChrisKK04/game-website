@@ -4,6 +4,11 @@
 {% block title %}{{ game.id }}{% endblock %}
 
 {% block content %}
+{% for message in get_flashed_messages() %}
+<p class="success">
+  <b>{{ message }}</b>
+</p>
+{% endfor %}
 <h2>{{ game.title }}</h2>
 <hr />
 

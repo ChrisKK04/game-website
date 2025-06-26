@@ -81,8 +81,9 @@
     <small>(You can select multiple images by holding ctrl)</small> <br />
     <input id="images_label" type="file" name="new_images" accept=".jpg" multiple />
   </p>
+  
   {% for message in get_flashed_messages() %}
-  <p class="info">
+  <p class="error">
     <b>{{ message }}</b>
   </p>
   {% endfor %}

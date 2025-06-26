@@ -24,6 +24,13 @@
       <option value="5">5</option>
     </select>
   </p>
+
+  {% for message in get_flashed_messages() %}
+  <p class="error">
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
+
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
   <input type="submit" value="Send"/>
 </form>

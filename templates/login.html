@@ -16,7 +16,7 @@
     <input id="password" type="password" name="password" required />
   </p>
   {% for message in get_flashed_messages() %}
-  <p class="info">
+  <p class="error">
     <b>{{ message }}</b>
   </p>
   {% endfor %}

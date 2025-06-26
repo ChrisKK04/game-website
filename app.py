@@ -135,6 +135,9 @@ def register():
             session["developer"] = int(developer) # stores whether or not the user is a developer
             session["user_id"] = db.last_insert_id() # fetch the id
             session["csrf_token"] = secrets.token_hex(16) # generates a hidden csrf-session-token
+            flash("Account created. You have been automatically logged in.")
+            if "/login" in next_page or "/register" in next_page:
+                return redirect("/")
             return redirect(next_page)
         else:
             flash("ERROR: The username is taken")
@@ -157,7 +160,8 @@ def login():
             session["developer"] = info["developer"]
             session["user_id"] = info["user_id"]
             session["csrf_token"] = secrets.token_hex(16)
-            if "/register" in next_page:
+            flash("Logged in.")
+            if "/register" in next_page or "/login" in next_page:
                 return redirect("/")
             return redirect(next_page)
         else:
