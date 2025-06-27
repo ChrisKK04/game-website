@@ -283,14 +283,14 @@
   {% for user in users %}
   <div class="user">
     <p>
+    {% if user.image %}
+      <img src="/profile_picture/{{ user.id }}" alt="User {{ user.username }}'s profile picture" />
+      <br />
+    {% endif %}
     {% if user.developer == 0 %}
       Reviewer <a href="/user/{{ user.id }}">{{ user.username }}</a>
     {% elif user.developer == 1 %}
       Developer <a href="/user/{{ user.id }}">{{ user.username }}</a>
-    {% endif %}
-    {% if user.image %}
-      <br />
-      <img src="/profile_picture/{{ user.id }}" alt="User {{ user.username }}'s profile picture" />
     {% endif %}
     </p>
   </div>

@@ -104,7 +104,7 @@ def add_game(title, description, user_id, classes, images): # adds a game
     return game_id
 
 def get_reviews(game_id): # fetches all reviews for an id-specified game
-    sql = """SELECT R.id, R.content, R.sent_at, R.user_id, U.username, R.score
+    sql = """SELECT R.id, R.content, R.sent_at, R.user_id, R.score, U.username, U.image
             FROM Reviews R, Users U
             WHERE R.user_id = U.id AND R.game_id = ?
             ORDER BY R.sent_at DESC"""

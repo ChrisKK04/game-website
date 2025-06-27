@@ -83,7 +83,7 @@ img {
   padding: 0 1em;
 }
 
-.user img {
+.user img, .review img {
   max-width: 20%;
   height: auto;
   margin: 0.5em 0;

@@ -395,12 +395,12 @@ def update_profile_picture():
         file = request.files["image"]
         if not file.filename.endswith(".jpg") or imghdr.what(file) != "jpeg":
             flash("ERROR: The file is not a .jpg-file")
-            return redirect("/update_profile_picture", IMAGE_FORM=IMAGE_FORM)
+            return redirect("/update_profile_picture")
 
         image = file.read()
         if len(image) > IMAGE_FORM['MAX_IMAGE_SIZE']:
             flash("ERROR: The image is too big")
-            return redirect("/update_profile_picture", IMAGE_FORM=IMAGE_FORM)
+            return redirect("/update_profile_picture")
 
         user_id = session["user_id"]
         users.update_profile_picture(user_id, image)

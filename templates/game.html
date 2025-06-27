@@ -127,6 +127,10 @@
 {% for review in reviews %} <!-- reviews -->
 <div class="review">
   <p id="{{ review.id }}">
+    {% if review.image %}
+      <img src="/profile_picture/{{ review.user_id }}" alt="User {{ review.username }}'s profile picture" />
+      <br />
+    {% endif %}
     <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
   </p>
   <p>
