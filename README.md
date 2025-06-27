@@ -46,17 +46,15 @@ Password: jason, rampagegames            # all lowercase
 
 seed.py: populates the database with large amounts of data for peformance testing.
 
-Time zones:
-forum.py and pre_data.py have a global time zone variable called TIME.
-The variable can be edited, but it defaults to UTC+3.
+config.py: is a file that includes many global variables that are pre-set but can also be freely changed.
+
+Time zone: TIME is a global time zone variable that adjusts the time from UTC 0.
+Secret key: SECRET_KEY is the secret key (session key) of the website.
+Data restriction: for example REVIEW_FORM["MAX_SCORE"] sets the highest score that can be given to a game.
 ```
 TIME = '+3 hours'
-```
-
-Secret key:
-the secret key (session key) of the website can be set in config.py (it has a default value).
-```
 secret_key = ...
+"MAX_SCORE": 5
 ```
 
 You can use the website in the terminal with:
