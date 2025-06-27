@@ -32,7 +32,7 @@
   {% endif %}
 
   <p>
-    {{ user.username }} has given {{ reviews | count }} reviews
+    {{ user.username }} has given {{ reviews | count }} {{ "reviews" if reviews | count > 1 else "review" }}
   </p>
 
   {% if reviews %}
@@ -52,7 +52,7 @@
   {% for review in reviews %}
     <div class="review">
       <p>
-        <a href="/game/{{ review.game_id }}#{{ review. id }}">{{ review.game_title }}</a>
+        <a href="/game/{{ review.game_id }}#{{ review.id }}">{{ review.game_title }}</a>
       </p>
 
       <p>
@@ -62,6 +62,13 @@
         <br />
         <b>Score: {{ review.score }}</b>
       </p>
+
+      {% if user.id == session.user_id %}
+        <p>
+          <a href="/edit_review/{{ review.id }}">Edit</a> |
+          <a href="/delete_review/{{ review.id }}">Delete</a>
+        </p>
+      {% endif %}
     </div>
   {% endfor %}
 
@@ -82,7 +89,7 @@
   {% endif %}
 
   <p>
-    {{ user.username }} has published {{ games | count }} games
+    {{ user.username }} has published {{ games | count }} {{ "games" if games | count > 1 else "game" }}
   </p>
 
   {% if games %}
@@ -119,11 +126,20 @@
           <br />
         {% endif %}
         {% if game.total != 0 %}
-        <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
+          <b>
+            {{ game.total }} {{ "reviews" if game.total > 1 else "review"}} with
+            {{ ("an average score of " ~ game.average) if game.total > 1 else ("a score of " ~ game.average) }}
+          </b>
         {% else %}
-        <b>No reviews</b>
+          <b>No reviews</b>
         {% endif %}
       </p>
+      {% if user.id == session.user_id %}
+        <p>
+          <a href="/edit_game/{{ game.id }}">Edit</a> |
+          <a href="/delete_game/{{ game.id }}">Delete</a>
+        </p>
+      {% endif %}
     </div>
   {% endfor %}
 {% endif %}

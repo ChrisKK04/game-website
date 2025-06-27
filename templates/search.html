@@ -234,7 +234,10 @@
         {% endif %}
         <br />
         {% if game.total != 0 %}
-          <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
+          <b>
+            {{ game.total }} {{ "reviews" if game.total > 1 else "review"}} with
+            {{ ("an average score of " ~ game.average) if game.total > 1 else ("a score of " ~ game.average) }}
+          </b>
         {% else %}
           <b>No reviews</b>
         {% endif %}
