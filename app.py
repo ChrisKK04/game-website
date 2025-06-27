@@ -1,19 +1,31 @@
-import sqlite3
+"""Main application file for the web server."""
+
 import math
-import time
 import secrets
-from flask import Flask
-from flask import redirect, render_template, abort, flash, make_response, request, session, g
+import sqlite3
+import time
+
+from flask import (
+    abort,
+    flash,
+    g,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    session,
+    Flask
+)
+import markupsafe
+
 import config
 import db
 import forum
-import users
 import searching
-import markupsafe
-import imghdr
+import users
 
 app = Flask(__name__)
-app.secret_key = config.secret_key
+app.secret_key = config.SECRET_KEY
 
 IMAGE_FORM = config.IMAGE_FORM
 REVIEW_FORM = config.REVIEW_FORM
@@ -44,12 +56,12 @@ def valid_review(content, score): # checks review requirements
         return True
     return False
 
-#@app.before_request # time tester (begin)
-#def before_request():
+@app.before_request # time tester (begin)
+def before_request():
     g.start_time = time.time()
 
-#@app.after_request # time tester (end)
-#def after_request(response):
+@app.after_request # time tester (end)
+def after_request(response):
     elapsed_time = round(time.time() - g.start_time, 2)
     print("elapsed time:", elapsed_time, "s")
     return response
@@ -72,7 +84,7 @@ def index(page=1):
         return redirect("/1")
     if page > page_count:
         return redirect("/" + str(page_count))
-    
+
     all_classes = forum.get_all_classes()
     all_game_classes = forum.get_all_game_classes()
     games = forum.get_games(page, page_size)
@@ -80,7 +92,7 @@ def index(page=1):
 
     if request.method == "GET":
         return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled={}, stats=stats, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
-    
+
     if request.method == "POST":
         require_login()
         check_csrf()
@@ -111,7 +123,7 @@ def index(page=1):
         for file in request.files.getlist("images"):
             if not file:
                 continue
-            if not file.filename.endswith(".jpg") or imghdr.what(file) != "jpeg":
+            if not file.filename.endswith(".jpg"):
                 flash("ERROR: One or more of the files are not .jpg-files")
                 filled = {"title": title, "description": description, "classes": classes_save}
                 return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled, stats=stats, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
@@ -121,10 +133,12 @@ def index(page=1):
                 filled = {"title": title, "description": description, "classes": classes_save}
                 return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled, stats=stats, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
             images.append(image)
-            
+
         user_id = session["user_id"]
         thread_id = forum.add_game(title, description, user_id, classes, images)
         return redirect("/game/" + str(thread_id))
+
+    return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"]) # register page
 def register():
@@ -157,10 +171,12 @@ def register():
             if "/login" in next_page or "/register" in next_page:
                 return redirect("/")
             return redirect(next_page)
-        else:
-            flash("ERROR: The username is taken")
-            filled = {"username": username}
-            return render_template("register.html", next_page=next_page, filled=filled, USER_FORM=USER_FORM)
+
+        flash("ERROR: The username is taken")
+        filled = {"username": username}
+        return render_template("register.html", next_page=next_page, filled=filled, USER_FORM=USER_FORM)
+
+    return redirect("/")
 
 @app.route("/login", methods=["GET", "POST"]) # login page
 def login():
@@ -182,10 +198,12 @@ def login():
             if "/register" in next_page or "/login" in next_page:
                 return redirect("/")
             return redirect(next_page)
-        else:
-            flash("ERROR: Wrong username or password")
-            filled = {"username": username}
-            return render_template("login.html", next_page=next_page, filled=filled)
+
+        flash("ERROR: Wrong username or password")
+        filled = {"username": username}
+        return render_template("login.html", next_page=next_page, filled=filled)
+
+    return redirect("/")
 
 @app.route("/logout") # logout handler
 def logout():
@@ -205,7 +223,7 @@ def show_game(game_id):
 
     if request.method == "GET":
         return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes, images=images, REVIEW_FORM=REVIEW_FORM)
-    
+
     if request.method == "POST":
         require_login()
         check_csrf()
@@ -218,9 +236,9 @@ def show_game(game_id):
             flash(f"A review has to include the review (max {REVIEW_FORM['MAX_LENGTH']} characters) and a score ({REVIEW_FORM['MIN_SCORE']}-{REVIEW_FORM['MAX_SCORE']})")
             filled = {"content": content, "score": str(score)}
             return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes, images=images, filled=filled, REVIEW_FORM=REVIEW_FORM)
-        
+
         previous_review = forum.previous_review(user_id, game_id)
-        if previous_review != None:
+        if previous_review is not None:
             flash(f"You have a previous review on this game. You can edit or delete the previous <a href='/game/{game_id}#{previous_review['id']}'>review</a>.")
             filled = {"content": content, "score": str(score), "previous": True}
             return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes, images=images, filled=filled, REVIEW_FORM=REVIEW_FORM)
@@ -232,12 +250,14 @@ def show_game(game_id):
 
         return redirect("/game/" + str(game_id))
 
+    return redirect("/")
+
 @app.route("/image/<int:image_id>") # view a game image
 def show_image(image_id):
     image = forum.get_image(image_id)
     if not image:
         abort(404)
-    
+
     response = make_response(bytes(image))
     response.headers.set("Content-Type", "image/jpeg")
     return response
@@ -268,6 +288,8 @@ def edit_review(review_id):
         forum.edit_review(review["id"], content, score)
         return redirect("/game/" + str(review["game_id"]))
 
+    return redirect("/")
+
 @app.route("/delete_review/<int:review_id>", methods=["GET", "POST"]) # delete review
 def delete_review(review_id):
     require_login()
@@ -288,6 +310,8 @@ def delete_review(review_id):
         if "delete" in request.form:
             forum.delete_review(review["id"])
         return redirect(next_page)
+
+    return redirect("/")
 
 @app.route("/edit_game/<int:game_id>", methods=["GET", "POST"]) # edit game
 def edit_game(game_id):
@@ -331,7 +355,7 @@ def edit_game(game_id):
         for file in request.files.getlist("new_images"):
             if not file:
                 continue
-            if not file.filename.endswith(".jpg") or imghdr.what(file) != "jpeg":
+            if not file.filename.endswith(".jpg"):
                 flash("ERROR: One or more of the files are not .jpg-files")
                 filled = {"title": title, "description": description, "classes": classes_save}
                 return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes, images=images, filled=filled, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
@@ -349,6 +373,8 @@ def edit_game(game_id):
 
         forum.edit_game(game["id"], title, description, classes, delete_images, new_images)
         return redirect("/game/" + str(game["id"]))
+
+    return redirect("/")
 
 @app.route("/delete_game/<int:game_id>", methods=["GET", "POST"]) # delete game
 def delete_game(game_id):
@@ -373,6 +399,8 @@ def delete_game(game_id):
             return redirect("/")
         return redirect(next_page)
 
+    return redirect("/")
+
 @app.route("/user/<int:user_id>") # user page
 def show_user(user_id):
     user = users.get_user(user_id)
@@ -386,6 +414,8 @@ def show_user(user_id):
         games = users.get_games(user_id)
         all_dev_game_classes = users.get_all_dev_game_classes(user_id)
         return render_template("user.html", user=user, games=games, all_dev_game_classes=all_dev_game_classes)
+    
+    return redirect("/")
 
 @app.route("/update_profile_picture", methods=["GET", "POST"]) # update profile picture
 def update_profile_picture():
@@ -397,7 +427,7 @@ def update_profile_picture():
     if request.method == "POST":
         check_csrf()
         file = request.files["image"]
-        if not file.filename.endswith(".jpg") or imghdr.what(file) != "jpeg":
+        if not file.filename.endswith(".jpg"):
             flash("ERROR: The file is not a .jpg-file")
             return redirect("/update_profile_picture")
 
@@ -409,6 +439,8 @@ def update_profile_picture():
         user_id = session["user_id"]
         users.update_profile_picture(user_id, image)
         return redirect("/user/" + str(user_id))
+
+    return redirect("/")
 
 @app.route("/profile_picture/<int:user_id>") # view a profile picture
 def show_profile_picture(user_id):
@@ -447,7 +479,7 @@ def search():
                 classes.append((class_title, class_value))
 
         games_filled = {"title": title, "description": description, "game_score_type": str(game_score_type), "game_score": game_score, "publisher": publisher, "classes_save": classes_save}
-        
+
         games, result_classes, valid_game_ids = searching.games(title, description, game_score_type, game_score, publisher, classes)
         return render_template("search.html", all_classes=all_classes, games=games, result_classes=result_classes, valid_game_ids=valid_game_ids, games_filled=games_filled)
 
@@ -455,7 +487,7 @@ def search():
         content = request.args.get("content")
         review_score_type = int(request.args.get("review_score_type"))
         review_score = int(request.args.get("review_score"))
-    
+
         reviews_filled = {"content": content, "review_score_type": str(review_score_type), "review_score": str(review_score)}
 
         reviews = searching.reviews(content, review_score_type, review_score)
@@ -467,8 +499,8 @@ def search():
 
         users_filled = {"username": username, "user_type": str(user_type)}
 
-        users = searching.users(username, user_type)
-        return render_template("search.html", all_classes=all_classes, users=users, users_filled=users_filled)
+        users_list = searching.users(username, user_type)
+        return render_template("search.html", all_classes=all_classes, users=users_list, users_filled=users_filled)
 
     no_search = True
     return render_template("search.html", all_classes=all_classes, no_search=no_search)

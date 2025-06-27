@@ -1,6 +1,11 @@
-# module for fetching and editing data
+"""Module with user related SQL-queries."""
+
 import sqlite3
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import (
+    generate_password_hash,
+    check_password_hash
+)
+
 import db
 
 # all database queries relating to users
@@ -10,7 +15,7 @@ def get_all_dev_game_classes(user_id): # gets the classes for every game for a s
              FROM Game_classes A LEFT JOIN Games B ON A.game_id = B.id
              WHERE B.user_id = ?"""
     result = db.query(sql, [user_id])
-    
+
     all_dev_game_classes = {}
     for game_id, title, value in result:
         if game_id not in all_dev_game_classes:

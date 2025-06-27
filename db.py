@@ -1,8 +1,11 @@
+"""Module to make SQL-queries easier make."""
+
 import sqlite3
+
 from flask import g
 
 # forming a connection to the database
-def get_connection(): 
+def get_connection():
     con = sqlite3.connect("database.db") # form a connection to the database
     con.execute("PRAGMA foreign_keys = ON") # make rows secure
     con.row_factory = sqlite3.Row # make referencing columns with their names possible

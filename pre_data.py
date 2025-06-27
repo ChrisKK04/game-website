@@ -1,3 +1,10 @@
+"""A python script to insert pre-made data into the database."""
+
+import sqlite3
+from werkzeug.security import generate_password_hash
+
+import config
+
 # This is a python script that inserts custom data into database.db for testing.
 # the script doesn't include images for users or games
 # database.db and the tables in it have to exist before running the script
@@ -7,10 +14,7 @@
 
 # this global variable changes the default sql time zone from UTC 0 to UTC +3
 # it can be freely changed
-TIME = '+3 hours'
-
-import sqlite3
-from werkzeug.security import generate_password_hash
+TIME = config.TIME
 
 db = sqlite3.connect("database.db")
 
@@ -59,7 +63,7 @@ classes = [[1, "Category", "action"],
 
 for username, password, developer in users: # inserts the users
     password_hash = generate_password_hash(password)
-    sql = f"""INSERT INTO Users (username, password_hash, developer)
+    sql = """INSERT INTO Users (username, password_hash, developer)
               VALUES (?, ?, ?)"""
     db.execute(sql, [username, password_hash, developer])
 
@@ -72,11 +76,11 @@ for content, user_id, game_id, score in reviews: # inserts the reviews
     sql = f"""INSERT INTO Reviews (content, sent_at, user_id, game_id, score)
               VALUES (?, datetime('now', '{TIME}'), ?, ?, ?)"""
     db.execute(sql, [content, user_id, game_id, score])
-    
+
 for game_id, title, value in classes: # inserts the categories for games
-    sql = f"""INSERT INTO Game_classes (game_id, title, value)
+    sql = """INSERT INTO Game_classes (game_id, title, value)
                VALUES (?, ?, ?)"""
     db.execute(sql, [game_id, title, value])
-    
+
 db.commit()
 db.close()

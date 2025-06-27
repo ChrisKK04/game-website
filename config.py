@@ -1,5 +1,8 @@
-secret_key = "d751a7b727f62a1c45aa32e611eddbb2" # session key
+"""File for the global variables of the website."""
+
+SECRET_KEY = "d751a7b727f62a1c45aa32e611eddbb2" # session key
 GAMES_PER_PAGE = 10 # amount of games per homepage
+TIME = '+3 hours'
 
 IMAGE_FORM = {
     "MAX_IMAGE_SIZE": 100 * 1024, # maximum size of images

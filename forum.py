@@ -1,3 +1,5 @@
+"""Module with forum related SQL-queries."""
+
 import db
 
 # this global variable changes the default sql time zone from UTC+0 to UTC+3
@@ -41,7 +43,7 @@ def get_all_classes(): # gets all of the classes from the database into a dictio
 def get_all_game_classes(): # gets the classes for every game into a dictionary all_game_classes[game_id] = classes
     sql = "SELECT game_id, title, value FROM Game_classes"
     result = db.query(sql)
-    
+
     all_game_classes = {}
     for game_id, title, value in result:
         if game_id not in all_game_classes:
@@ -96,7 +98,7 @@ def add_game(title, description, user_id, classes, images): # adds a game
     sql = "INSERT INTO Game_classes (game_id, title, value) VALUES (?, ?, ?)"
     for class_title, class_value in classes:
         db.execute(sql, [game_id, class_title, class_value])
-    
+
     sql = "INSERT INTO Images (game_id, image) VALUES (?, ?)"
     for image in images:
         db.execute(sql, [game_id, image])

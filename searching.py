@@ -1,8 +1,10 @@
+"""Module with searching related SQL-queries."""
+
 import db
 
 # all database queries relating to searching
 
-def games(title, description, game_score_type, game_score, publisher, classes):
+def games(title_sql, description, game_score_type, game_score, publisher, classes):
     sql = """SELECT G.id game_id, G.title, G.description, U.id publisher_id, U.username publisher, G.uploaded_at, COUNT(R.id) total,
              ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) average
              FROM Games G
@@ -10,7 +12,7 @@ def games(title, description, game_score_type, game_score, publisher, classes):
              LEFT JOIN Reviews R ON G.id = R.game_id
              WHERE G.title LIKE ? AND G.description LIKE ? AND U.username LIKE ?
              GROUP BY G.id"""
-    parameters = ["%" + title + "%", "%" + description + "%", "%" + publisher + "%"]
+    parameters = ["%" + title_sql + "%", "%" + description + "%", "%" + publisher + "%"]
     if game_score_type == 1:
         sql += " HAVING ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) >= ?"
         parameters.append(game_score)
@@ -19,9 +21,9 @@ def games(title, description, game_score_type, game_score, publisher, classes):
         parameters.append(game_score)
 
     sql += " ORDER BY G.id DESC"
-    games = db.query(sql, parameters) # get the matching games (no classes)
+    games_list = db.query(sql, parameters) # get the matching games (no classes)
 
-    game_ids = [game['game_id'] for game in games] # get the ids of the matching games
+    game_ids = [game['game_id'] for game in games_list] # get the ids of the matching games
     set_classes = set(classes) # make a set of the classes in the search
     valid_game_ids = [] # list of game ids for which the games have the classes in the search
 
@@ -45,7 +47,7 @@ def games(title, description, game_score_type, game_score, publisher, classes):
 
     # games = games that match the search (no classes), result_classes = the classes for every game in games
     # valid_game_ids = the ids of games that include the classes of the search
-    return (games, result_classes, valid_game_ids)
+    return (games_list, result_classes, valid_game_ids)
 
 def reviews(content, review_score_type, review_score):
     sql = """SELECT U.id user_id, U.username, G.id game_id, G.title game_title, R.id review_id, R.sent_at, R.content, R.score
@@ -56,13 +58,15 @@ def reviews(content, review_score_type, review_score):
     if review_score_type == 0: # any score
         sql += " ORDER BY R.sent_at"
         return db.query(sql, ["%" + content + "%"])
-    elif review_score_type == 1: # above the given score
+    if review_score_type == 1: # above the given score
         sql += " AND R.score >= ? ORDER BY R.sent_at"
         return db.query(sql, ["%" + content + "%", review_score])
-    elif review_score_type == 2: # below the given score
+    if review_score_type == 2: # below the given score
         sql += " AND R.score <= ? ORDER BY R.sent_at"
         return db.query(sql, ["%" + content + "%", review_score])
-    
+
+    return []
+
 def users(username, user_type):
     if user_type == 2: # any
         sql = """SELECT id, username, developer, image
@@ -77,10 +81,12 @@ def users(username, user_type):
                  WHERE developer = 0 AND username LIKE ?
                  ORDER BY username"""
         return db.query(sql, ["%" + username + "%"])
-    
+
     if user_type == 1: # developer
         sql = """SELECT id, username, developer, image
                  FROM Users
                  WHERE developer = 1 AND username LIKE ?
                  ORDER BY username"""
         return db.query(sql, ["%" + username + "%"])
+
+    return []
