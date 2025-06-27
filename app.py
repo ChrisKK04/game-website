@@ -280,13 +280,14 @@ def delete_review(review_id):
         abort(403)
 
     if request.method == "GET":
-        return render_template("delete_review.html", review=review)
+        return render_template("delete_review.html", review=review, next_page=request.referrer)
 
     if request.method == "POST":
         check_csrf()
+        next_page = request.form["next_page"]
         if "delete" in request.form:
             forum.delete_review(review["id"])
-        return redirect("/game/" + str(review["game_id"]))
+        return redirect(next_page)
 
 @app.route("/edit_game/<int:game_id>", methods=["GET", "POST"]) # edit game
 def edit_game(game_id):
@@ -361,13 +362,16 @@ def delete_game(game_id):
         abort(403)
 
     if request.method == "GET":
-        return render_template("delete_game.html", game=game)
+        return render_template("delete_game.html", game=game, next_page=request.referrer)
 
     if request.method == "POST":
         check_csrf()
+        next_page = request.form["next_page"]
         if "delete" in request.form:
             forum.delete_game(game["id"])
-        return redirect("/")
+        if "/game" in next_page:
+            return redirect("/")
+        return redirect(next_page)
 
 @app.route("/user/<int:user_id>") # user page
 def show_user(user_id):

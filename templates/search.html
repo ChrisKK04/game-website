@@ -240,10 +240,10 @@
         {% endif %}
       </p>
       {% if game.publisher_id == session.user_id %}
-      <p>
-        <a href="/edit_game/{{ game.id }}">Edit</a> |
-        <a href="/delete_game/{{ game.id }}">Delete</a>
-      </p>
+        <p>
+          <a href="/edit_game/{{ game.game_id }}">Edit</a> |
+          <a href="/delete_game/{{ game.game_id }}">Delete</a>
+        </p>
       {% endif %}
     </div>
     {% endif %}
@@ -269,6 +269,12 @@
       <br />
       <b>Score: {{ review.score }}</b>
     </p>
+    {% if review.user_id == session.user_id %}
+      <p>
+        <a href="/edit_review/{{ review.review_id }}">Edit</a> |
+        <a href="/delete_review/{{ review.review_id }}">Delete</a>
+      </p>
+    {% endif %}
   </div>
   {% endfor %}
 {% elif reviews == [] %}

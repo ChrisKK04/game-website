@@ -10,6 +10,11 @@
   <p>
     Are you sure you want to delete the review?
   </p>
+  {% if next_page %}
+    <input type="hidden" name="next_page" value="{{ next_page }}" />
+  {% else %}
+    <input type="hidden" name="next_page" value="/" />
+  {% endif %}
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
   <input type="submit" name="delete" value="Delete" />
   <input type="submit" name="cancel" value="Cancel" />
