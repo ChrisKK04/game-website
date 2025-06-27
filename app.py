@@ -42,22 +42,22 @@ def check_csrf():
 
 def valid_user(username, password, developer): # checks user requirements
     if (not username or not password or not developer
-        or len(username) > USER_FORM['MAX_USERNAME_LENGTH']
-        or len(password) > USER_FORM['MAX_PASSWORD_LENGTH']):
+        or len(username) > USER_FORM["MAX_USERNAME_LENGTH"]
+        or len(password) > USER_FORM["MAX_PASSWORD_LENGTH"]):
         return True
     return False
 
 def valid_game(title, description): # checks game requirements
     if (not title or not description
-        or len(title) > GAME_FORM['MAX_TITLE_LENGTH']
-        or len(description) > GAME_FORM['MAX_DESCRIPTION_LENGTH']):
+        or len(title) > GAME_FORM["MAX_TITLE_LENGTH"]
+        or len(description) > GAME_FORM["MAX_DESCRIPTION_LENGTH"]):
         return True
     return False
 
 def valid_review(content, score): # checks review requirements
     scores = ([str(score) for score
-               in range(REVIEW_FORM['MIN_SCORE'], REVIEW_FORM['MAX_SCORE'] + 1)])
-    if not content or len(content) > REVIEW_FORM['MAX_LENGTH'] or score not in scores:
+               in range(REVIEW_FORM["MIN_SCORE"], REVIEW_FORM["MAX_SCORE"] + 1)])
+    if not content or len(content) > REVIEW_FORM["MAX_LENGTH"] or score not in scores:
         return True
     return False
 
@@ -144,7 +144,7 @@ def index(page=1):
                                        filled=filled, stats=stats, GAME_FORM=GAME_FORM,
                                        IMAGE_FORM=IMAGE_FORM)
             image = file.read()
-            if len(image) > IMAGE_FORM['MAX_IMAGE_SIZE']:
+            if len(image) > IMAGE_FORM["MAX_IMAGE_SIZE"]:
                 flash("ERROR: One or more of the images are too big")
                 filled = {"title": title, "description": description, "classes": classes_save}
                 return render_template("index.html", page=page, page_count=page_count, games=games,
@@ -270,7 +270,7 @@ def show_game(game_id):
         if previous_review is not None:
             flash(f"""You have a previous review on this game.
                   You can edit or delete the previous
-                  <a href='/game/{game_id}#{previous_review['id']}'>review</a>.""")
+                  <a href="/game/{game_id}#{previous_review['id']}">review</a>.""")
             filled = {"content": content, "score": str(score), "previous": True}
             return render_template("game.html", game=game, average=average, reviews=reviews,
                                    classes=classes, images=images, filled=filled,
@@ -400,7 +400,7 @@ def edit_game(game_id):
                                        classes=classes, images=images, filled=filled,
                                        GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
             image = file.read()
-            if len(image) > IMAGE_FORM['MAX_IMAGE_SIZE']:
+            if len(image) > IMAGE_FORM["MAX_IMAGE_SIZE"]:
                 flash("ERROR: One or more of the images are too big")
                 filled = {"title": title, "description": description, "classes": classes_save}
                 return render_template("edit_game.html", game=game, all_classes=all_classes,
@@ -479,7 +479,7 @@ def update_profile_picture():
             return redirect("/update_profile_picture")
 
         image = file.read()
-        if len(image) > IMAGE_FORM['MAX_IMAGE_SIZE']:
+        if len(image) > IMAGE_FORM["MAX_IMAGE_SIZE"]:
             flash("ERROR: The image is too big")
             return redirect("/update_profile_picture")
 
