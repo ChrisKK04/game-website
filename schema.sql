@@ -1,7 +1,7 @@
 -- Includes the database layout for the website
 
 -- Table for the users
-CREATE TABLE Users (
+CREATE TABLE users (
     id INTEGER PRIMARY KEY,
     username TEXT UNIQUE,
     password_hash TEXT,
@@ -10,7 +10,7 @@ CREATE TABLE Users (
 );
 
 -- Table for the games
-CREATE TABLE Games (
+CREATE TABLE games (
     id INTEGER PRIMARY KEY,
     title TEXT,
     description TEXT,
@@ -19,7 +19,7 @@ CREATE TABLE Games (
 );
 
 -- Table for the reviews
-CREATE TABLE Reviews (
+CREATE TABLE reviews (
     id INTEGER PRIMARY KEY,
     content TEXT,
     sent_at TEXT,
@@ -29,14 +29,14 @@ CREATE TABLE Reviews (
 );
 
 -- Table for the classes
-CREATE TABLE Classes (
+CREATE TABLE classes (
     id INTEGER PRIMARY KEY,
     title TEXT,
     value TEXT
 );
 
 -- Table for linking classes to games
-CREATE TABLE Game_classes (
+CREATE TABLE game_classes (
     id INTEGER PRIMARY KEY,
     game_id INTEGER REFERENCES Games(id) ON DELETE CASCADE,
     title TEXT,
@@ -44,11 +44,11 @@ CREATE TABLE Game_classes (
 );
 
 -- Table for the game images
-CREATE TABLE Images (
+CREATE TABLE images (
     id INTEGER PRIMARY KEY,
     game_id INTEGER REFERENCES Games(id) ON DELETE CASCADE,
     image BLOB
 );
 
-CREATE INDEX idx_game_reviews_id ON Reviews (game_id); -- Index for matching reviews to games
-CREATE INDEX idx_user_game ON Games (user_id); -- Index for matching users to games
+CREATE INDEX idx_game_reviews_id ON reviews (game_id); -- Index for matching reviews to games
+CREATE INDEX idx_user_game ON games (user_id); -- Index for matching users to games
