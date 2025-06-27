@@ -13,6 +13,7 @@ img {
 
 .header {
   background-color: gray;
+  border-radius: 4px;
   color: black;
   padding: 1rem; /* space inside of the element*/
   margin: 0.5rem 0; /* space outside of the element (vertical horizontal)*/
@@ -20,6 +21,7 @@ img {
 
 .nav {
   background-color: darkgray;
+  border-radius: 4px;
   color: black;
   padding: 0.5rem 1rem;
   margin: 0.5rem 0;
@@ -27,6 +29,7 @@ img {
 
 .content {
   background-color: lightgray;
+  border-radius: 4px;
   padding: 1rem;
   margin: 0.5rem 0;
 }
@@ -99,12 +102,14 @@ img {
 
 .homepage_stats {
   border: 3px solid darkgray;
+  border-radius: 4px;
   margin: 1rem;
   padding: 0 0.5rem;
 }
 
 .game, .review { /* homepage games and game page reviews */
   border: 3px solid darkgray;
+  border-radius: 4px;
   margin: 1rem;
   padding: 0 0.5rem;
 }
@@ -117,6 +122,7 @@ img {
 
 .error { /* error-flash messages */
   border: 3px solid darkgray;
+  border-radius: 4px;
   margin: 1rem;
   padding: 0.5rem;
   background-color: rgb(120, 0, 0);
@@ -125,6 +131,7 @@ img {
 
 .success { /* success-flash messages */
   border: 3px solid darkgray;
+  border-radius: 4px;
   margin: 1rem;
   padding: 0.5rem;
   background-color: rgb(0, 88, 0);
@@ -134,6 +141,7 @@ img {
 .category { /* game categories */
   display: inline-block;
   border: 2px solid darkgray;
+  border-radius: 4px;
   margin: 0.1rem 0;
   padding: 0 0.15rem;
 }
@@ -145,12 +153,14 @@ img {
 
 .search_form {
   border: 3px solid darkgray;
+  border-radius: 4px;
   margin: 1rem 0;
   padding: 0.5rem;
 }
 
 .user {
   border: 2px solid darkgray;
+  border-radius: 4px;
   margin: 0.5rem;
   padding: 0 1rem;
 }
