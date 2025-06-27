@@ -11,6 +11,10 @@
   {% endfor %}
 {% endif %}
 <h2>Homepage</h2>
+<p>
+  The website features {{ stats.games_amount }} games published by {{ stats.developers_amount }} developers <br />
+  {{ stats.reviewers_amount }} reviewers have contributed a total of {{ stats.reviews_amount }} reviews.
+</p>
 <hr />
 
 {% if session.user_id and session.developer == 1 %} <!-- adding a new game (only for developers) -->

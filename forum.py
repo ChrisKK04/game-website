@@ -6,6 +6,14 @@ TIME = '+3 hours'
 
 # all database queries relating to the forum
 
+def get_stats(): # amount of games, reviews and users
+    sql = """SELECT
+                (SELECT COUNT(id) FROM Games) AS games_amount,
+                (SELECT COUNT(id) FROM Reviews) AS reviews_amount,
+                (SELECT COUNT(id) FROM Users WHERE developer = 1) AS developers_amount,
+                (SELECT COUNT(id) FROM Users WHERE developer = 0) AS reviewers_amount"""
+    return db.query(sql)[0]
+
 def get_classes(game_id): # gets all of an id-specified games classes
     sql = "SELECT title, value FROM Game_classes WHERE game_id = ? ORDER BY LOWER(value)"
     result = db.query(sql, [game_id])

@@ -76,9 +76,10 @@ def index(page=1):
     all_classes = forum.get_all_classes()
     all_game_classes = forum.get_all_game_classes()
     games = forum.get_games(page, page_size)
+    stats = forum.get_stats()
 
     if request.method == "GET":
-        return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled={}, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+        return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled={}, stats=stats, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
     
     if request.method == "POST":
         require_login()
@@ -104,7 +105,7 @@ def index(page=1):
         if valid_game(title, description):
             flash(f"A game has to include a title (max {GAME_FORM['MAX_TITLE_LENGTH']} characters) and a description (max {GAME_FORM['MAX_DESCRIPTION_LENGTH']} characters)")
             filled = {"title": title, "description": description, "classes": classes_save}
-            return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+            return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled, stats=stats, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
 
         images = []
         for file in request.files.getlist("images"):
@@ -113,12 +114,12 @@ def index(page=1):
             if not file.filename.endswith(".jpg") or imghdr.what(file) != "jpeg":
                 flash("ERROR: One or more of the files are not .jpg-files")
                 filled = {"title": title, "description": description, "classes": classes_save}
-                return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+                return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled, stats=stats, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
             image = file.read()
             if len(image) > IMAGE_FORM['MAX_IMAGE_SIZE']:
                 flash("ERROR: One or more of the images are too big")
                 filled = {"title": title, "description": description, "classes": classes_save}
-                return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+                return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled, stats=stats, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
             images.append(image)
             
         user_id = session["user_id"]
