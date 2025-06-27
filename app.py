@@ -31,6 +31,7 @@ IMAGE_FORM = config.IMAGE_FORM
 REVIEW_FORM = config.REVIEW_FORM
 GAME_FORM = config.GAME_FORM
 USER_FORM = config.USER_FORM
+BLOCK_NEXT_PAGE_REDIRECT = config.BLOCK_NEXT_PAGE_REDIRECT
 
 def require_login(): # checks login
     if "user_id" not in session:
@@ -233,7 +234,12 @@ def login():
 def logout():
     session.clear()
     flash("Logged out")
-    return redirect(request.referrer)
+    next_page = request.referrer
+
+    for block in BLOCK_NEXT_PAGE_REDIRECT:
+        if block in next_page:
+            return redirect("/")
+    return redirect(next_page)
 
 @app.route("/game/<int:game_id>", methods=["GET", "POST"]) # game page and review upload
 def show_game(game_id):

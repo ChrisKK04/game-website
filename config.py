@@ -2,7 +2,10 @@
 
 SECRET_KEY = "d751a7b727f62a1c45aa32e611eddbb2" # session key
 GAMES_PER_PAGE = 10 # amount of games per homepage
-TIME = '+3 hours'
+TIME = '+3 hours' # time zone difference from UTC 0
+# pages that can't be automatically redirected to after logging out
+BLOCK_NEXT_PAGE_REDIRECT = ["/edit_review", "/delete_review", "/edit_game",
+                            "/delete_game", "/update_profile_picture"]
 
 IMAGE_FORM = {
     "MAX_IMAGE_SIZE": 100 * 1024, # maximum size of images
