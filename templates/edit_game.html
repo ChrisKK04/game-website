@@ -10,18 +10,18 @@
   <p>
     <label for="title">* Title (max {{ GAME_FORM['MAX_TITLE_LENGTH'] }} characters)</label>: <br />
     {% if filled.title %}
-      <input id="title" type="text" name="title" value="{{ filled.title }}" maxlength="{{ GAME_FORM['MAX_TITLE_LENGTH'] }}" required />
+      <input id="title" type="text" name="title" value="{{ filled.title }}" maxlength="{{ GAME_FORM['MAX_TITLE_LENGTH'] }}" required class="title" />
     {% else %}
-      <input id="title" type="text" name="title" value="{{ game.title }}" maxlength="{{ GAME_FORM['MAX_TITLE_LENGTH'] }}" required />
+      <input id="title" type="text" name="title" value="{{ game.title }}" maxlength="{{ GAME_FORM['MAX_TITLE_LENGTH'] }}" required class="title" />
     {% endif %}
   </p>
 
   <p>
     <label for="description">* Description (max {{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }} characters)</label>:<br />
     {% if filled.description %}
-      <textarea id="description" name="description" rows="10" cols="80" maxlength="{{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }}" required>{{ filled.description }}</textarea>
+      <textarea id="description" name="description" rows="10" cols="80" maxlength="{{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }}" required class="textarea">{{ filled.description }}</textarea>
     {% else %}
-      <textarea id="description" name="description" rows="10" cols="80" maxlength="{{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }}" required>{{ game.description }}</textarea>
+      <textarea id="description" name="description" rows="10" cols="80" maxlength="{{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }}" required class="textarea">{{ game.description }}</textarea>
     {% endif %}
   </p>
 
@@ -31,11 +31,11 @@
       {% if filled %}
         {% if category in filled.classes['Category'] %}
           <label>
-            <input type="checkbox" name="classes" value="Category:{{ category }}" checked> {{ category }}
+            <input type="checkbox" name="classes" value="Category:{{ category }}" checked class="checkbox" /> {{ category }}
           </label>
         {% else %}
           <label>
-            <input type="checkbox" name="classes" value="Category:{{ category }}"> {{ category }}
+            <input type="checkbox" name="classes" value="Category:{{ category }}" class="checkbox" /> {{ category }}
           </label>
         {% endif %}
         {% if loop.index % 5 == 0 %}
@@ -45,11 +45,11 @@
       {% else %}
         {% if category in classes['Category'] %}
           <label>
-            <input type="checkbox" name="classes" value="Category:{{ category }}" checked> {{ category }}
+            <input type="checkbox" name="classes" value="Category:{{ category }}" checked class="checkbox"/> {{ category }}
           </label>
         {% else %}
           <label>
-            <input type="checkbox" name="classes" value="Category:{{ category }}"> {{ category }}
+            <input type="checkbox" name="classes" value="Category:{{ category }}" class="checkbox" /> {{ category }}
           </label>
         {% endif %}
         {% if loop.index % 5 == 0 %}
@@ -65,7 +65,7 @@
       {% for image in images %}
         <div class="edit_game_image">
           <label>
-            <input type="checkbox" name="delete_images" value="{{ image.id }}" />
+            <input type="checkbox" name="delete_images" value="{{ image.id }}" class="checkbox"/>
             <img src="/image/{{ image.id }}" alt="{{ game.title }}'s image {{ loop.index }}" />
           </label>
         </div>
@@ -77,7 +77,7 @@
     <label for="images_label">New images</label>: <br />
     <small>(The images have to be .jpg-files and have a maximum size of {{ IMAGE_FORM['STR_IMAGE_SIZE'] }})</small> <br />
     <small>(You can select multiple images by holding ctrl)</small> <br />
-    <input id="images_label" type="file" name="new_images" accept=".jpg" multiple />
+    <input id="images_label" type="file" name="new_images" accept=".jpg" multiple class="button_file" />
   </p>
   
   {% for message in get_flashed_messages() %}
@@ -87,6 +87,6 @@
   {% endfor %}
 
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
-  <input type="submit" value="Send"/>
+  <input type="submit" value="Send" class="button_send"/>
 </form>
 {% endblock %}

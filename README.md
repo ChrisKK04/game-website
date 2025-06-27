@@ -46,7 +46,7 @@ Password: jason, rampagegames            # all lowercase
 
 seed.py: populates the database with large amounts of data for peformance testing.
 
-config.py: is a file that includes many global variables that are pre-set. The variables can be freely changed.
+config.py: is a file that includes many global variables alongside their presets. The variables can be freely changed.
 
 Time zone: TIME is a global time zone variable that adjusts the time from UTC 0.  
 Secret key: SECRET_KEY is the secret key (session key) of the website.  

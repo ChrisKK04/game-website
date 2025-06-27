@@ -12,12 +12,14 @@
 {% endif %}
 
 <h2>Homepage</h2>
-  <p>
-    The website features {{ stats.games_amount }} {{ "games" if stats.games_amount != 1 else "game" }}
-    uploaded by {{ stats.developers_amount }} {{ "developers" if stats.developers_amount != 1 else "developer" }} and
-    {{ stats.reviewers_amount }} {{ "reviewers" if stats.reviewers_amount != 1 else "reviewer" }}
-    have contributed a total of {{ stats.reviews_amount }} {{ "reviews" if stats.reviews_amount != 1 else "review"}}.
-  </p>
+  <div class="homepage_stats">
+    <p>
+      The website features {{ stats.games_amount }} {{ "games" if stats.games_amount != 1 else "game" }}
+      uploaded by {{ stats.developers_amount }} {{ "developers" if stats.developers_amount != 1 else "developer" }} and
+      {{ stats.reviewers_amount }} {{ "reviewers" if stats.reviewers_amount != 1 else "reviewer" }}
+      have contributed a total of {{ stats.reviews_amount }} {{ "reviews" if stats.reviews_amount != 1 else "review"}}.
+    </p>
+  </div>
 <hr />
 
 {% if session.user_id and session.developer == 1 %} <!-- adding a new game (only for developers) -->
@@ -25,12 +27,12 @@
   <form action="/{{ page }}" method="post" enctype="multipart/form-data">
     <p>
       <label for="title">* Title (max {{ GAME_FORM['MAX_TITLE_LENGTH'] }} characters)</label>: <br />
-      <input id="title" type="text" name="title" maxlength="{{ GAME_FORM['MAX_TITLE_LENGTH'] }}" value="{{ filled.title }}" required/>
+      <input id="title" type="text" name="title" maxlength="{{ GAME_FORM['MAX_TITLE_LENGTH'] }}" value="{{ filled.title }}" required class="title"/>
     </p>
 
     <p>
       <label for="description">* Description (max {{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }} characters)</label>: <br />
-      <textarea id="description" name="description" rows="10" cols="80" maxlength="{{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }}" required>{{ filled.description }}</textarea>
+      <textarea id="description" name="description" rows="10" cols="80" maxlength="{{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }}" required class="textarea">{{ filled.description }}</textarea>
     </p>
 
     <p>
@@ -39,16 +41,16 @@
         {% if filled.classes %}
           {% if category in filled.classes['Category'] %}
             <label>
-              <input type="checkbox" name="classes" value="Category:{{ category }}" checked /> {{ category }}
+              <input type="checkbox" name="classes" value="Category:{{ category }}" checked class="checkbox" /> {{ category }}
             </label>
           {% else %}
             <label>
-              <input type="checkbox" name="classes" value="Category:{{ category }}" /> {{ category }}
+              <input type="checkbox" name="classes" value="Category:{{ category }}" class="checkbox" /> {{ category }}
             </label>
           {% endif %}
         {% else %}
           <label>
-            <input type="checkbox" name="classes" value="Category:{{ category }}" /> {{ category }}
+            <input type="checkbox" name="classes" value="Category:{{ category }}" class="checkbox" /> {{ category }}
           </label>
         {% endif %}
         {% if loop.index % 5 == 0 %} <!-- only allows 5 categories per line -->
@@ -61,7 +63,7 @@
       <label for="images_label">Images</label>: <br />
       <small>(The images have to be .jpg-files and have a maximum size of a {{ IMAGE_FORM['STR_IMAGE_SIZE'] }})</small> <br />
       <small>(You can select multiple images by holding ctrl)</small> <br />
-      <input id="images_label" type="file" name="images" accept=".jpg" multiple />
+      <input id="images_label" type="file" name="images" accept=".jpg" multiple class="button_file" />
     </p>
 
     {% if filled %}
@@ -72,7 +74,7 @@
       {% endfor %}
     {% endif %}
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
-    <input type="submit" value="send" />
+    <input type="submit" value="send" class="button_send" />
   </form>
   <hr />
 {% else %}

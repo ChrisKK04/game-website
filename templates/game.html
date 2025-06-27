@@ -63,15 +63,15 @@
     <p>
       <label for="content">* Review (max {{ REVIEW_FORM['MAX_LENGTH'] }} characters)</label>:<br />
       {% if filled %}
-        <textarea id="content" name="content" rows="10" cols="80" maxlength="{{ REVIEW_FORM['MAX_LENGTH'] }}" required>{{ filled.content }}</textarea>
+        <textarea id="content" name="content" rows="10" cols="80" maxlength="{{ REVIEW_FORM['MAX_LENGTH'] }}" required class="textarea">{{ filled.content }}</textarea>
       {% else %}
-        <textarea id="content" name="content" rows="10" cols="80" maxlength="{{ REVIEW_FORM['MAX_LENGTH'] }}" required></textarea>
+        <textarea id="content" name="content" rows="10" cols="80" maxlength="{{ REVIEW_FORM['MAX_LENGTH'] }}" required class="textarea"></textarea>
       {% endif %}
     </p>
     
     <p>
       <label for="score">* Score ({{ REVIEW_FORM['MIN_SCORE'] }}-{{ REVIEW_FORM['MAX_SCORE'] }})</label>:
-      <select id="score" name="score">
+      <select id="score" name="score" class="dropdown_select">
         {% if filled %}
           {% for score in range(REVIEW_FORM['MIN_SCORE'], REVIEW_FORM['MAX_SCORE'] + 1) %}
             {% if filled.score == score|string %}
@@ -105,8 +105,8 @@
     {% endif %}
 
     <input type="hidden" name="game_id" value="{{ game.id }}" />
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
-    <input type="submit" value="Send" />
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" value="Send" class="button_send" />
   </form>
   <hr />
 {% else %}

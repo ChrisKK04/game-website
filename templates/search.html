@@ -18,18 +18,18 @@
     <p>
       <label for="title">Title</label>: <br />
       {% if games_filled %}
-        <input id="title" type="text" name="title" value="{{ games_filled.title }}" />
+        <input id="title" type="text" name="title" value="{{ games_filled.title }}" class="title" />
       {% else %}
-        <input id="title" type="text" name="title" />
+        <input id="title" type="text" name="title" class="title" />
       {% endif %}
     </p>
 
     <p>
       <label for="description">Description</label>: <br />
       {% if games_filled %}
-        <textarea id="description" name="description" rows="5" cols="60">{{ games_filled.description }}</textarea>
+        <textarea id="description" name="description" rows="5" cols="60" class="textarea">{{ games_filled.description }}</textarea>
       {% else %}
-        <textarea id="description" name="description" rows="5" cols="60"></textarea>
+        <textarea id="description" name="description" rows="5" cols="60" class="textarea"></textarea>
       {% endif %}
     </p>
 
@@ -39,16 +39,16 @@
         {% if games_filled %}
           {% if category in games_filled.classes_save['Category'] %}
             <label>
-              <input type="checkbox" name="classes" value="Category:{{ category }}" checked /> {{ category }}
+              <input type="checkbox" name="classes" value="Category:{{ category }}" checked class="checkbox" /> {{ category }}
             </label>
           {% else %}
             <label>
-              <input type="checkbox" name="classes" value="Category:{{ category }}" /> {{ category }}
+              <input type="checkbox" name="classes" value="Category:{{ category }}" class="checkbox" /> {{ category }}
             </label>
           {% endif %}
         {% else %}
           <label>
-            <input type="checkbox" name="classes" value="Category:{{ category }}" /> {{ category }}
+            <input type="checkbox" name="classes" value="Category:{{ category }}" class="checkbox" /> {{ category }}
           </label>
         {% endif %}
         {% if loop.index % 5 == 0 %}
@@ -60,31 +60,31 @@
     <p>
       Average review score:
       {% if games_filled %}
-        <input type="number" name="game_score" min="0" max="5" step="0.1" value="{{ games_filled.game_score }}" />
+        <input type="number" name="game_score" min="0" max="5" step="0.1" value="{{ games_filled.game_score }}" class="title" />
       {% else %}
-        <input type="number" name="game_score" min="0" max="5" step="0.1" value="1" />
+        <input type="number" name="game_score" min="0" max="5" step="0.1" value="1" class="title" />
       {% endif %}
       <br />
 
-      <input id="game_any" type="radio" name="game_score_type" value="0" checked />
+      <input id="game_any" type="radio" name="game_score_type" value="0" checked class="radio" />
       <label for="game_any">Any</label>
       {% if games_filled %}
         {% if games_filled.game_score_type == "1" %}
-          <input id="game_above" type="radio" name="game_score_type" value="1" checked />
+          <input id="game_above" type="radio" name="game_score_type" value="1" checked class="radio" />
         {% else %}
-          <input id="game_above" type="radio" name="game_score_type" value="1" />
+          <input id="game_above" type="radio" name="game_score_type" value="1" class="radio" />
         {% endif %}
         <label for="game_above">Above</label>
         {% if games_filled.game_score_type == "2" %}
-          <input id="game_below" type="radio" name="game_score_type" value="2" checked />
+          <input id="game_below" type="radio" name="game_score_type" value="2" checked class="radio" />
         {% else %}
-          <input id="game_below" type="radio" name="game_score_type" value="2" />
+          <input id="game_below" type="radio" name="game_score_type" value="2" class="radio" />
         {% endif %}
         <label for="game_below">Below</label>
       {% else %}
-        <input id="game_above" type="radio" name="game_score_type" value="1" />
+        <input id="game_above" type="radio" name="game_score_type" value="1" class="radio" />
         <label for="game_above">Above</label>
-        <input id="game_below" type="radio" name="game_score_type" value="2" />
+        <input id="game_below" type="radio" name="game_score_type" value="2" class="radio" />
         <label for="game_below">Below</label>
       {% endif %}
       <br />
@@ -93,14 +93,14 @@
     <p>
       <label for="publisher">Publisher</label>: <br />
       {% if games_filled %}
-        <input id="publisher" type="text" name="publisher" value="{{ games_filled.publisher }}" />
+        <input id="publisher" type="text" name="publisher" value="{{ games_filled.publisher }}" class="title" />
       {% else %}
-        <input id="publisher" type="text" name="publisher" />
+        <input id="publisher" type="text" name="publisher" class="title" />
       {% endif %}
     </p>
 
     <input type="hidden" name="search_type" value="game_search" />
-    <input type="submit" value="Search games" />
+    <input type="submit" value="Search games" class="button_send" />
   </form>
 </div>
 
@@ -111,15 +111,15 @@
     <p>
       <label for="content">Content</label>: <br />
       {% if reviews_filled %}
-        <textarea id="content" name="content" rows="5" cols="60">{{ reviews_filled.content }}</textarea>
+        <textarea id="content" name="content" rows="5" cols="60" class="textarea">{{ reviews_filled.content }}</textarea>
       {% else %}
-        <textarea id="content" name="content" rows="5" cols="60"></textarea>
+        <textarea id="content" name="content" rows="5" cols="60" class="textarea"></textarea>
       {% endif %}
     </p>
 
     <p>
       <label for="review_score">Review score</label>:
-      <select id="review_score" name="review_score">
+      <select id="review_score" name="review_score" class="dropdown_select">
         {% if reviews_filled %}
           {% for score in range(1, 6) %}
             {% if reviews_filled.review_score == score|string %}
@@ -136,32 +136,32 @@
       </select>
       <br />
 
-      <input id="review_any" type="radio" name="review_score_type" value="0" checked />
+      <input id="review_any" type="radio" name="review_score_type" value="0" checked class="radio" />
       <label for="review_any">Any</label>
       {% if reviews_filled %}
         {% if reviews_filled.review_score_type == "1" %}
-          <input id="review_above" type="radio" name="review_score_type" value="1" checked />
+          <input id="review_above" type="radio" name="review_score_type" value="1" checked class="radio" />
         {% else %}
-          <input id="review_above" type="radio" name="review_score_type" value="1" />
+          <input id="review_above" type="radio" name="review_score_type" value="1" class="radio" />
         {% endif %}
         <label for="review_above">Above</label>
         {% if reviews_filled.review_score_type == "2" %}
-          <input id="review_below" type="radio" name="review_score_type" value="2" checked />
+          <input id="review_below" type="radio" name="review_score_type" value="2" checked class="radio" />
         {% else %}
-          <input id="review_below" type="radio" name="review_score_type" value="2" />
+          <input id="review_below" type="radio" name="review_score_type" value="2" class="radio" />
         {% endif %}
         <label for="review_below">Below</label>
       {% else %}
-        <input id="review_above" type="radio" name="review_score_type" value="1" />
+        <input id="review_above" type="radio" name="review_score_type" value="1" class="radio" />
         <label for="review_above">Above</label>
-        <input id="review_below" type="radio" name="review_score_type" value="2" />
+        <input id="review_below" type="radio" name="review_score_type" value="2" class="radio" />
         <label for="review_below">Below</label>
       {% endif %}
       <br />
     </p>
 
     <input type="hidden" name="search_type" value="review_search" />
-    <input type="submit" value="Search reviews" />
+    <input type="submit" value="Search reviews" class="button_send" />
   </form>
 </div>
 
@@ -172,45 +172,45 @@
     <p>
       <label for="username">Username</label>: <br />
       {% if users_filled %}
-        <input id="username" type="text" name="username" value="{{ users_filled.username }}" />
+        <input id="username" type="text" name="username" value="{{ users_filled.username }}" class="title" />
       {% else %}
-        <input id="username" type="text" name="username" />
+        <input id="username" type="text" name="username" class="title" />
       {% endif %}
     </p>
 
     <p>
       {% if users_filled %}
         Type: <br />
-        <input id="user_any" type="radio" name="user_type" value="2" checked />
+        <input id="user_any" type="radio" name="user_type" value="2" checked class="radio" />
         <label for="user_any">Any</label>
 
         {% if "0" in users_filled.user_type %}
-          <input id="type_reviewer" type="radio" name="user_type" value="0" checked />
+          <input id="type_reviewer" type="radio" name="user_type" value="0" checked class="radio" />
         {% else %}
-          <input id="type_reviewer" type="radio" name="user_type" value="0" />
+          <input id="type_reviewer" type="radio" name="user_type" value="0" class="radio" />
         {% endif %}
         <label for="type_reviewer">Reviewer</label>
         
         {% if "1" in users_filled.user_type %}
-          <input id="type_developer" type="radio" name="user_type" value="1" checked />
+          <input id="type_developer" type="radio" name="user_type" value="1" checked class="radio" />
         {% else %}
-          <input id="type_developer" type="radio" name="user_type" value="1" />
+          <input id="type_developer" type="radio" name="user_type" value="1" class="radio" />
         {% endif %}
         <label for="type_developer">Developer</label>
 
       {% else %}
         Type: <br />
-        <input id="user_any" type="radio" name="user_type" value="2" checked />
+        <input id="user_any" type="radio" name="user_type" value="2" checked class="radio" />
         <label for="user_any">Any</label>
-        <input id="type_reviewer" type="radio" name="user_type" value="0" />
+        <input id="type_reviewer" type="radio" name="user_type" value="0" class="radio" />
         <label for="type_reviewer">Reviewer</label>
-        <input id="type_developer" type="radio" name="user_type" value="1" />
+        <input id="type_developer" type="radio" name="user_type" value="1" class="radio" />
         <label for="type_developer">Developer</label>
       {% endif %}
     </p>
 
     <input type="hidden" name="search_type" value="user_search" />
-    <input type="submit" value="Search users" />
+    <input type="submit" value="Search users" class="button_send" />
   </form>
 </div>
 

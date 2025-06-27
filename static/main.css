@@ -1,8 +1,8 @@
 body { 
   margin: auto; /* centers the content */
-  max-width: 50em; /* a lines maximum width*/
+  max-width: 50rem; /* a lines maximum width*/
   font-family: sans-serif; /* font */
-  background-color: lightslategray; /* color */
+  background-color: rgb(57, 0, 65); /* color */
   overflow-wrap: break-word; /* automatically breaks long lines of text into smaller pieces */
 }
 
@@ -14,27 +14,99 @@ img {
 .header {
   background-color: gray;
   color: black;
-  padding: 1em; /* space inside of the element*/
-  margin: 0.5em 0; /* space outside of the element (vertical horizontal)*/
+  padding: 1rem; /* space inside of the element*/
+  margin: 0.5rem 0; /* space outside of the element (vertical horizontal)*/
 }
 
 .nav {
   background-color: darkgray;
   color: black;
-  padding: 0.5em 1em;
-  margin: 0.5em 0;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
 }
 
 .content {
   background-color: lightgray;
-  padding: 1em;
+  padding: 1rem;
+  margin: 0.5rem 0;
+}
+
+.button_send {
+  background-color: #af00c6;
+  border: 2px solid rgb(65, 65, 65);
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.button_send:hover {
+  background-color: #9400a7;
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24), 0 9px 25px 0 rgba(0,0,0,0.19);
+}
+
+.button_file {
+  background-color: #c200dc;
+  border: 2px solid rgb(65, 65, 65);
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
   margin: 0.5em 0;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  width: 12rem;
+}
+
+.button_file:hover {
+  background-color: #ac00c3;
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24), 0 9px 25px 0 rgba(0,0,0,0.19);
+}
+
+.checkbox {
+  accent-color: #9400a7;
+  cursor: pointer;
+}
+
+.textarea {
+  background-color: rgb(241, 241, 241);
+  border: 2px solid rgb(65, 65, 65);
+  border-radius: 4px;
+  outline: none;
+}
+
+.title {
+  background-color: rgb(241, 241, 241);
+  border: 2px solid rgb(65, 65, 65);
+  border-radius: 4px;
+  outline: none;
+}
+
+.dropdown_select {
+  background-color: rgb(241, 241, 241);
+  border: 2px solid rgb(65, 65, 65);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.radio {
+  accent-color: #9400a7;
+  cursor: pointer;
+}
+
+.homepage_stats {
+  border: 3px solid darkgray;
+  margin: 1rem;
+  padding: 0 0.5rem;
 }
 
 .game, .review { /* homepage games and game page reviews */
   border: 3px solid darkgray;
-  margin: 1em;
-  padding: 0 0.5em;
+  margin: 1rem;
+  padding: 0 0.5rem;
 }
 
 .game_image {
@@ -45,16 +117,16 @@ img {
 
 .error { /* error-flash messages */
   border: 3px solid darkgray;
-  margin: 1em;
-  padding: 0.5em;
+  margin: 1rem;
+  padding: 0.5rem;
   background-color: rgb(120, 0, 0);
   color: lightgrey;
 }
 
 .success { /* success-flash messages */
   border: 3px solid darkgray;
-  margin: 1em;
-  padding: 0.5em;
+  margin: 1rem;
+  padding: 0.5rem;
   background-color: rgb(0, 88, 0);
   color: lightgrey;
 }
@@ -62,8 +134,8 @@ img {
 .category { /* game categories */
   display: inline-block;
   border: 2px solid darkgray;
-  margin: 0.1em 0;
-  padding: 0 0.15em;
+  margin: 0.1rem 0;
+  padding: 0 0.15rem;
 }
 
 .edit_game_image { /* makes game images smaller on the edit page */
@@ -73,26 +145,26 @@ img {
 
 .search_form {
   border: 3px solid darkgray;
-  margin: 1em 0;
-  padding: 0.5em;
+  margin: 1rem 0;
+  padding: 0.5rem;
 }
 
 .user {
   border: 2px solid darkgray;
-  margin: 0.5em;
-  padding: 0 1em;
+  margin: 0.5rem;
+  padding: 0 1rem;
 }
 
 .user img, .review img {
   max-width: 20%;
   height: auto;
-  margin: 0.5em 0;
+  margin: 0.5rem 0;
 }
 
 .user_page_img {
   max-width: 30%;
   height: auto;
-  margin: 0.5em 0;
+  margin: 0.5rem 0;
 }
 
 nav {
@@ -106,7 +178,7 @@ nav ul {
 
 nav li {
   display: inline-block;
-  padding: 0 1em;
+  padding: 0 1rem;
   margin: 0;
 }
 
@@ -115,7 +187,7 @@ nav li:not(:last-of-type) {
 }
 
 nav li:not(:first-of-type) {
-  margin-left: -0.25em;
+  margin-left: -0.25rem;
 }
 
 h1, h2, h3 { /* remove automatic margins for h1, h2 and h3 */

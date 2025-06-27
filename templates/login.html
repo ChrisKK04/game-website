@@ -9,12 +9,12 @@
 <form action="/login" method="post">
   <p>
     <label for="username">* Username</label>: <br />
-    <input id="username" type="text" name="username" value="{{ filled.username }}" required />
+    <input id="username" type="text" name="username" value="{{ filled.username }}" required class="title" />
   </p>
 
   <p>
     <label for="password">* Password</label>: <br />
-    <input id="password" type="password" name="password" required />
+    <input id="password" type="password" name="password" required class="title" />
   </p>
 
   {% for message in get_flashed_messages() %}
@@ -28,6 +28,6 @@
   {% else %}
     <input type="hidden" name="next_page" value="/" />
   {% endif %}
-  <input type="submit" value="Login" />
+  <input type="submit" value="Login" class="button_send" />
 </form>
 {% endblock %}
