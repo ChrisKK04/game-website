@@ -12,8 +12,6 @@ import config
         # $ sqlite3 database.db < schema.sql
         # $ sqlite3 database.db < init.sql
 
-# this global variable changes the default sql time zone from UTC 0 to UTC +3
-# it can be freely changed
 TIME = config.TIME
 
 db = sqlite3.connect("database.db")

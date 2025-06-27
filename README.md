@@ -48,8 +48,8 @@ seed.py: populates the database with large amounts of data for peformance testin
 
 config.py: is a file that includes many global variables that are pre-set but can also be freely changed.
 
-Time zone: TIME is a global time zone variable that adjusts the time from UTC 0.
-Secret key: SECRET_KEY is the secret key (session key) of the website.
+Time zone: TIME is a global time zone variable that adjusts the time from UTC 0.  
+Secret key: SECRET_KEY is the secret key (session key) of the website.  
 Data restriction: for example REVIEW_FORM["MAX_SCORE"] sets the highest score that can be given to a game.
 ```
 TIME = '+3 hours'
