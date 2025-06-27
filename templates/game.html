@@ -40,8 +40,8 @@
 <p>
   {% if reviews | count != 0 %}
     <b>
-      {{ reviews | count }} {{ "reviews" if reviews | count > 1 else "review"}} with
-      {{ ("an average score of " ~ average.average) if reviews | count > 1 else ("a score of " ~ average.average) }}
+      {{ reviews | count }} {{ "reviews" if reviews | count != 1 else "review"}} with
+      {{ ("an average score of " ~ average.average) if reviews | count != 1 else ("a score of " ~ average.average) }}
     </b>
   {% else %}
     <b>No reviews</b>

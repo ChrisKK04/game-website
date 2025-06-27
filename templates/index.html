@@ -13,10 +13,10 @@
 
 <h2>Homepage</h2>
   <p>
-    The website features {{ stats.games_amount }} {{ "games" if stats.games_amount > 1 else "game" }}
-    and {{ stats.developers_amount }} {{ "developers" if stats.developers_amount > 1 else "developer" }}. <br />
-    {{ stats.reviewers_amount }} {{ "reviewers" if stats.reviewers_amount > 1 else "reviewer" }}
-    have contributed a total of {{ stats.reviews_amount }} {{ "reviews" if stats.reviews_amount > 1 else "review"}}.
+    The website features {{ stats.games_amount }} {{ "games" if stats.games_amount != 1 else "game" }}
+    and {{ stats.developers_amount }} {{ "developers" if stats.developers_amount != 1 else "developer" }} and
+    {{ stats.reviewers_amount }} {{ "reviewers" if stats.reviewers_amount != 1 else "reviewer" }}
+    have contributed a total of {{ stats.reviews_amount }} {{ "reviews" if stats.reviews_amount != 1 else "review"}}.
   </p>
 <hr />
 
@@ -107,8 +107,8 @@
       {% endif %}
       {% if game.total != 0 %}
         <b>
-          {{ game.total }} {{ "reviews" if game.total > 1 else "review"}} with
-          {{ ("an average score of " ~ game.average) if game.total > 1 else ("a score of " ~ game.average) }}
+          {{ game.total }} {{ "reviews" if game.total != 1 else "review"}} with
+          {{ ("an average score of " ~ game.average) if game.total != 1 else ("a score of " ~ game.average) }}
         </b>
       {% else %}
         <b>No reviews</b>
