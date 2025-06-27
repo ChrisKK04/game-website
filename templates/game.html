@@ -110,12 +110,14 @@
 <hr />
 {% if session.user_id %}
 <p>
-  (Login as a reviewer to review games)
+  (<a href="/login">Login</a> as a reviewer to review games)
 </p>
+<hr />
 {% else %}
 <p>
   (<a href="/login">Login</a> as a reviewer to review games)
 </p>
+<hr />
 {% endif %}
 {% endif %}
 
