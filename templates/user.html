@@ -16,54 +16,54 @@
 {% endfor %}
 
 {% if user.developer == 0 %} <!-- reviewer -->
-<h2>Reviewer {{ user.username }}</h2>
-<hr />
+  <h2>Reviewer {{ user.username }}</h2>
+  <hr />
 
-{% if user.has_image %}
-  <div class="user_page_img">
-    <img src="/profile_picture/{{ user.id }}" alt="User {{ user.username }}'s profile picture" />
-  </div>
-  <br />
-{% endif %}
+  {% if user.has_image %}
+    <div class="user_page_img">
+      <img src="/profile_picture/{{ user.id }}" alt="User {{ user.username }}'s profile picture" />
+    </div>
+    <br />
+  {% endif %}
 
-{% if user.id == session.user_id %}
-  <a href="/update_profile_picture">Update profile picture</a>
-  <br />
-{% endif %}
-
-<p>
-  {{ user.username }} has given {{ reviews | count }} reviews
-</p>
-
-{% if reviews %}
-  <p>
-    First review sent {{ reviews[-1].sent_at }}
-  </p>
+  {% if user.id == session.user_id %}
+    <a href="/update_profile_picture">Update profile picture</a>
+    <br />
+  {% endif %}
 
   <p>
-    Latest review sent {{ reviews[0].sent_at }}
+    {{ user.username }} has given {{ reviews | count }} reviews
   </p>
-{% endif %}
 
-{% if reviews | count != 0 %}
-  <h3>Reviews</h3>
-{% endif %}
-
-{% for review in reviews %}
-  <div class="review">
+  {% if reviews %}
     <p>
-      <a href="/game/{{ review.game_id }}#{{ review. id }}">{{ review.game_title }}</a>
+      First review sent {{ reviews[-1].sent_at }}
     </p>
 
     <p>
-      ({{ review.sent_at }})
-      <br />
-      {{ review.content }}
-      <br />
-      <b>Score: {{ review.score }}</b>
+      Latest review sent {{ reviews[0].sent_at }}
     </p>
-  </div>
-{% endfor %}
+  {% endif %}
+
+  {% if reviews | count != 0 %}
+    <h3>Reviews</h3>
+  {% endif %}
+
+  {% for review in reviews %}
+    <div class="review">
+      <p>
+        <a href="/game/{{ review.game_id }}#{{ review. id }}">{{ review.game_title }}</a>
+      </p>
+
+      <p>
+        ({{ review.sent_at }})
+        <br />
+        {{ review.content }}
+        <br />
+        <b>Score: {{ review.score }}</b>
+      </p>
+    </div>
+  {% endfor %}
 
 {% else %} <!-- developer -->
   <h2>Developer {{ user.username }}</h2>
@@ -75,57 +75,56 @@
     </div>
     <br />
   {% endif %}
-{% endif %}
 
-
-{% if user.id == session.user_id %}
-  <a href="/update_profile_picture">Update profile picture</a>
-  <br />
-{% endif %}
-
-<p>
-  {{ user.username }} has published {{ games | count }} games
-</p>
-
-{% if games %}
-  <p>
-    First game uploaded {{ games[-1].uploaded_at }}
-  </p>
+  {% if user.id == session.user_id %}
+    <a href="/update_profile_picture">Update profile picture</a>
+    <br />
+  {% endif %}
 
   <p>
-    Latest game uploaded {{ games[0].uploaded_at }}
+    {{ user.username }} has published {{ games | count }} games
   </p>
-{% endif %}
 
-{% if games | count != 0 %}
-  <h3>Games</h3>
-{% endif %}
-
-{% for game in games %}
-  <div class="game">
+  {% if games %}
     <p>
-      <a href="/game/{{ game.id }}">{{ game.title }}</a>
+      First game uploaded {{ games[-1].uploaded_at }}
     </p>
+
     <p>
-      ({{ game.uploaded_at }})
-      <br />
-      {{ game.description }}
-      <br />
-      {% if all_dev_game_classes[game.id] %}
-        {% for category in all_dev_game_classes[game.id]['Category'] if all_dev_game_classes[game.id]['Category'] %}
-          <div class="category">{{ category }}</div>
-          {% if loop.index % 5 == 0 %}
-            <br />
-          {% endif %}
-        {% endfor %}
+      Latest game uploaded {{ games[0].uploaded_at }}
+    </p>
+  {% endif %}
+
+  {% if games | count != 0 %}
+    <h3>Games</h3>
+  {% endif %}
+
+  {% for game in games %}
+    <div class="game">
+      <p>
+        <a href="/game/{{ game.id }}">{{ game.title }}</a>
+      </p>
+      <p>
+        ({{ game.uploaded_at }})
         <br />
-      {% endif %}
-      {% if game.total != 0 %}
-      <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
-      {% else %}
-      <b>No reviews</b>
-      {% endif %}
-    </p>
-  </div>
-{% endfor %}
+        {{ game.description }}
+        <br />
+        {% if all_dev_game_classes[game.id] %}
+          {% for category in all_dev_game_classes[game.id]['Category'] if all_dev_game_classes[game.id]['Category'] %}
+            <div class="category">{{ category }}</div>
+            {% if loop.index % 5 == 0 %}
+              <br />
+            {% endif %}
+          {% endfor %}
+          <br />
+        {% endif %}
+        {% if game.total != 0 %}
+        <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
+        {% else %}
+        <b>No reviews</b>
+        {% endif %}
+      </p>
+    </div>
+  {% endfor %}
+{% endif %}
 {% endblock %}
