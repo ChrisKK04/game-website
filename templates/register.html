@@ -11,22 +11,27 @@
     <label for="username">* Username (max {{ USER_FORM['MAX_USERNAME_LENGTH'] }} characters)</label>: <br />
     <input id="username" type="text" name="username" value="{{ filled.username }}" maxlength="{{ USER_FORM['MAX_USERNAME_LENGTH'] }}" required />
   </p>
+
   <p>
     <label for="password1">* Password (max {{ USER_FORM['MAX_PASSWORD_LENGTH'] }} characters)</label>: <br />
     <input id="password1" type="password" name="password1" maxlength="{{ USER_FORM['MAX_PASSWORD_LENGTH'] }}" required/>
   </p>
+
   <p>
     <label for="password2">* Password again</label>: <br />
     <input id="password2" type="password" name="password2" maxlength="{{ USER_FORM['MAX_PASSWORD_LENGTH'] }}" required/>
   </p>
+
   {% for message in get_flashed_messages() %}
-  <p class="error">
-    <b>{{ message }}</b>
-  </p>
+    <p class="error">
+      <b>{{ message }}</b>
+    </p>
   {% endfor %}
+
   <p>
     * Are you a reviewer or a developer?
   </p>
+
   <p>
     <input id="user" type="radio" name="developer" value="0" required/>
     <label for="user">Reviewer (post reviews)</label>
@@ -34,10 +39,11 @@
     <input id="developer" type="radio" name="developer" value="1" required/>
     <label for="developer">Developer (post games)</label>
   </p>
+
   {% if next_page %}
-  <input type="hidden" name="next_page" value="{{ next_page }}" />
+    <input type="hidden" name="next_page" value="{{ next_page }}" />
   {% else %}
-  <input type="hidden" name="next_page" value="/" />
+    <input type="hidden" name="next_page" value="/" />
   {% endif %}
   <input type="submit" value="Create account" />
 </form>

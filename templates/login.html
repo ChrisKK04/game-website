@@ -11,19 +11,22 @@
     <label for="username">* Username</label>: <br />
     <input id="username" type="text" name="username" value="{{ filled.username }}" required />
   </p>
+
   <p>
     <label for="password">* Password</label>: <br />
     <input id="password" type="password" name="password" required />
   </p>
+
   {% for message in get_flashed_messages() %}
-  <p class="error">
-    <b>{{ message }}</b>
-  </p>
+    <p class="error">
+      <b>{{ message }}</b>
+    </p>
   {% endfor %}
+
   {% if next_page %}
-  <input type="hidden" name="next_page" value="{{ next_page }}" />
+    <input type="hidden" name="next_page" value="{{ next_page }}" />
   {% else %}
-  <input type="hidden" name="next_page" value="/" />
+    <input type="hidden" name="next_page" value="/" />
   {% endif %}
   <input type="submit" value="Login" />
 </form>

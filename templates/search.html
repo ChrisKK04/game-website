@@ -4,9 +4,9 @@
 
 {% block content %}
 {% for message in get_flashed_messages() %}
-<p class="success">
-  <b>{{ message }}</b>
-</p>
+  <p class="success">
+    <b>{{ message }}</b>
+  </p>
 {% endfor %}
 <h1>Search</h1>
 <hr />
@@ -258,24 +258,24 @@
 {% if reviews | count != 0 %} <!-- review display -->
   <h2>Reviews</h2>
   {% for review in reviews %}
-  <div class="review">
-    <p>
-      <a href="/user/{{ review.user_id }}">{{ review.username }}</a> for <a href="/game/{{ review.game_id}}#{{ review.review_id }}">{{ review.game_title }}</a>
-    </p>
-    <p>
-      ({{ review.sent_at }})
-      <br />
-      {{ review.content }}
-      <br />
-      <b>Score: {{ review.score }}</b>
-    </p>
-    {% if review.user_id == session.user_id %}
+    <div class="review">
       <p>
-        <a href="/edit_review/{{ review.review_id }}">Edit</a> |
-        <a href="/delete_review/{{ review.review_id }}">Delete</a>
+        <a href="/user/{{ review.user_id }}">{{ review.username }}</a> for <a href="/game/{{ review.game_id}}#{{ review.review_id }}">{{ review.game_title }}</a>
       </p>
-    {% endif %}
-  </div>
+      <p>
+        ({{ review.sent_at }})
+        <br />
+        {{ review.content }}
+        <br />
+        <b>Score: {{ review.score }}</b>
+      </p>
+      {% if review.user_id == session.user_id %}
+        <p>
+          <a href="/edit_review/{{ review.review_id }}">Edit</a> |
+          <a href="/delete_review/{{ review.review_id }}">Delete</a>
+        </p>
+      {% endif %}
+    </div>
   {% endfor %}
 {% elif reviews == [] %}
   <h2>Reviews</h2>
@@ -287,19 +287,19 @@
 {% if users | count != 0 %} <!-- user display -->
   <h2>Users</h2>
   {% for user in users %}
-  <div class="user">
-    <p>
-    {% if user.image %}
-      <img src="/profile_picture/{{ user.id }}" alt="User {{ user.username }}'s profile picture" />
-      <br />
-    {% endif %}
-    {% if user.developer == 0 %}
-      Reviewer <a href="/user/{{ user.id }}">{{ user.username }}</a>
-    {% elif user.developer == 1 %}
-      Developer <a href="/user/{{ user.id }}">{{ user.username }}</a>
-    {% endif %}
-    </p>
-  </div>
+    <div class="user">
+      <p>
+      {% if user.image %}
+        <img src="/profile_picture/{{ user.id }}" alt="User {{ user.username }}'s profile picture" />
+        <br />
+      {% endif %}
+      {% if user.developer == 0 %}
+        Reviewer <a href="/user/{{ user.id }}">{{ user.username }}</a>
+      {% elif user.developer == 1 %}
+        Developer <a href="/user/{{ user.id }}">{{ user.username }}</a>
+      {% endif %}
+      </p>
+    </div>
   {% endfor %}
 {% elif users == [] %}
   <h2>Users</h2>
@@ -311,5 +311,4 @@
 {% if no_search %}
   <h2>No search given</h2>
 {% endif %}
-
 {% endblock %}

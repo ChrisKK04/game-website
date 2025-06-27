@@ -10,6 +10,7 @@
     </p>
   {% endfor %}
 {% endif %}
+
 <h2>Homepage</h2>
 <p>
   The website features {{ stats.games_amount }} games published by {{ stats.developers_amount }} developers <br />
@@ -24,10 +25,12 @@
     <label for="title">* Title (max {{ GAME_FORM['MAX_TITLE_LENGTH'] }} characters)</label>: <br />
     <input id="title" type="text" name="title" maxlength="{{ GAME_FORM['MAX_TITLE_LENGTH'] }}" value="{{ filled.title }}" required/>
   </p>
+
   <p>
     <label for="description">* Description (max {{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }} characters)</label>: <br />
     <textarea id="description" name="description" rows="10" cols="80" maxlength="{{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }}" required>{{ filled.description }}</textarea>
   </p>
+
   <p>
     Categories: <br />
     {% for category in all_classes['Category'] %}
@@ -51,12 +54,14 @@
       {% endif %}
     {% endfor %}
   </p>
+
   <p>
     <label for="images_label">Images</label>: <br />
     <small>(The images have to be .jpg-files and have a maximum size of a {{ IMAGE_FORM['STR_IMAGE_SIZE'] }})</small> <br />
     <small>(You can select multiple images by holding ctrl)</small> <br />
     <input id="images_label" type="file" name="images" accept=".jpg" multiple />
   </p>
+
   {% if filled %}
     {% for message in get_flashed_messages() %}
     <p class="error">
@@ -76,40 +81,42 @@
 {% endif %}
 
 {% if games | count != 0 %}
-<h3>Games</h3>
+  <h3>Games</h3>
 {% else %}
-<h3>No uploaded games</h3>
+  <h3>No uploaded games</h3>
 {% endif %}
 
 {% for game in games %} <!-- displays the games and some info -->
-<div class="game">
-  <p>
-    <a href="/game/{{ game.id }}">{{ game.title }}</a>
-  </p>
-  <p>
-    Published by <a href="/user/{{ game.user_id }}">{{ game.username }}</a> at: {{ game.uploaded_at }} <br />
-    {% if all_game_classes[game.id] %}
-      {% for category in all_game_classes[game.id]['Category'] if all_game_classes[game.id]['Category'] %}
-        <div class="category">{{ category }}</div>
-        {% if loop.index % 5 == 0 %}
-          <br />
-        {% endif %}
-      {% endfor %}
-      <br />
+  <div class="game">
+    <p>
+      <a href="/game/{{ game.id }}">{{ game.title }}</a>
+    </p>
+
+    <p>
+      Published by <a href="/user/{{ game.user_id }}">{{ game.username }}</a> at: {{ game.uploaded_at }} <br />
+      {% if all_game_classes[game.id] %}
+        {% for category in all_game_classes[game.id]['Category'] if all_game_classes[game.id]['Category'] %}
+          <div class="category">{{ category }}</div>
+          {% if loop.index % 5 == 0 %}
+            <br />
+          {% endif %}
+        {% endfor %}
+        <br />
+      {% endif %}
+      {% if game.total != 0 %}
+      <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
+      {% else %}
+      <b>No reviews</b>
+      {% endif %}
+    </p>
+
+    {% if game.user_id == session.user_id %}
+      <p>
+        <a href="/edit_game/{{ game.id }}">Edit</a> |
+        <a href="/delete_game/{{ game.id }}">Delete</a>
+      </p>
     {% endif %}
-    {% if game.total != 0 %}
-    <b>{{ game.total }} reviews with an average score of {{ game.average }}</b>
-    {% else %}
-    <b>No reviews</b>
-    {% endif %}
-  </p>
-  {% if game.user_id == session.user_id %}
-  <p>
-    <a href="/edit_game/{{ game.id }}">Edit</a> |
-    <a href="/delete_game/{{ game.id }}">Delete</a>
-  </p>
-  {% endif %}
-</div>
+  </div>
 {% endfor %}
 
 <p> <!-- Paging -->
@@ -117,5 +124,4 @@
   Page {{ page }}/{{ page_count }}
   <a href="/{{ page + 1}}">&gt;&gt;</a>
 </p>
-</div>
 {% endblock %}

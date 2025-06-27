@@ -81,9 +81,9 @@
   </p>
   
   {% for message in get_flashed_messages() %}
-  <p class="error">
-    <b>{{ message }}</b>
-  </p>
+    <p class="error">
+      <b>{{ message }}</b>
+    </p>
   {% endfor %}
 
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
