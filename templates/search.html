@@ -216,6 +216,9 @@
 
 {% if result_classes | count != 0 %} <!-- game display -->
   <h2>Games</h2>
+  <p>
+    {{ games | count }} {{ "games match the search" if games | count > 1 else "game matches the search"}}
+  </p>
   {% for game in games %}
     {% if game.game_id in valid_game_ids %}
     <div class="game">
@@ -260,6 +263,9 @@
 
 {% if reviews | count != 0 %} <!-- review display -->
   <h2>Reviews</h2>
+  <p>
+    {{ reviews | count }} {{ "reviews match the search" if reviews | count > 1 else "review matches the search"}}
+  </p>
   {% for review in reviews %}
     <div class="review">
       <p>
@@ -289,6 +295,9 @@
 
 {% if users | count != 0 %} <!-- user display -->
   <h2>Users</h2>
+  <p>
+    {{ users | count }} {{ "users match the search" if users | count > 1 else "user matches the search"}}
+  </p>
   {% for user in users %}
     <div class="user">
       <p>
