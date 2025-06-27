@@ -40,7 +40,8 @@ def get_all_classes(): # gets all of the classes from the database into a dictio
 
     return classes
 
-def get_all_game_classes(): # gets the classes for every game into a dictionary all_game_classes[game_id] = classes
+def get_all_game_classes(): # gets the classes for every game into a dictionary
+    # all_game_classes[game_id] = classes
     sql = "SELECT game_id, title, value FROM Game_classes"
     result = db.query(sql)
 
@@ -64,9 +65,11 @@ def get_image(image_id): # gets the id-specified image
     return result[0][0] if result else None
 
 def get_games(page, page_size): # fetches all of the games and their info
-    sql = """SELECT G.id, G.title, G.description, COUNT(R.id) total, G.uploaded_at, G.user_id, U.username,
-            ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) AS average
-            FROM Games G LEFT JOIN Reviews R ON G.id = R.game_id LEFT JOIN Users U on G.user_id = U.id
+    sql = """SELECT G.id, G.title, G.description, COUNT(R.id) total, G.uploaded_at,
+                    G.user_id, U.username, ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) AS average
+            FROM Games G
+            LEFT JOIN Reviews R ON G.id = R.game_id
+            LEFT JOIN Users U on G.user_id = U.id
             GROUP BY G.id
             ORDER BY G.id DESC
             LIMIT ? OFFSET ?"""
@@ -122,7 +125,8 @@ def get_review(review_id): # returns a review's id and contents with it's id
     result = db.query(sql, [review_id])
     return result[0] if result else None # none if no matches
 
-def previous_review(user_id, game_id): # if there is a previous review on the same game, returns the review's id otherwise nothing
+def previous_review(user_id, game_id): # checks if there is a previous review for the same game
+    # if review -> returns it's id else -> returns nothing
     sql = """SELECT R.id
              FROM Reviews R
              LEFT JOIN Games G ON R.game_id = G.id

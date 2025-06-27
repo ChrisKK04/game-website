@@ -5,8 +5,9 @@ import db
 # all database queries relating to searching
 
 def games(title_sql, description, game_score_type, game_score, publisher, classes):
-    sql = """SELECT G.id game_id, G.title, G.description, U.id publisher_id, U.username publisher, G.uploaded_at, COUNT(R.id) total,
-             ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) average
+    sql = """SELECT G.id game_id, G.title, G.description, U.id publisher_id,
+                    U.username publisher, G.uploaded_at, COUNT(R.id) total,
+                    ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) average
              FROM Games G
              LEFT JOIN Users U ON G.user_id = U.id
              LEFT JOIN Reviews R ON G.id = R.game_id
@@ -42,15 +43,18 @@ def games(title_sql, description, game_score_type, game_score, publisher, classe
             set_classes_check.add((title, value)) # add the classes title and value
         if game_id not in result_classes: # if the game doesn't have any classes
             result_classes[game_id] = "no_classes"
-        if set_classes <= set_classes_check: # if the game's classes are a superset of the classes in the search = matches search
+        # if the game's classes are a superset of the classes in the search = matches search
+        if set_classes <= set_classes_check:
             valid_game_ids.append(game_id)
 
-    # games = games that match the search (no classes), result_classes = the classes for every game in games
+    # games = games that match the search (no classes)
+    # result_classes = the classes for every game in games
     # valid_game_ids = the ids of games that include the classes of the search
     return (games_list, result_classes, valid_game_ids)
 
 def reviews(content, review_score_type, review_score):
-    sql = """SELECT U.id user_id, U.username, G.id game_id, G.title game_title, R.id review_id, R.sent_at, R.content, R.score
+    sql = """SELECT U.id user_id, U.username, G.id game_id, G.title game_title,
+                    R.id review_id, R.sent_at, R.content, R.score
              FROM Reviews R
              LEFT JOIN Games G ON R.game_id = G.id
              LEFT JOIN Users U ON R.user_id = U.id

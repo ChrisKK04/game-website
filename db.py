@@ -21,8 +21,8 @@ def execute(sql, params=[]):
     finally: # do everytime no matter if a command fails
         con.close() # close the connection
 
-# Without the finally clause, the database will not be closed right away if an error occurs and could
-# thus lead to a crash.
+# Without the finally clause, the database will not be closed right away if an error occurs
+# and the website could crash.
 
 # ID of the last changed row
 def last_insert_id():

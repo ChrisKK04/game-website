@@ -35,7 +35,7 @@ def create_user(username, password, developer): # adding a user to the database
     except sqlite3.IntegrityError:
         return False
 
-def check_login(username, password): # checks the login a of user and returns the users user_id and developer status
+def check_login(username, password): # checks the login of a user
     sql = "SELECT password_hash, id AS user_id, developer FROM Users WHERE username = ?"
     result = db.query(sql, [username])
     if result:
@@ -58,8 +58,9 @@ def get_reviews(user_id): # users given reviews
     return db.query(sql, [user_id])
 
 def get_games(user_id): # developers published games
-    sql = """SELECT G.id, G.title, G.description, COUNT(R.id) total, G.uploaded_at, G.user_id, U.username,
-            ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) AS average
+    sql = """SELECT G.id, G.title, G.description, COUNT(R.id) total,
+                    G.uploaded_at, G.user_id, U.username,
+                    ROUND(1.0*SUM(R.score) / COUNT(R.id), 1) AS average
             FROM Games G LEFT JOIN Reviews R ON G.id = R.game_id, Users U
             WHERE G.user_id = U.id AND G.user_id = ?
             GROUP BY G.id

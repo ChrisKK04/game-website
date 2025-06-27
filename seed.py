@@ -25,7 +25,8 @@ GAME_COUNT = 10**5
 REVIEW_CONTENT = 10**6
 GAME_CLASSES = 10**5 # amount of classes added to games
 CLASSES = ['Category'] # classes
-CATEGORY_CLASSES = ['racing', 'simulator', 'roguelike', 'action', 'RPG'] # class - category - values
+CATEGORY_CLASSES = ['racing', 'simulator', 'roguelike', 'action', 'RPG']
+# class -> category -> values
 
 for i in range(1, USER_COUNT + 1): # insert users
     developer = 1 if i < 501 else 0

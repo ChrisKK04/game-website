@@ -30,18 +30,19 @@ users = [["RampageGames", "rampagegames", 1],
          ["Jason", "jason", 0],
          ["Emily", "emily", 0]]
 
-games = [["Falorant", """Falorant is a team-based first-person tactical hero shooter set in the near future.
-          Players play as one of a set of Agents, characters based on several countries and cultures
-          around the world. In the main game mode, players are assigned to either the attacking or
-          defending team with each team having five players on it.""", 1],
-          ["League of Ripoffs", """League of Ripoffs is a team-based strategy game where two teams of
-           five powerful champions face off to destroy the other's base. Choose from over 140
-           champions to make epic plays, secure kills, and take down towers as you battle
+games = [["Falorant", """Falorant is a team-based first-person tactical hero shooter set in the
+          near future. Players play as one of a set of Agents, characters based on several
+          countries and cultures around the world. In the main game mode, players are assigned
+          to either the attacking or defending team with each team having five players
+          on it.""", 1],
+          ["League of Ripoffs", """League of Ripoffs is a team-based strategy game where two
+           teams of five powerful champions face off to destroy the other's base. Choose from
+           over 140 champions to make epic plays, secure kills, and take down towers as you battle
            your way to victory.""", 1],
-          ["Counter the DMCA 2", """Welcome to Counter the DMCA 2, the next evolution of the world's
-           most legendary competitive shooter. Built on the powerful Closing 2 engine, CDMCA2 brings
-           breathtaking visuals, hyper-responsive gameplay, and reimagined classics to life — all
-           for free.""", 2],
+          ["Counter the DMCA 2", """Welcome to Counter the DMCA 2, the next evolution of the
+           world's most legendary competitive shooter. Built on the powerful Closing 2 engine,
+           CDMCA2 brings breathtaking visuals, hyper-responsive gameplay, and reimagined classics
+           to life — all for free.""", 2],
            ["Fortress Fight", """Join the worldwide sensation that blends high-speed combat with
             creative construction. In FortressFight Battle Royale, 100 players fight to be the last
             one standing — scavenging weapons, building defenses, and outlasting the competition

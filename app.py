@@ -41,17 +41,22 @@ def check_csrf():
         abort(403)
 
 def valid_user(username, password, developer): # checks user requirements
-    if not username or not password or not developer or len(username) > USER_FORM['MAX_USERNAME_LENGTH'] or len(password) > USER_FORM['MAX_PASSWORD_LENGTH']:
+    if (not username or not password or not developer
+        or len(username) > USER_FORM['MAX_USERNAME_LENGTH']
+        or len(password) > USER_FORM['MAX_PASSWORD_LENGTH']):
         return True
     return False
 
 def valid_game(title, description): # checks game requirements
-    if not title or not description or len(title) > GAME_FORM['MAX_TITLE_LENGTH'] or len(description) > GAME_FORM['MAX_DESCRIPTION_LENGTH']:
+    if (not title or not description
+        or len(title) > GAME_FORM['MAX_TITLE_LENGTH']
+        or len(description) > GAME_FORM['MAX_DESCRIPTION_LENGTH']):
         return True
     return False
 
 def valid_review(content, score): # checks review requirements
-    scores = [str(score) for score in range(REVIEW_FORM['MIN_SCORE'], REVIEW_FORM['MAX_SCORE'] + 1)]
+    scores = ([str(score) for score
+               in range(REVIEW_FORM['MIN_SCORE'], REVIEW_FORM['MAX_SCORE'] + 1)])
     if not content or len(content) > REVIEW_FORM['MAX_LENGTH'] or score not in scores:
         return True
     return False
@@ -91,7 +96,10 @@ def index(page=1):
     stats = forum.get_stats()
 
     if request.method == "GET":
-        return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled={}, stats=stats, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+        return render_template("index.html", page=page, page_count=page_count, games=games,
+                               all_classes=all_classes, all_game_classes=all_game_classes,
+                               filled={}, stats=stats, GAME_FORM=GAME_FORM,
+                               IMAGE_FORM=IMAGE_FORM)
 
     if request.method == "POST":
         require_login()
@@ -115,9 +123,14 @@ def index(page=1):
                 classes.append((class_title, class_value))
 
         if valid_game(title, description):
-            flash(f"A game has to include a title (max {GAME_FORM['MAX_TITLE_LENGTH']} characters) and a description (max {GAME_FORM['MAX_DESCRIPTION_LENGTH']} characters)")
+            flash(f"""A game has to include a title
+                  (max {GAME_FORM['MAX_TITLE_LENGTH']} characters) and a description
+                  (max {GAME_FORM['MAX_DESCRIPTION_LENGTH']} characters)""")
             filled = {"title": title, "description": description, "classes": classes_save}
-            return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled, stats=stats, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+            return render_template("index.html", page=page, page_count=page_count, games=games,
+                                   all_classes=all_classes, all_game_classes=all_game_classes,
+                                   filled=filled, stats=stats, GAME_FORM=GAME_FORM,
+                                   IMAGE_FORM=IMAGE_FORM)
 
         images = []
         for file in request.files.getlist("images"):
@@ -126,12 +139,18 @@ def index(page=1):
             if not file.filename.endswith(".jpg"):
                 flash("ERROR: One or more of the files are not .jpg-files")
                 filled = {"title": title, "description": description, "classes": classes_save}
-                return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled, stats=stats, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+                return render_template("index.html", page=page, page_count=page_count, games=games,
+                                       all_classes=all_classes, all_game_classes=all_game_classes,
+                                       filled=filled, stats=stats, GAME_FORM=GAME_FORM,
+                                       IMAGE_FORM=IMAGE_FORM)
             image = file.read()
             if len(image) > IMAGE_FORM['MAX_IMAGE_SIZE']:
                 flash("ERROR: One or more of the images are too big")
                 filled = {"title": title, "description": description, "classes": classes_save}
-                return render_template("index.html", page=page, page_count=page_count, games=games, all_classes=all_classes, all_game_classes=all_game_classes, filled=filled, stats=stats, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+                return render_template("index.html", page=page, page_count=page_count, games=games,
+                                       all_classes=all_classes, all_game_classes=all_game_classes,
+                                       filled=filled, stats=stats, GAME_FORM=GAME_FORM,
+                                       IMAGE_FORM=IMAGE_FORM)
             images.append(image)
 
         user_id = session["user_id"]
@@ -143,7 +162,8 @@ def index(page=1):
 @app.route("/register", methods=["GET", "POST"]) # register page
 def register():
     if request.method == "GET":
-        return render_template("register.html", next_page=request.referrer, filled={}, USER_FORM=USER_FORM)
+        return render_template("register.html", next_page=request.referrer,
+                               filled={}, USER_FORM=USER_FORM)
 
     if request.method == "POST":
         username = request.form["username"]
@@ -153,7 +173,10 @@ def register():
         next_page = request.form["next_page"]
 
         if valid_user(username, password1, developer):
-            flash(f"An acccount has to have a username (max {USER_FORM['MAX_USERNAME_LENGTH']} characters), a password (max {USER_FORM['MAX_PASSWORD_LENGTH']} characters) and a user type (reviewer or developer)")
+            flash(f"""An acccount has to have a username
+                  (max {USER_FORM['MAX_USERNAME_LENGTH']} characters), a password
+                  (max {USER_FORM['MAX_PASSWORD_LENGTH']} characters) and a user type
+                  (reviewer or developer)""")
             filled = {"username": username}
             return render_template("register.html", filled=filled, USER_FORM=USER_FORM)
 
@@ -163,7 +186,7 @@ def register():
             return render_template("register.html", filled=filled, USER_FORM=USER_FORM)
 
         if users.create_user(username, password1, developer):
-            session["username"] = username # The user will be logged in automatically when an account is made
+            session["username"] = username # Login the user
             session["developer"] = int(developer) # stores whether or not the user is a developer
             session["user_id"] = db.last_insert_id() # fetch the id
             session["csrf_token"] = secrets.token_hex(16) # generates a hidden csrf-session-token
@@ -174,7 +197,8 @@ def register():
 
         flash("ERROR: The username is taken")
         filled = {"username": username}
-        return render_template("register.html", next_page=next_page, filled=filled, USER_FORM=USER_FORM)
+        return render_template("register.html", next_page=next_page,
+                               filled=filled, USER_FORM=USER_FORM)
 
     return redirect("/")
 
@@ -222,7 +246,8 @@ def show_game(game_id):
     images = forum.get_images(game_id)
 
     if request.method == "GET":
-        return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes, images=images, REVIEW_FORM=REVIEW_FORM)
+        return render_template("game.html", game=game, average=average, reviews=reviews,
+                               classes=classes, images=images, REVIEW_FORM=REVIEW_FORM)
 
     if request.method == "POST":
         require_login()
@@ -233,15 +258,23 @@ def show_game(game_id):
         user_id = session["user_id"]
         game_id = request.form["game_id"]
         if valid_review(content, score):
-            flash(f"A review has to include the review (max {REVIEW_FORM['MAX_LENGTH']} characters) and a score ({REVIEW_FORM['MIN_SCORE']}-{REVIEW_FORM['MAX_SCORE']})")
+            flash(f"""A review has to include the review
+                  (max {REVIEW_FORM['MAX_LENGTH']} characters) and a score
+                  ({REVIEW_FORM['MIN_SCORE']}-{REVIEW_FORM['MAX_SCORE']})""")
             filled = {"content": content, "score": str(score)}
-            return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes, images=images, filled=filled, REVIEW_FORM=REVIEW_FORM)
+            return render_template("game.html", game=game, average=average, reviews=reviews,
+                                   classes=classes, images=images, filled=filled,
+                                   REVIEW_FORM=REVIEW_FORM)
 
         previous_review = forum.previous_review(user_id, game_id)
         if previous_review is not None:
-            flash(f"You have a previous review on this game. You can edit or delete the previous <a href='/game/{game_id}#{previous_review['id']}'>review</a>.")
+            flash(f"""You have a previous review on this game.
+                  You can edit or delete the previous
+                  <a href='/game/{game_id}#{previous_review['id']}'>review</a>.""")
             filled = {"content": content, "score": str(score), "previous": True}
-            return render_template("game.html", game=game, average=average, reviews=reviews, classes=classes, images=images, filled=filled, REVIEW_FORM=REVIEW_FORM)
+            return render_template("game.html", game=game, average=average, reviews=reviews,
+                                   classes=classes, images=images, filled=filled,
+                                   REVIEW_FORM=REVIEW_FORM)
 
         try:
             forum.new_review(content, user_id, game_id, score)
@@ -281,9 +314,12 @@ def edit_review(review_id):
         content = request.form["content"]
         score = request.form["score"]
         if valid_review(content, score):
-            flash(F"A review has to include the review (max {REVIEW_FORM['MAX_LENGTH']} characters) and a score ({REVIEW_FORM['MIN_SCORE']}-{REVIEW_FORM['MAX_SCORE']})")
+            flash(f"""A review has to include the review
+                  (max {REVIEW_FORM['MAX_LENGTH']} characters) and a score
+                  ({REVIEW_FORM['MIN_SCORE']}-{REVIEW_FORM['MAX_SCORE']})""")
             filled = {"content": content, "score": str(score)}
-            return render_template("edit_review.html", review=review, filled=filled, REVIEW_FORM=REVIEW_FORM)
+            return render_template("edit_review.html", review=review,
+                                   filled=filled, REVIEW_FORM=REVIEW_FORM)
 
         forum.edit_review(review["id"], content, score)
         return redirect("/game/" + str(review["game_id"]))
@@ -329,7 +365,9 @@ def edit_game(game_id):
     images = forum.get_images(game_id)
 
     if request.method == "GET":
-        return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes, images=images, filled={}, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+        return render_template("edit_game.html", game=game, all_classes=all_classes,
+                               classes=classes, images=images, filled={},
+                               GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
 
     if request.method == "POST":
         check_csrf()
@@ -358,18 +396,26 @@ def edit_game(game_id):
             if not file.filename.endswith(".jpg"):
                 flash("ERROR: One or more of the files are not .jpg-files")
                 filled = {"title": title, "description": description, "classes": classes_save}
-                return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes, images=images, filled=filled, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+                return render_template("edit_game.html", game=game, all_classes=all_classes,
+                                       classes=classes, images=images, filled=filled,
+                                       GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
             image = file.read()
             if len(image) > IMAGE_FORM['MAX_IMAGE_SIZE']:
                 flash("ERROR: One or more of the images are too big")
                 filled = {"title": title, "description": description, "classes": classes_save}
-                return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes, images=images, filled=filled, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+                return render_template("edit_game.html", game=game, all_classes=all_classes,
+                                       classes=classes, images=images, filled=filled,
+                                       GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
             new_images.append(image)
 
         if valid_game(title, description):
-            flash(f"A game has to include a title (max {GAME_FORM['MAX_TITLE_LENGTH']} characters) and a description (max {GAME_FORM['MAX_DESCRIPTION_LENGTH']} characters)")
+            flash(f"""A game has to include a title
+                  (max {GAME_FORM['MAX_TITLE_LENGTH']} characters) and a description
+                  (max {GAME_FORM['MAX_DESCRIPTION_LENGTH']} characters)""")
             filled = {"title": title, "description": description, "classes": classes_save}
-            return render_template("edit_game.html", game=game, all_classes=all_classes, classes=classes, images=images, filled=filled, GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+            return render_template("edit_game.html", game=game, all_classes=all_classes,
+                                   classes=classes, images=images, filled=filled,
+                                   GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
 
         forum.edit_game(game["id"], title, description, classes, delete_images, new_images)
         return redirect("/game/" + str(game["id"]))
@@ -413,8 +459,9 @@ def show_user(user_id):
     if user["developer"] == 1: # developer
         games = users.get_games(user_id)
         all_dev_game_classes = users.get_all_dev_game_classes(user_id)
-        return render_template("user.html", user=user, games=games, all_dev_game_classes=all_dev_game_classes)
-    
+        return render_template("user.html", user=user, games=games,
+                               all_dev_game_classes=all_dev_game_classes)
+
     return redirect("/")
 
 @app.route("/update_profile_picture", methods=["GET", "POST"]) # update profile picture
@@ -478,20 +525,28 @@ def search():
                 classes_save[class_title].append(class_value)
                 classes.append((class_title, class_value))
 
-        games_filled = {"title": title, "description": description, "game_score_type": str(game_score_type), "game_score": game_score, "publisher": publisher, "classes_save": classes_save}
+        games_filled = {"title": title, "description": description,
+                        "game_score_type": str(game_score_type), "game_score": game_score,
+                        "publisher": publisher, "classes_save": classes_save}
 
-        games, result_classes, valid_game_ids = searching.games(title, description, game_score_type, game_score, publisher, classes)
-        return render_template("search.html", all_classes=all_classes, games=games, result_classes=result_classes, valid_game_ids=valid_game_ids, games_filled=games_filled)
+        games, result_classes, valid_game_ids = searching.games(title, description,
+                                                                game_score_type, game_score,
+                                                                publisher, classes)
+        return render_template("search.html", all_classes=all_classes, games=games,
+                               result_classes=result_classes, valid_game_ids=valid_game_ids,
+                               games_filled=games_filled)
 
     if search_type == "review_search":
         content = request.args.get("content")
         review_score_type = int(request.args.get("review_score_type"))
         review_score = int(request.args.get("review_score"))
 
-        reviews_filled = {"content": content, "review_score_type": str(review_score_type), "review_score": str(review_score)}
+        reviews_filled = {"content": content, "review_score_type": str(review_score_type),
+                          "review_score": str(review_score)}
 
         reviews = searching.reviews(content, review_score_type, review_score)
-        return render_template("search.html", all_classes=all_classes, reviews=reviews, reviews_filled=reviews_filled)
+        return render_template("search.html", all_classes=all_classes, reviews=reviews,
+                               reviews_filled=reviews_filled)
 
     if search_type == "user_search":
         username = request.args.get("username")
@@ -500,7 +555,8 @@ def search():
         users_filled = {"username": username, "user_type": str(user_type)}
 
         users_list = searching.users(username, user_type)
-        return render_template("search.html", all_classes=all_classes, users=users_list, users_filled=users_filled)
+        return render_template("search.html", all_classes=all_classes, users=users_list,
+                               users_filled=users_filled)
 
     no_search = True
     return render_template("search.html", all_classes=all_classes, no_search=no_search)
