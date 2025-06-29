@@ -35,7 +35,7 @@
 
       <p>
         <label for="description">* Description (max {{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }} characters)</label>: <br />
-        <textarea id="description" name="description" rows="10" cols="80" maxlength="{{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }}" required class="textarea">{{ filled.description }}</textarea>
+        <textarea id="description" name="description" rows="{{ ROWS_COLS['ROWS'] }}" cols="{{ ROWS_COLS['COLS'] }}" maxlength="{{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }}" required class="textarea">{{ filled.description }}</textarea>
       </p>
 
       <p>
@@ -56,7 +56,7 @@
               <input type="checkbox" name="classes" value="Category:{{ category }}" class="checkbox" /> {{ category }}
             </label>
           {% endif %}
-          {% if loop.index % 5 == 0 %} <!-- only allows 5 categories per line -->
+          {% if loop.index % CATEGORIES_PER_LINE == 0 %} <!-- only allows 5 categories per line -->
             <br />
           {% endif %}
         {% endfor %}
@@ -105,7 +105,7 @@
       {% if all_game_classes[game.id] %}
         {% for category in all_game_classes[game.id]['Category'] if all_game_classes[game.id]['Category'] %}
           <div class="category">{{ category }}</div>
-          {% if loop.index % 5 == 0 %}
+          {% if loop.index % CATEGORIES_PER_LINE == 0 %}
             <br />
           {% endif %}
         {% endfor %}

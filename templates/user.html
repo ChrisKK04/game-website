@@ -119,7 +119,7 @@
         {% if all_dev_game_classes[game.id] %}
           {% for category in all_dev_game_classes[game.id]['Category'] if all_dev_game_classes[game.id]['Category'] %}
             <div class="category">{{ category }}</div>
-            {% if loop.index % 5 == 0 %}
+            {% if loop.index % CATEGORIES_PER_LINE == 0 %}
               <br />
             {% endif %}
           {% endfor %}

@@ -31,7 +31,9 @@ IMAGE_FORM = config.IMAGE_FORM
 REVIEW_FORM = config.REVIEW_FORM
 GAME_FORM = config.GAME_FORM
 USER_FORM = config.USER_FORM
+CATEGORIES_PER_LINE = config.CATEGORIES_PER_LINE
 BLOCK_NEXT_PAGE_REDIRECT = config.BLOCK_NEXT_PAGE_REDIRECT
+ROWS_COLS = config.ROWS_COLS
 
 def require_login(): # checks login
     if "user_id" not in session:
@@ -100,7 +102,8 @@ def index(page=1):
         return render_template("index.html", page=page, page_count=page_count, games=games,
                                all_classes=all_classes, all_game_classes=all_game_classes,
                                filled={}, stats=stats, GAME_FORM=GAME_FORM,
-                               IMAGE_FORM=IMAGE_FORM)
+                               IMAGE_FORM=IMAGE_FORM, ROWS_COLS=ROWS_COLS,
+                               CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
 
     if request.method == "POST":
         require_login()
@@ -131,7 +134,8 @@ def index(page=1):
             return render_template("index.html", page=page, page_count=page_count, games=games,
                                    all_classes=all_classes, all_game_classes=all_game_classes,
                                    filled=filled, stats=stats, GAME_FORM=GAME_FORM,
-                                   IMAGE_FORM=IMAGE_FORM)
+                                   IMAGE_FORM=IMAGE_FORM, ROWS_COLS=ROWS_COLS,
+                                   CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
 
         images = []
         for file in request.files.getlist("images"):
@@ -143,7 +147,8 @@ def index(page=1):
                 return render_template("index.html", page=page, page_count=page_count, games=games,
                                        all_classes=all_classes, all_game_classes=all_game_classes,
                                        filled=filled, stats=stats, GAME_FORM=GAME_FORM,
-                                       IMAGE_FORM=IMAGE_FORM)
+                                       IMAGE_FORM=IMAGE_FORM, ROWS_COLS=ROWS_COLS,
+                                       CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
             image = file.read()
             if len(image) > IMAGE_FORM["MAX_IMAGE_SIZE"]:
                 flash("ERROR: One or more of the images are too big")
@@ -151,7 +156,8 @@ def index(page=1):
                 return render_template("index.html", page=page, page_count=page_count, games=games,
                                        all_classes=all_classes, all_game_classes=all_game_classes,
                                        filled=filled, stats=stats, GAME_FORM=GAME_FORM,
-                                       IMAGE_FORM=IMAGE_FORM)
+                                       IMAGE_FORM=IMAGE_FORM, ROWS_COLS=ROWS_COLS,
+                                       CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
             images.append(image)
 
         user_id = session["user_id"]
@@ -253,7 +259,8 @@ def show_game(game_id):
 
     if request.method == "GET":
         return render_template("game.html", game=game, average=average, reviews=reviews,
-                               classes=classes, images=images, REVIEW_FORM=REVIEW_FORM)
+                               classes=classes, images=images, REVIEW_FORM=REVIEW_FORM,
+                               ROWS_COLS=ROWS_COLS, CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
 
     if request.method == "POST":
         require_login()
@@ -270,7 +277,8 @@ def show_game(game_id):
             filled = {"content": content, "score": str(score)}
             return render_template("game.html", game=game, average=average, reviews=reviews,
                                    classes=classes, images=images, filled=filled,
-                                   REVIEW_FORM=REVIEW_FORM)
+                                   REVIEW_FORM=REVIEW_FORM, ROWS_COLS=ROWS_COLS,
+                                   CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
 
         previous_review = forum.previous_review(user_id, game_id)
         if previous_review is not None:
@@ -280,7 +288,8 @@ def show_game(game_id):
             filled = {"content": content, "score": str(score), "previous": True}
             return render_template("game.html", game=game, average=average, reviews=reviews,
                                    classes=classes, images=images, filled=filled,
-                                   REVIEW_FORM=REVIEW_FORM)
+                                   REVIEW_FORM=REVIEW_FORM, ROWS_COLS=ROWS_COLS,
+                                   CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
 
         try:
             forum.new_review(content, user_id, game_id, score)
@@ -313,7 +322,8 @@ def edit_review(review_id):
         abort(403)
 
     if request.method == "GET":
-        return render_template("edit_review.html", review=review, REVIEW_FORM=REVIEW_FORM)
+        return render_template("edit_review.html", review=review, REVIEW_FORM=REVIEW_FORM,
+                               ROWS_COLS=ROWS_COLS)
 
     if request.method == "POST":
         check_csrf()
@@ -325,7 +335,7 @@ def edit_review(review_id):
                   ({REVIEW_FORM['MIN_SCORE']}-{REVIEW_FORM['MAX_SCORE']})""")
             filled = {"content": content, "score": str(score)}
             return render_template("edit_review.html", review=review,
-                                   filled=filled, REVIEW_FORM=REVIEW_FORM)
+                                   filled=filled, REVIEW_FORM=REVIEW_FORM, ROWS_COLS=ROWS_COLS)
 
         flash("Review edited")
         forum.edit_review(review["id"], content, score)
@@ -375,7 +385,8 @@ def edit_game(game_id):
     if request.method == "GET":
         return render_template("edit_game.html", game=game, all_classes=all_classes,
                                classes=classes, images=images, filled={},
-                               GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+                               GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM, ROWS_COLS=ROWS_COLS,
+                               CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
 
     if request.method == "POST":
         check_csrf()
@@ -406,14 +417,18 @@ def edit_game(game_id):
                 filled = {"title": title, "description": description, "classes": classes_save}
                 return render_template("edit_game.html", game=game, all_classes=all_classes,
                                        classes=classes, images=images, filled=filled,
-                                       GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+                                       GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM,
+                                       ROWS_COLS=ROWS_COLS,
+                                       CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
             image = file.read()
             if len(image) > IMAGE_FORM["MAX_IMAGE_SIZE"]:
                 flash("ERROR: One or more of the images are too big")
                 filled = {"title": title, "description": description, "classes": classes_save}
                 return render_template("edit_game.html", game=game, all_classes=all_classes,
                                        classes=classes, images=images, filled=filled,
-                                       GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+                                       GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM,
+                                       ROWS_COLS=ROWS_COLS,
+                                       CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
             new_images.append(image)
 
         if valid_game(title, description):
@@ -423,7 +438,9 @@ def edit_game(game_id):
             filled = {"title": title, "description": description, "classes": classes_save}
             return render_template("edit_game.html", game=game, all_classes=all_classes,
                                    classes=classes, images=images, filled=filled,
-                                   GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
+                                   GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM,
+                                   ROWS_COLS=ROWS_COLS,
+                                   CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
 
         flash("Game edited")
         forum.edit_game(game["id"], title, description, classes, delete_images, new_images)
@@ -465,12 +482,14 @@ def show_user(user_id):
 
     if user["developer"] == 0: # user
         reviews = users.get_reviews(user_id)
-        return render_template("user.html", user=user, reviews=reviews)
+        return render_template("user.html", user=user, reviews=reviews,
+                               CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
     if user["developer"] == 1: # developer
         games = users.get_games(user_id)
         all_dev_game_classes = users.get_all_dev_game_classes(user_id)
         return render_template("user.html", user=user, games=games,
-                               all_dev_game_classes=all_dev_game_classes)
+                               all_dev_game_classes=all_dev_game_classes,
+                               CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
 
     return redirect("/")
 
@@ -544,7 +563,8 @@ def search():
                                                                 publisher, classes)
         return render_template("search.html", all_classes=all_classes, games=games,
                                result_classes=result_classes, valid_game_ids=valid_game_ids,
-                               games_filled=games_filled)
+                               games_filled=games_filled, ROWS_COLS=ROWS_COLS,
+                               CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
 
     if search_type == "review_search":
         content = request.args.get("content")
@@ -556,7 +576,8 @@ def search():
 
         reviews = searching.reviews(content, review_score_type, review_score)
         return render_template("search.html", all_classes=all_classes, reviews=reviews,
-                               reviews_filled=reviews_filled)
+                               reviews_filled=reviews_filled, ROWS_COLS=ROWS_COLS,
+                               CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
 
     if search_type == "user_search":
         username = request.args.get("username")
@@ -566,7 +587,9 @@ def search():
 
         users_list = searching.users(username, user_type)
         return render_template("search.html", all_classes=all_classes, users=users_list,
-                               users_filled=users_filled)
+                               users_filled=users_filled, ROWS_COLS=ROWS_COLS,
+                               CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)
 
     no_search = True
-    return render_template("search.html", all_classes=all_classes, no_search=no_search)
+    return render_template("search.html", all_classes=all_classes, no_search=no_search,
+                           ROWS_COLS=ROWS_COLS, CATEGORIES_PER_LINE=CATEGORIES_PER_LINE)

@@ -10,9 +10,9 @@
   <p>
     <label for="content">* Review (max {{ REVIEW_FORM['MAX_LENGTH'] }} characters)</label>:<br />
     {% if filled %}
-      <textarea id="content" name="content" rows="10" cols="80" maxlength="{{ REVIEW_FORM['MAX_LENGTH'] }}" required class="textarea">{{ filled.content }}</textarea>
+      <textarea id="content" name="content" rows="{{ ROWS_COLS['ROWS'] }}" cols="{{ ROWS_COLS['COLS'] }}" maxlength="{{ REVIEW_FORM['MAX_LENGTH'] }}" required class="textarea">{{ filled.content }}</textarea>
     {% else %}
-      <textarea id="content" name="content" rows="10" cols="80" maxlength="{{ REVIEW_FORM['MAX_LENGTH'] }}" required class="textarea">{{ review.content }}</textarea>
+      <textarea id="content" name="content" rows="{{ ROWS_COLS['ROWS'] }}" cols="{{ ROWS_COLS['COLS'] }}" maxlength="{{ REVIEW_FORM['MAX_LENGTH'] }}" required class="textarea">{{ review.content }}</textarea>
     {% endif %}
   </p>
 

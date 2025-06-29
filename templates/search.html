@@ -27,9 +27,9 @@
     <p>
       <label for="description">Description</label>: <br />
       {% if games_filled %}
-        <textarea id="description" name="description" rows="5" cols="60" class="textarea">{{ games_filled.description }}</textarea>
+        <textarea id="description" name="description" rows="{{ ROWS_COLS['ROWS_SEARCH'] }}" cols="{{ ROWS_COLS['COLS_SEARCH'] }}" class="textarea">{{ games_filled.description }}</textarea>
       {% else %}
-        <textarea id="description" name="description" rows="5" cols="60" class="textarea"></textarea>
+        <textarea id="description" name="description" rows="{{ ROWS_COLS['ROWS_SEARCH'] }}" cols="{{ ROWS_COLS['COLS_SEARCH'] }}" class="textarea"></textarea>
       {% endif %}
     </p>
 
@@ -51,7 +51,7 @@
             <input type="checkbox" name="classes" value="Category:{{ category }}" class="checkbox" /> {{ category }}
           </label>
         {% endif %}
-        {% if loop.index % 5 == 0 %}
+        {% if loop.index % CATEGORIES_PER_LINE == 0 %}
           <br />
         {% endif %}
       {% endfor %}
@@ -111,9 +111,9 @@
     <p>
       <label for="content">Content</label>: <br />
       {% if reviews_filled %}
-        <textarea id="content" name="content" rows="5" cols="60" class="textarea">{{ reviews_filled.content }}</textarea>
+        <textarea id="content" name="content" rows="{{ ROWS_COLS['ROWS_SEARCH'] }}" cols="{{ ROWS_COLS['COLS_SEARCH'] }}" class="textarea">{{ reviews_filled.content }}</textarea>
       {% else %}
-        <textarea id="content" name="content" rows="5" cols="60" class="textarea"></textarea>
+        <textarea id="content" name="content" rows="{{ ROWS_COLS['ROWS_SEARCH'] }}" cols="{{ ROWS_COLS['COLS_SEARCH'] }}" class="textarea"></textarea>
       {% endif %}
     </p>
 
@@ -231,7 +231,7 @@
         {% if result_classes[game.game_id] != "no_classes" %}
           {% for category in result_classes[game.game_id]['Category'] %}
             <div class="category">{{ category }}</div>
-            {% if loop.index % 5 == 0 %}
+            {% if loop.index % CATEGORIES_PER_LINE == 0 %}
               <br />
             {% endif %}
           {% endfor %}
