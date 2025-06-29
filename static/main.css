@@ -16,6 +16,10 @@ a {
   color: rgb(101, 0, 114);
 }
 
+a:hover {
+  color: rgb(51, 0, 58);
+}
+
 .header {
   background-color: gray;
   border-radius: 4px;
@@ -144,7 +148,7 @@ a {
 }
 
 .error { /* error-flash messages */
-  border: 3px solid darkgray;
+  border: 3px solid rgb(141, 141, 141);
   border-radius: 4px;
   margin: 1rem;
   padding: 0.5rem;
@@ -153,7 +157,7 @@ a {
 }
 
 .success { /* success-flash messages */
-  border: 3px solid darkgray;
+  border: 3px solid rgb(141, 141, 141);
   border-radius: 4px;
   margin: 1rem;
   padding: 0.5rem;
@@ -163,7 +167,7 @@ a {
 
 .category { /* game categories */
   display: inline-block;
-  border: 2px solid darkgray;
+  border: 2px solid rgb(160, 159, 159);
   border-radius: 4px;
   margin: 0.1rem 0;
   padding: 0 0.15rem;
@@ -175,14 +179,16 @@ a {
 }
 
 .search_form {
-  border: 3px solid darkgray;
+  border: 3px solid rgb(141, 141, 141);
+  background-color: rgb(205, 205, 205);
   border-radius: 4px;
   margin: 1rem 0;
   padding: 0.5rem;
 }
 
 .user {
-  border: 2px solid darkgray;
+  border: 2px solid rgb(141, 141, 141);
+  background-color: rgb(205, 205, 205);
   border-radius: 4px;
   margin: 0.5rem;
   padding: 0 1rem;
