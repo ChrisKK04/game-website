@@ -29,7 +29,7 @@ a:hover {
 }
 
 .header_text {
-  color: rgb(93, 0, 106);
+  color: rgb(97, 1, 112);
 }
 
 .nav {
@@ -158,6 +158,10 @@ a:hover {
   padding: 0.5rem;
   background-color: rgb(120, 0, 0);
   color: lightgrey;
+}
+
+.error a {
+  color: whitesmoke;
 }
 
 .success { /* success-flash messages */

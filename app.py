@@ -233,7 +233,7 @@ def login():
 @app.route("/logout") # logout handler
 def logout():
     session.clear()
-    flash("Logged out")
+    flash("Logged out.")
     next_page = request.referrer
 
     for block in BLOCK_NEXT_PAGE_REDIRECT:
