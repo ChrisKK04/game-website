@@ -28,6 +28,10 @@ a:hover {
   margin: 0.5rem 0; /* space outside of the element (vertical horizontal)*/
 }
 
+.header_text {
+  color: rgb(93, 0, 106);
+}
+
 .nav {
   background-color: darkgray;
   border-radius: 4px;

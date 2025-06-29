@@ -122,7 +122,10 @@ def new_review(content, user_id, game_id, score): # adds a new review for a game
     db.execute(sql, [content, user_id, game_id, score])
 
 def get_review(review_id): # returns a review's id and contents with it's id
-    sql = "SELECT id, game_id, content, user_id, score FROM reviews WHERE id = ?"
+    sql = """SELECT r.id, r.game_id, r.content, r.user_id, r.score, g.title
+             FROM reviews r
+             LEFT JOIN games g ON r.game_id = g.id
+             WHERE r.id = ?"""
     result = db.query(sql, [review_id])
     return result[0] if result else None # none if no matches
 

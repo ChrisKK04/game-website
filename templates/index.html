@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 <!-- Homepage -->
-{% block title%}Homepage{% endblock %}
+{% block title%}Homepage - Purple{% endblock %}
 
 {% block content %}
 {% if not filled %}
@@ -16,7 +16,7 @@
     <p>
       <b>
         Explore {{ stats.games_amount }} unique {{ "games" if stats.games_amount != 1 else "game" }}
-        crafted by {{ stats.developers_amount }} {{ "developers" if stats.developers_amount != 1 else "developer" }},
+        crafted by {{ stats.developers_amount }} talented {{ "developers" if stats.developers_amount != 1 else "developer" }},
         reviewed by {{ stats.reviewers_amount }} community {{ "reviewers who have" if stats.reviewers_amount != 1 else "reviewer who has" }}
         contributed a total of {{ stats.reviews_amount }} {{ "reviews" if stats.reviews_amount != 1 else "review"}}.
       </b>
