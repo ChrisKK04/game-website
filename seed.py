@@ -32,7 +32,7 @@ for i in range(1, USER_COUNT + 1): # insert users
     developer = 1 if i < 501 else 0
     db.execute("""INSERT INTO Users (username, password_hash, developer)
                   VALUES (?, ?, ?)""",
-               ["user" + str(i), "user" + str(i), developer])
+                ["user" + str(i), "user" + str(i), developer])
 
 for i in range(1, GAME_COUNT + 1): # insert games
     user_id = random.randint(1, USER_COUNT // 2)
@@ -40,13 +40,13 @@ for i in range(1, GAME_COUNT + 1): # insert games
                   VALUES (?, ?, datetime('now'), ?)""",
                ["game" + str(i), "game" + str(i), user_id])
 
-for i in range(1, REVIEW_CONTENT): # insert reviews
+for i in range(1, REVIEW_CONTENT + 1): # insert reviews
     user_id = random.randint(501, USER_COUNT)
     game_id = random.randint(1, GAME_COUNT)
     score = random.choice([1, 2, 3, 4, 5])
     db.execute("""INSERT INTO Reviews (content, sent_at, user_id, game_id, score)
                   VALUES (?, datetime('now'), ?, ?, ?)""",
-                  ["message" + str(i), user_id, game_id, score])
+                ["message" + str(i), user_id, game_id, score])
 
 for i in range(1, GAME_CLASSES + 1):
     game_id = random.randint(1, GAME_COUNT)
@@ -54,7 +54,7 @@ for i in range(1, GAME_CLASSES + 1):
     value = random.choice(CATEGORY_CLASSES)
     db.execute("""INSERT INTO Game_classes (game_id, title, value)
                   VALUES (?, ?, ?)""",
-                  [game_id, title, value])
+                [game_id, title, value])
 
 db.commit()
 db.close()
