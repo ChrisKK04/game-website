@@ -32,7 +32,7 @@
   {% endif %}
 
   <p>
-    {{ user.username }} has given {{ reviews | count }} {{ "reviews" if reviews | count > 1 else "review" }}
+    {{ user.username }} has given {{ reviews | count }} {{ "reviews" if reviews | count != 1 else "review" }}
   </p>
 
   {% if reviews %}
@@ -46,9 +46,9 @@
   {% endif %}
 
   {% if reviews | count != 0 %}
+    <hr />
     <h3>Reviews</h3>
   {% endif %}
-
   {% for review in reviews %}
     <div class="review">
       <p>
@@ -89,7 +89,7 @@
   {% endif %}
 
   <p>
-    {{ user.username }} has published {{ games | count }} {{ "games" if games | count > 1 else "game" }}
+    {{ user.username }} has published {{ games | count }} {{ "games" if games | count != 1 else "game" }}
   </p>
 
   {% if games %}
@@ -103,9 +103,9 @@
   {% endif %}
 
   {% if games | count != 0 %}
+    <hr />
     <h3>Games</h3>
   {% endif %}
-
   {% for game in games %}
     <div class="game">
       <p>
