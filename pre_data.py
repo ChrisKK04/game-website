@@ -30,7 +30,8 @@ users = [["RampageGames", "rampagegames", 1],
          ["SleeplessnessGames", "sleeplessnessgames", 1],
          ["Jason", "jason", 0],
          ["Emily", "emily", 0],
-         ["Bob", "bob", 0]]
+         ["Bob", "bob", 0],
+         ["Chris", "chris", 0]]
 
 # title, description, publisher id
 games = [["Falorant", """Falorant is a team-based first-person tactical hero shooter set in the
@@ -65,14 +66,19 @@ games = [["Falorant", """Falorant is a team-based first-person tactical hero sho
 
 # content, user id, game id, score
 reviews = [["Similar to CDMCA 2 but with abilities.", 5, 1, 3],
+           ["My favorite game when I first got a proper PC :)", 8, 1, 5],
            ["wayyyyyyy better than CDMCA 2", 6, 1, 5],
            ["Crazy how you can explore the ENTIRE US!", 5, 2, 5],
            ["Apparently Ibuhard is taking the game offline...", 6, 2, 1],
+           ["My most played racing game", 8, 2, 5],
            ["bob :)", 7, 2, 5],
            ["This game is way better than the 3D copycat version.", 6, 3, 4],
+           ["INSANELY addictive!", 8, 3, 5],
            ["The puzzles are too hard :/", 5, 4, 2],
            ["I love how unique the different planets are", 6, 4, 5],
-           ["THEY NAMED A GAME AFTER ME!!!", 7, 5, 5]]
+           ["My childhood!!!", 8, 4, 5],
+           ["THEY NAMED A GAME AFTER ME!!!", 7, 5, 5],
+           ["My most played game by far", 8, 5, 5]]
 
 # game id, class, value
 classes = [[1, "Category", "Action"],
