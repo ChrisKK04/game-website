@@ -14,10 +14,10 @@
 <h2>Homepage</h2>
   <div class="homepage_stats">
     <p>
-      The website features {{ stats.games_amount }} {{ "games" if stats.games_amount != 1 else "game" }}
-      uploaded by {{ stats.developers_amount }} {{ "developers" if stats.developers_amount != 1 else "developer" }} and
-      {{ stats.reviewers_amount }} {{ "reviewers" if stats.reviewers_amount != 1 else "reviewer" }}
-      have contributed a total of {{ stats.reviews_amount }} {{ "reviews" if stats.reviews_amount != 1 else "review"}}.
+      Explore {{ stats.games_amount }} unique {{ "games" if stats.games_amount != 1 else "game" }}
+      crafted by {{ stats.developers_amount }} {{ "developers" if stats.developers_amount != 1 else "developer" }},
+      reviewed by {{ stats.reviewers_amount }} community {{ "reviewers who have" if stats.reviewers_amount != 1 else "reviewer who has" }}
+      contributed a total of {{ stats.reviews_amount }} {{ "reviews" if stats.reviews_amount != 1 else "review"}}.
     </p>
   </div>
 <hr />

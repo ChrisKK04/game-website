@@ -7,8 +7,13 @@ body {
 }
 
 img {
+  border-radius: 4px;
   max-width: 100%;
   height: auto;
+}
+
+a {
+  color: rgb(101, 0, 114);
 }
 
 .header {
@@ -101,15 +106,33 @@ img {
 }
 
 .homepage_stats {
-  border: 3px solid darkgray;
+  background: linear-gradient(to bottom, #cf00eb, #1d005c, #cf00eb);
+  background-size: 300% 300%;
+  background-position: 50% 0%;
+  border: 2px solid rgb(78, 78, 78);
   border-radius: 4px;
+  color: rgb(229, 229, 229);
   margin: 1rem;
   padding: 0 0.5rem;
+  animation: stats_gradient 8s ease infinite ;
+}
+
+@keyframes stats_gradient {
+  0% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 50% 0%;
+  }
 }
 
 .game, .review { /* homepage games and game page reviews */
-  border: 3px solid darkgray;
+  border: 3px solid rgb(141, 141, 141);
   border-radius: 4px;
+  background-color: rgb(205, 205, 205);
   margin: 1rem;
   padding: 0 0.5rem;
 }
