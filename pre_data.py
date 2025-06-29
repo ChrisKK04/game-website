@@ -22,48 +22,81 @@ db.execute("DELETE FROM Reviews")
 db.execute("DELETE FROM Game_classes")
 db.execute("DELETE FROM Images")
 
+# all strings are str and values are int
+# username, password, user id
 users = [["RampageGames", "rampagegames", 1],
-         ["Pipe", "pipe", 1],
-         ["HeroicGames", "heroicgames", 1],
+         ["Ibuhard", "ibuhard", 1],
+         ["QubeSoftware", "qubesoftware", 1],
+         ["SleeplessnessGames", "sleeplessnessgames", 1],
          ["Jason", "jason", 0],
-         ["Emily", "emily", 0]]
+         ["Emily", "emily", 0],
+         ["Bob", "bob", 0]]
 
+# title, description, publisher id
 games = [["Falorant", """Falorant is a team-based first-person tactical hero shooter set in the
           near future. Players play as one of a set of Agents, characters based on several
           countries and cultures around the world. In the main game mode, players are assigned
           to either the attacking or defending team with each team having five players
           on it.""", 1],
-          ["League of Ripoffs", """League of Ripoffs is a team-based strategy game where two
-           teams of five powerful champions face off to destroy the other's base. Choose from
-           over 140 champions to make epic plays, secure kills, and take down towers as you battle
-           your way to victory.""", 1],
-          ["Counter the DMCA 2", """Welcome to Counter the DMCA 2, the next evolution of the
-           world's most legendary competitive shooter. Built on the powerful Closing 2 engine,
-           CDMCA2 brings breathtaking visuals, hyper-responsive gameplay, and reimagined classics
-           to life — all for free.""", 2],
-           ["Fortress Fight", """Join the worldwide sensation that blends high-speed combat with
-            creative construction. In FortressFight Battle Royale, 100 players fight to be the last
-            one standing — scavenging weapons, building defenses, and outlasting the competition
-            in a constantly evolving world.""", 3]]
+         ["The Squad", """Get ready to race across a massive, open-world recreation of
+          the United States in The Squad! This isn't your average racing game; it's an
+          action-packed adventure where you'll infiltrate criminal organizations, customize
+          your dream car, and team up with friends to conquer the streets. Explore diverse
+          locations, from bustling cityscapes to scenic landscapes, and experience the thrill
+          of high-speed chases and daring missions.""", 2],
+         ["Industrio", """Step right up and prepare to be amazed by Industrio, the ultimate
+          factory-building game where you transform a desolate planet into a sprawling
+          industrial empire! Industrio puts you in the shoes of an engineer stranded on an
+          alien world, tasked with harvesting resources, crafting machines, and ultimately
+          launching a rocket to escape.""", 3],
+         ["Sprocket and Rattle: A Fracture in Time", """Sprocket and Rattle: A Fracture in Time
+          is a sci-fi action-adventure game where players control Sprocket, a Xabmol mechanic,
+          and his robot friend Rattle as they fight to stop the nefarious Dr. Villainous from
+          rewriting history. Separated at the start, Sprocket explores the galaxy searching for
+          Rattle, while Rattle discovers his mysterious connection to time itself and gains new
+          time-manipulation abilities. The game blends fast-paced combat, creative puzzles, and
+          space exploration with an emotional story about friendship, destiny, and the power
+          of choice.""", 4],
+         ["Bob Fancy's Colorful 6 Assault", """Bob Fancy's Colorful 6 Assault is a tactical 5v5
+          shooter focused on strategy, precision, and intense close-quarters combat. Players
+          choose unique Operators with specialized gadgets to breach or defend fortified positions.
+          With destructible environments, drones, and surveillance tools, every match demands
+          communication, quick thinking, and smart team play.""", 2]]
 
-reviews = [["I love the new lighting and gun feel!", 4, 3, 5],
-           ["Similar to CDMCA 2 but with abilities.", 4, 1, 3],
-           ["wayyyyyyy better than CDMCA 2", 5, 1, 5],
-           ["The game has way too many characters.", 5, 2, 2]]
+# content, user id, game id, score
+reviews = [["Similar to CDMCA 2 but with abilities.", 5, 1, 3],
+           ["wayyyyyyy better than CDMCA 2", 6, 1, 5],
+           ["Crazy how you can explore the ENTIRE US!", 5, 2, 5],
+           ["Apparently Ibuhard is taking the game offline...", 6, 2, 1],
+           ["bob :)", 7, 2, 5],
+           ["This game is way better than the 3D copycat version.", 6, 3, 4],
+           ["The puzzles are too hard :/", 5, 4, 2],
+           ["I love how unique the different planets are", 6, 4, 5],
+           ["THEY NAMED A GAME AFTER ME!!!", 7, 5, 5]]
 
-classes = [[1, "Category", "action"],
-           [1, "Category", "competitive"],
-           [2, "Category", "action"],
-           [2, "Category", "competitive"],
-           [3, "Category", "action"],
-           [3, "Category", "competitive"],
-           [4, "Category", "action"],
-           [4, "Category", "competitive"],]
+# game id, class, value
+classes = [[1, "Category", "Action"],
+           [1, "Category", "Competitive"],
+           [1, "Category", "Multiplayer"],
+           [1, "Category", "Strategy"],
+           [2, "Category", "Multiplayer"],
+           [2, "Category", "Racing"],
+           [2, "Category", "Sandbox"],
+           [3, "Category", "Management"],
+           [3, "Category", "Strategy"],
+           [3, "Category", "Survival"],
+           [4, "Category", "Action"],
+           [4, "Category", "Adventure"],
+           [4, "Category", "Platformer"],
+           [5, "Category", "Action"],
+           [5, "Category", "Competitive"],
+           [5, "Category", "Multiplayer"],
+           [5, "Category", "Strategy"]]
 
 for username, password, developer in users: # inserts the users
     password_hash = generate_password_hash(password)
     sql = """INSERT INTO Users (username, password_hash, developer)
-              VALUES (?, ?, ?)"""
+             VALUES (?, ?, ?)"""
     db.execute(sql, [username, password_hash, developer])
 
 for title, description, user_id in games: # inserts the games
@@ -78,7 +111,7 @@ for content, user_id, game_id, score in reviews: # inserts the reviews
 
 for game_id, title, value in classes: # inserts the categories for games
     sql = """INSERT INTO Game_classes (game_id, title, value)
-               VALUES (?, ?, ?)"""
+             VALUES (?, ?, ?)"""
     db.execute(sql, [game_id, title, value])
 
 db.commit()

@@ -118,7 +118,7 @@ a:hover {
   color: rgb(229, 229, 229);
   margin: 1rem;
   padding: 0 0.5rem;
-  animation: stats_gradient 8s ease infinite ;
+  animation: stats_gradient 7s ease infinite ;
 }
 
 @keyframes stats_gradient {
