@@ -60,13 +60,13 @@ def reviews(content, review_score_type, review_score):
                   LEFT JOIN users u ON r.user_id = u.id
              WHERE r.content LIKE ?"""
     if review_score_type == 0: # any score
-        sql += " ORDER BY r.sent_at"
+        sql += " ORDER BY r.sent_at DESC"
         return db.query(sql, ["%" + content + "%"])
     if review_score_type == 1: # above the given score
-        sql += " AND r.score >= ? ORDER BY r.sent_at"
+        sql += " AND r.score >= ? ORDER BY r.sent_at DESC"
         return db.query(sql, ["%" + content + "%", review_score])
     if review_score_type == 2: # below the given score
-        sql += " AND r.score <= ? ORDER BY r.sent_at"
+        sql += " AND r.score <= ? ORDER BY r.sent_at DESC"
         return db.query(sql, ["%" + content + "%", review_score])
 
     return []
