@@ -136,7 +136,7 @@ a:hover {
 .game, .review { /* homepage games and game page reviews */
   border: 3px solid rgb(141, 141, 141);
   border-radius: 4px;
-  background-color: rgb(205, 205, 205);
+  background-color: rgb(200, 200, 200);
   margin: 1rem;
   padding: 0 0.5rem;
 }
@@ -178,7 +178,7 @@ a:hover {
   height: auto;
 }
 
-.search_form {
+.search_form, .new_game_form, .new_review_form {
   border: 3px solid rgb(141, 141, 141);
   background-color: rgb(205, 205, 205);
   border-radius: 4px;
@@ -188,7 +188,7 @@ a:hover {
 
 .user {
   border: 2px solid rgb(141, 141, 141);
-  background-color: rgb(205, 205, 205);
+  background-color: rgb(200, 200, 200);
   border-radius: 4px;
   margin: 0.5rem;
   padding: 0 1rem;

@@ -25,70 +25,72 @@
 <hr />
 
 {% if session.user_id and session.developer == 1 %} <!-- adding a new game (only for developers) -->
-  <h3>New game</h3>
-  <form action="/{{ page }}" method="post" enctype="multipart/form-data">
-    <p>
-      <label for="title">* Title (max {{ GAME_FORM['MAX_TITLE_LENGTH'] }} characters)</label>: <br />
-      <input id="title" type="text" name="title" maxlength="{{ GAME_FORM['MAX_TITLE_LENGTH'] }}" value="{{ filled.title }}" required class="title"/>
-    </p>
+  <div class="new_game_form">
+    <h3>New game</h3>
+    <form action="/{{ page }}" method="post" enctype="multipart/form-data">
+      <p>
+        <label for="title">* Title (max {{ GAME_FORM['MAX_TITLE_LENGTH'] }} characters)</label>: <br />
+        <input id="title" type="text" name="title" maxlength="{{ GAME_FORM['MAX_TITLE_LENGTH'] }}" value="{{ filled.title }}" required class="title"/>
+      </p>
 
-    <p>
-      <label for="description">* Description (max {{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }} characters)</label>: <br />
-      <textarea id="description" name="description" rows="10" cols="80" maxlength="{{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }}" required class="textarea">{{ filled.description }}</textarea>
-    </p>
+      <p>
+        <label for="description">* Description (max {{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }} characters)</label>: <br />
+        <textarea id="description" name="description" rows="10" cols="80" maxlength="{{ GAME_FORM['MAX_DESCRIPTION_LENGTH'] }}" required class="textarea">{{ filled.description }}</textarea>
+      </p>
 
-    <p>
-      Categories: <br />
-      {% for category in all_classes['Category'] %}
-        {% if filled.classes %}
-          {% if category in filled.classes['Category'] %}
-            <label>
-              <input type="checkbox" name="classes" value="Category:{{ category }}" checked class="checkbox" /> {{ category }}
-            </label>
+      <p>
+        Categories: <br />
+        {% for category in all_classes['Category'] %}
+          {% if filled.classes %}
+            {% if category in filled.classes['Category'] %}
+              <label>
+                <input type="checkbox" name="classes" value="Category:{{ category }}" checked class="checkbox" /> {{ category }}
+              </label>
+            {% else %}
+              <label>
+                <input type="checkbox" name="classes" value="Category:{{ category }}" class="checkbox" /> {{ category }}
+              </label>
+            {% endif %}
           {% else %}
             <label>
               <input type="checkbox" name="classes" value="Category:{{ category }}" class="checkbox" /> {{ category }}
             </label>
           {% endif %}
-        {% else %}
-          <label>
-            <input type="checkbox" name="classes" value="Category:{{ category }}" class="checkbox" /> {{ category }}
-          </label>
-        {% endif %}
-        {% if loop.index % 5 == 0 %} <!-- only allows 5 categories per line -->
-          <br />
-        {% endif %}
-      {% endfor %}
-    </p>
-
-    <p>
-      <label for="images_label">Images</label>: <br />
-      <small>(The images have to be .jpg-files and have a maximum size of a {{ IMAGE_FORM['STR_IMAGE_SIZE'] }})</small> <br />
-      <small>(You can select multiple images by holding ctrl)</small> <br />
-      <input id="images_label" type="file" name="images" accept=".jpg" multiple class="button_file" />
-    </p>
-
-    {% if filled %}
-      {% for message in get_flashed_messages() %}
-      <p class="error">
-        <b>{{ message }}</b>
+          {% if loop.index % 5 == 0 %} <!-- only allows 5 categories per line -->
+            <br />
+          {% endif %}
+        {% endfor %}
       </p>
-      {% endfor %}
-    {% endif %}
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
-    <input type="submit" value="send" class="button_send" />
-  </form>
-  <hr />
+
+      <p>
+        <label for="images_label">Images</label>: <br />
+        <small>(The images have to be .jpg-files and have a maximum size of a {{ IMAGE_FORM['STR_IMAGE_SIZE'] }})</small> <br />
+        <small>(You can select multiple images by holding ctrl)</small> <br />
+        <input id="images_label" type="file" name="images" accept=".jpg" multiple class="button_file" />
+      </p>
+
+      {% if filled %}
+        {% for message in get_flashed_messages() %}
+        <p class="error">
+          <b>{{ message }}</b>
+        </p>
+        {% endfor %}
+      {% endif %}
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/>
+      <input type="submit" value="send" class="button_send" />
+    </form>
+  </div>
 {% else %}
   <p>
     (<a href="/login">Login</a> as a developer to upload games)
   </p>
-  <hr />
 {% endif %}
 
 {% if games | count != 0 %}
+  <hr />
   <h3>Games</h3>
 {% else %}
+<hr />
   <h3>No uploaded games</h3>
 {% endif %}
 
