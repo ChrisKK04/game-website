@@ -327,6 +327,7 @@ def edit_review(review_id):
             return render_template("edit_review.html", review=review,
                                    filled=filled, REVIEW_FORM=REVIEW_FORM)
 
+        flash("Review edited")
         forum.edit_review(review["id"], content, score)
         return redirect("/game/" + str(review["game_id"]))
 
@@ -348,6 +349,7 @@ def delete_review(review_id):
 
     if request.method == "POST":
         check_csrf()
+        flash("Review deleted")
         next_page = request.form["next_page"]
         if "delete" in request.form:
             forum.delete_review(review["id"])
@@ -423,6 +425,7 @@ def edit_game(game_id):
                                    classes=classes, images=images, filled=filled,
                                    GAME_FORM=GAME_FORM, IMAGE_FORM=IMAGE_FORM)
 
+        flash("Game edited")
         forum.edit_game(game["id"], title, description, classes, delete_images, new_images)
         return redirect("/game/" + str(game["id"]))
 
@@ -445,6 +448,7 @@ def delete_game(game_id):
     if request.method == "POST":
         check_csrf()
         next_page = request.form["next_page"]
+        flash("Game deleted")
         if "delete" in request.form:
             forum.delete_game(game["id"])
         if "/game" in next_page:
